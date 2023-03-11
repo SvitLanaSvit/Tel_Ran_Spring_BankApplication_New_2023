@@ -2,13 +2,11 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd
-                      http://www.liquibase.org/xml/ns/pro
-                      http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
+                        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
 
     <changeSet id="insert manager1 data into managers table" author="svitlana_kizilpinar">
         <insert tableName="managers">
-            <column name="id" value="6F9619FF-8B86-D011-B42D-00CF4FC964M1"/>
+            <column name="id" value="m001"/>
             <column name="first_name" value="John"/>
             <column name="last_name" value="Doe"/>
             <column name="status" value="ACTIVE"/>
@@ -17,7 +15,7 @@
 
     <changeSet id="insert manager2 data into managers table" author="svitlana_kizilpinar">
         <insert tableName="managers">
-            <column name="id" value="6e360617-a34e-4f71-91f2-3d2f8eff31M2"/>
+            <column name="id" value="m002"/>
             <column name="first_name" value="Prince"/>
             <column name="last_name" value="Armstrong"/>
             <column name="status" value="ACTIVE"/>
@@ -26,7 +24,7 @@
 
     <changeSet id="insert manager3 data into managers table" author="svitlana_kizilpinar">
         <insert tableName="managers">
-            <column name="id" value="0e232e6d-2b13-416d-ad96-086ac1f55aM3"/>
+            <column name="id" value="m003"/>
             <column name="first_name" value="Thaddeus"/>
             <column name="last_name" value="Bosco"/>
             <column name="status" value="ACTIVE"/>
@@ -35,7 +33,7 @@
 
     <changeSet id="insert manager4 data into managers table" author="svitlana_kizilpinar">
         <insert tableName="managers">
-            <column name="id" value="a0f818c1-65b6-4de7-b229-b8cbaab80dM4"/>
+            <column name="id" value="m004"/>
             <column name="first_name" value="Hiroko"/>
             <column name="last_name" value="Murphy"/>
             <column name="status" value="ACTIVE"/>
@@ -44,21 +42,21 @@
 
     <changeSet id="insert client1 data into clients table" author="svitlana_kizilpinar">
         <insert tableName="clients">
-            <column name="id" value="6F9619FF-8B86-D011-B42D-00CF4FC964C1"/>
+            <column name="id" value="c001"/>
             <column name="status" value="ACTIVE"/>
             <column name="tax_code" value="2976406142"/>
             <column name="first_name" value="Dorinda"/>
             <column name="last_name" value="Yundt"/>
             <column name="email" value="minh.schneider@yahoo.com"/>
             <column name="address" value="Suite 312 082 Shelba Station, East Stanton, CA 04827-6996"/>
-            <column name="phone" value="1-379-126-0996 x97874"/>
-            <column name="manager_id" value="6F9619FF-8B86-D011-B42D-00CF4FC964M1"/>
+            <column name="phone" value="1-379-126-0996 x9784"/>
+            <column name="manager_id" value="m001"/>
         </insert>
     </changeSet>
 
     <changeSet id="insert client2 data into clients table" author="svitlana_kizilpinar">
         <insert tableName="clients">
-            <column name="id" value="40a84025-abab-42eb-bd12-91e7c5d57bC2"/>
+            <column name="id" value="c002"/>
             <column name="status" value="ACTIVE"/>
             <column name="tax_code" value="3147483647"/>
             <column name="first_name" value="Leonel"/>
@@ -66,13 +64,13 @@
             <column name="email" value="elouise.ledner@yahoo.com"/>
             <column name="address" value="85723 Bergstrom Ridge, North Westonburgh, MT 75140-0316"/>
             <column name="phone" value="861-902-0283 x9199"/>
-            <column name="manager_id" value="6F9619FF-8B86-D011-B42D-00CF4FC964M1"/>
+            <column name="manager_id" value="m001"/>
         </insert>
     </changeSet>
 
     <changeSet id="insert client3 data into clients table" author="svitlana_kizilpinar">
         <insert tableName="clients">
-            <column name="id" value="dc0c7328-4943-434d-85ba-692eefb81dC3"/>
+            <column name="id" value="c003"/>
             <column name="status" value="ACTIVE"/>
             <column name="tax_code" value="8378236406"/>
             <column name="first_name" value="Rena"/>
@@ -80,13 +78,13 @@
             <column name="email" value="johnie.moore@gmail.com"/>
             <column name="address" value="251 Angeline Shore, East Bee, SD 46391-3611"/>
             <column name="phone" value="(713) 007-8370 x1540"/>
-            <column name="manager_id" value="6e360617-a34e-4f71-91f2-3d2f8eff31M2"/>
+            <column name="manager_id" value="m002"/>
         </insert>
     </changeSet>
 
     <changeSet id="insert client4 data into clients table" author="svitlana_kizilpinar">
         <insert tableName="clients">
-            <column name="id" value="e05dfb7b-d858-4ffe-bb04-fc96fe6dd8C4"/>
+            <column name="id" value="c004"/>
             <column name="status" value="ACTIVE"/>
             <column name="tax_code" value="4777780858"/>
             <column name="first_name" value="Ismael"/>
@@ -94,191 +92,191 @@
             <column name="email" value="sandy.kirlin@hotmail.com"/>
             <column name="address" value="Suite 501 748 Brad Cliff, Lake Kirkfort, IN 60007"/>
             <column name="phone" value="1-448-184-3778 x107"/>
-            <column name="manager_id" value="6e360617-a34e-4f71-91f2-3d2f8eff31M2"/>
+            <column name="manager_id" value="m002"/>
         </insert>
     </changeSet>
 
     <changeSet id="insert account1 data into accounts table" author="svitlana_kizilpinar">
         <insert tableName="accounts">
-            <column name="id" value="d5423a1f-4b75-47af-b05d-7bdf10b7d6A1"/>
+            <column name="id" value="a001"/>
             <column name="name" value="MyAccount"/>
             <column name="type" value="ESCROW"/>
             <column name="status" value="ACTIVE"/>
             <column name="balance" value="5000.00"/>
             <column name="currency_code" value="USD"/>
-            <column name="client_id" value="6F9619FF-8B86-D011-B42D-00CF4FC964C1"/>
+            <column name="client_id" value="c001"/>
         </insert>
     </changeSet>
 
     <changeSet id="insert account2 data into accounts table" author="svitlana_kizilpinar">
         <insert tableName="accounts">
-            <column name="id" value="378fa4fc-1640-4e18-aec9-c7246bd541A2"/>
-            <column name="name" value="MyAccount"/>
+            <column name="id" value="a002"/>
+            <column name="name" value="MyAccountMy"/>
             <column name="type" value="ESCROW"/>
             <column name="status" value="ACTIVE"/>
             <column name="balance" value="1000.00"/>
             <column name="currency_code" value="USD"/>
-            <column name="client_id" value="40a84025-abab-42eb-bd12-91e7c5d57bC2"/>
+            <column name="client_id" value="c002"/>
         </insert>
     </changeSet>
 
     <changeSet id="insert account3 data into accounts table" author="svitlana_kizilpinar">
         <insert tableName="accounts">
-            <column name="id" value="91edc6e1-2b9b-4f13-a065-d420aeb795A3"/>
-            <column name="name" value="MyAccount"/>
+            <column name="id" value="a003"/>
+            <column name="name" value="MyAccountI"/>
             <column name="type" value="ESCROW"/>
             <column name="status" value="ACTIVE"/>
             <column name="balance" value="50000.00"/>
             <column name="currency_code" value="USD"/>
-            <column name="client_id" value="dc0c7328-4943-434d-85ba-692eefb81dC3"/>
+            <column name="client_id" value="c003"/>
         </insert>
     </changeSet>
 
     <changeSet id="insert account4 data into accounts table" author="svitlana_kizilpinar">
         <insert tableName="accounts">
-            <column name="id" value="369e11a7-353a-47b9-b788-647c95d436A4"/>
-            <column name="name" value="MyAccount"/>
+            <column name="id" value="a004"/>
+            <column name="name" value="MyAccountOk"/>
             <column name="type" value="ESCROW"/>
             <column name="status" value="ACTIVE"/>
             <column name="balance" value="500.00"/>
             <column name="currency_code" value="USD"/>
-            <column name="client_id" value="e05dfb7b-d858-4ffe-bb04-fc96fe6dd8C4"/>
+            <column name="client_id" value="c004"/>
         </insert>
     </changeSet>
 
     <changeSet id="insert transaction1 data into transactions table" author="svitlana_kizilpinar">
         <insert tableName="transactions">
-            <column name="id" value="17cb461b-9486-490c-852a-ec8cfeb964T1"/>
+            <column name="id" value="t001"/>
             <column name="type" value="PAYMENT"/>
             <column name="amount" value="100.00"/>
             <column name="description" value="Monthly rent payment"/>
-            <column name="debit_account_id" value="d5423a1f-4b75-47af-b05d-7bdf10b7d6A1"/>
-            <column name="credit_account_id" value="378fa4fc-1640-4e18-aec9-c7246bd541A2"/>
+            <column name="debit_account_id" value="a001"/>
+            <column name="credit_account_id" value="a002"/>
         </insert>
     </changeSet>
 
     <changeSet id="insert transaction2 data into transactions table" author="svitlana_kizilpinar">
         <insert tableName="transactions">
-            <column name="id" value="fdbdbfe5-b577-493f-8b52-14c6e12ea3T2"/>
+            <column name="id" value="t002"/>
             <column name="type" value="PAYMENT"/>
             <column name="amount" value="50.00"/>
             <column name="description" value="Monthly rent payment"/>
-            <column name="debit_account_id" value="91edc6e1-2b9b-4f13-a065-d420aeb795A3"/>
-            <column name="credit_account_id" value="378fa4fc-1640-4e18-aec9-c7246bd541A2"/>
+            <column name="debit_account_id" value="a003"/>
+            <column name="credit_account_id" value="a002"/>
         </insert>
     </changeSet>
 
     <changeSet id="insert transaction3 data into transactions table" author="svitlana_kizilpinar">
         <insert tableName="transactions">
-            <column name="id" value="cfa3d1c5-824d-430f-ba56-2ef5f92b1fT3"/>
+            <column name="id" value="t003"/>
             <column name="type" value="PAYMENT"/>
             <column name="amount" value="150.00"/>
             <column name="description" value="Monthly rent payment"/>
-            <column name="debit_account_id" value="91edc6e1-2b9b-4f13-a065-d420aeb795A3"/>
-            <column name="credit_account_id" value="369e11a7-353a-47b9-b788-647c95d436A4"/>
+            <column name="debit_account_id" value="a003"/>
+            <column name="credit_account_id" value="a004"/>
         </insert>
     </changeSet>
 
     <changeSet id="insert transaction4 data into transactions table" author="svitlana_kizilpinar">
         <insert tableName="transactions">
-            <column name="id" value="3ffe527a-b1a1-4455-8f7d-3417347bbaT4"/>
+            <column name="id" value="t004"/>
             <column name="type" value="PAYMENT"/>
             <column name="amount" value="30.00"/>
             <column name="description" value="Monthly rent payment"/>
-            <column name="debit_account_id" value="378fa4fc-1640-4e18-aec9-c7246bd541A2"/>
-            <column name="credit_account_id" value="369e11a7-353a-47b9-b788-647c95d436A4"/>
+            <column name="debit_account_id" value="a002"/>
+            <column name="credit_account_id" value="a004"/>
         </insert>
     </changeSet>
 
     <changeSet id="insert product1 data into products table" author="svitlana_kizilpinar">
         <insert tableName="products">
-            <column name="id" value="9c6f54c3-c519-4dd1-95b2-36626741bdP1"/>
+            <column name="id" value="p001"/>
             <column name="name" value="Rustic Concrete Watch Bank Product"/>
             <column name="status" value="ACTIVE"/>
             <column name="currency_code" value="USD"/>
             <column name="interest_rate" value="0.05"/>
             <column name="limit" value="1000"/>
-            <column name="manager_id" value="6F9619FF-8B86-D011-B42D-00CF4FC964M1"/>
+            <column name="manager_id" value="m001"/>
         </insert>
     </changeSet>
 
     <changeSet id="insert product2 data into products table" author="svitlana_kizilpinar">
         <insert tableName="products">
-            <column name="id" value="b7173324-2ae4-4b50-b106-7de233ea44P2"/>
+            <column name="id" value="p002"/>
             <column name="name" value="Heavy Duty Aluminum Knife Bank Product"/>
             <column name="status" value="ACTIVE"/>
             <column name="currency_code" value="USD"/>
             <column name="interest_rate" value="0.05"/>
             <column name="limit" value="500"/>
-            <column name="manager_id" value="6e360617-a34e-4f71-91f2-3d2f8eff31M2"/>
+            <column name="manager_id" value="m002"/>
         </insert>
     </changeSet>
 
     <changeSet id="insert product3 data into products table" author="svitlana_kizilpinar">
         <insert tableName="products">
-            <column name="id" value="f82ba188-495e-46e5-884c-bb56529c67P3"/>
+            <column name="id" value="p003"/>
             <column name="name" value="Practical Paper Shirt Bank Product"/>
             <column name="status" value="ACTIVE"/>
             <column name="currency_code" value="USD"/>
             <column name="interest_rate" value="0.05"/>
             <column name="limit" value="200"/>
-            <column name="manager_id" value="0e232e6d-2b13-416d-ad96-086ac1f55aM3"/>
+            <column name="manager_id" value="m003"/>
         </insert>
     </changeSet>
 
     <changeSet id="insert product4 data into products table" author="svitlana_kizilpinar">
         <insert tableName="products">
-            <column name="id" value="c5bea9ac-3f73-4dd5-81c6-909bea65baP4"/>
+            <column name="id" value="p004"/>
             <column name="name" value="Enormous Steel Gloves Bank Product"/>
             <column name="status" value="ACTIVE"/>
             <column name="currency_code" value="USD"/>
             <column name="interest_rate" value="0.05"/>
             <column name="limit" value="100"/>
-            <column name="manager_id" value="a0f818c1-65b6-4de7-b229-b8cbaab80dM4"/>
+            <column name="manager_id" value="m004"/>
         </insert>
     </changeSet>
 
     <changeSet id="insert agreement1 data into agreements table" author="svitlana_kizilpinar">
         <insert tableName="agreements">
-            <column name="id" value="ac6c1003-4cf0-40bb-bdae-d34bd875eAg1" />
+            <column name="id" value="ag001" />
             <column name="interest_rate" value="0.025" />
             <column name="status" value="ACTIVE" />
             <column name="sum" value="100000.00" />
-            <column name="product_id" value="9c6f54c3-c519-4dd1-95b2-36626741bdP1" />
-            <column name="account_id" value="d5423a1f-4b75-47af-b05d-7bdf10b7d6A1" />
+            <column name="product_id" value="p001" />
+            <column name="account_id" value="a001" />
         </insert>
     </changeSet>
 
     <changeSet id="insert agreement2 data into agreements table" author="svitlana_kizilpinar">
         <insert tableName="agreements">
-            <column name="id" value="9d785dee-31a5-4cab-a719-f59871919Ag2" />
+            <column name="id" value="ag002" />
             <column name="interest_rate" value="0.025" />
             <column name="status" value="ACTIVE" />
             <column name="sum" value="10000.00" />
-            <column name="product_id" value="b7173324-2ae4-4b50-b106-7de233ea44P2" />
-            <column name="account_id" value="378fa4fc-1640-4e18-aec9-c7246bd541A2" />
+            <column name="product_id" value="p002" />
+            <column name="account_id" value="a002" />
         </insert>
     </changeSet>
 
     <changeSet id="insert agreement3 data into agreements table" author="svitlana_kizilpinar">
         <insert tableName="agreements">
-            <column name="id" value="e1f9e443-c81c-43f6-a312-54e0c2010Ag3" />
+            <column name="id" value="ag003" />
             <column name="interest_rate" value="0.025" />
             <column name="status" value="ACTIVE" />
             <column name="sum" value="5500.00" />
-            <column name="product_id" value="f82ba188-495e-46e5-884c-bb56529c67P3" />
-            <column name="account_id" value="91edc6e1-2b9b-4f13-a065-d420aeb795A3" />
+            <column name="product_id" value="p003" />
+            <column name="account_id" value="a003" />
         </insert>
     </changeSet>
 
     <changeSet id="insert agreement4 data into agreements table" author="svitlana_kizilpinar">
         <insert tableName="agreements">
-            <column name="id" value="1c1cf96c-e11e-4eb7-aa7a-aa3a9487bAg4" />
+            <column name="id" value="ag004" />
             <column name="interest_rate" value="0.040" />
             <column name="status" value="ACTIVE" />
             <column name="sum" value="25000.00" />
-            <column name="product_id" value="c5bea9ac-3f73-4dd5-81c6-909bea65baP4" />
-            <column name="account_id" value="369e11a7-353a-47b9-b788-647c95d436A4" />
+            <column name="product_id" value="p004" />
+            <column name="account_id" value="a004" />
         </insert>
     </changeSet>
 

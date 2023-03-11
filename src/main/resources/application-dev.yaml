@@ -13,8 +13,9 @@ spring:
       ddl-auto: none
 
   liquibase:
-    change-log:  classpath:/db/changelog/changelog-master.xml
-
+    change-log: classpath:/db/changelog/db.changelog-master.yaml
 app:
+  description: Dev version of credit service
+  version: 0.0.1-SNAPSHOT
   server:
-    url: ${app.server.url}
+    stage: dev

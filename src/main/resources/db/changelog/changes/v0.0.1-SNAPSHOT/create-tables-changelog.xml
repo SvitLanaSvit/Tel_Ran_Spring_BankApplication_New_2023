@@ -2,9 +2,7 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd
-                      http://www.liquibase.org/xml/ns/pro
-                      http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
+                        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
 
 
     <changeSet id="create managers table" author="svitlana_kizilpinar">
@@ -162,7 +160,7 @@
             <column name="created_at" type="TIMESTAMP" defaultValueDate="CURRENT_TIMESTAMP"/>
             <column name="updated_at" type="TIMESTAMP"/>
             <column name="manager_id" type="binary(16)">
-                <constraints foreignKeyName="manager_id" references="managers(id)" nullable="false"/>
+                <constraints foreignKeyName="manager_id_fk" references="managers(id)" nullable="false"/>
             </column>
         </createTable>
     </changeSet>
@@ -190,10 +188,10 @@
             <column name="updated_at" type="TIMESTAMP" />
 
             <column name="product_id" type="binary(16)">
-                <constraints foreignKeyName="product_id" references="products(id)" nullable="false" />
+                <constraints foreignKeyName="product_id_fk" references="products(id)" nullable="false" />
             </column>
             <column name="account_id" type="binary(16)">
-                <constraints foreignKeyName="account_id" references="accounts(id)" nullable="false" />
+                <constraints foreignKeyName="account_id_fk" references="accounts(id)" nullable="false" />
             </column>
         </createTable>
     </changeSet>
