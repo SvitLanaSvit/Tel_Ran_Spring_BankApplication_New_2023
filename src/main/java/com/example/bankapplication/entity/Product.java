@@ -34,7 +34,7 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private ProductStatus status;
     @Column(name = "currency_code")
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private CurrencyCode currencyCode;
     @Column(name = "interest_rate")
     private double interestRate;

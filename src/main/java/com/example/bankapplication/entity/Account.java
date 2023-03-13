@@ -33,15 +33,15 @@ public class Account {
     @Column(name = "name")
     private String name;
     @Column(name = "type")
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private AccountType type;
     @Column(name = "status")
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private AccountStatus status;
     @Column(name = "balance")
     private double balance;
     @Column(name = "currency_code")
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private CurrencyCode currencyCode;
     @Column(name = "created_at")
     private Timestamp createdAt;

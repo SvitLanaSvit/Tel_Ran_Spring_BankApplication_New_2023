@@ -28,7 +28,7 @@ public class Client {
     @Column(name = "id")
     private UUID id;
     @Column(name = "status")
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private ClientStatus status;
     @Column(name = "tax_code")
     private String taxCode;

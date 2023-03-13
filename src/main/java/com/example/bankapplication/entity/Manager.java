@@ -32,7 +32,7 @@ public class Manager {
     @Column(name = "last_name")
     private String lastName;
     @Column(name = "status")
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private ManagerStatus status;
     @Column(name = "created_at")
     private Timestamp createdAt;

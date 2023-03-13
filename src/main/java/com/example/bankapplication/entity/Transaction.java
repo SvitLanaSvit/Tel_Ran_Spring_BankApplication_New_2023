@@ -26,7 +26,7 @@ public class Transaction {
     @Column(name = "id")
     private UUID id;
     @Column(name = "type")
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private TransactionType type;
     @Column(name = "amount")
     private double amount;

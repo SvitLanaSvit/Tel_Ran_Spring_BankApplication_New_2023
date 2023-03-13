@@ -27,7 +27,7 @@ public class Agreement {
     @Column(name = "interest_rate")
     private double interestRate;
     @Column(name = "status")
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private AgreementStatus status;
     @Column(name = "sum")
     private double sum;

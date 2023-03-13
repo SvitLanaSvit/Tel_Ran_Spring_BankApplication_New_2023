@@ -1,5 +1,0 @@
-app:
-  description: Stage version of credit service
-  version: 0.0.1-SNAPSHOT
-  server:
-    stage: stage
