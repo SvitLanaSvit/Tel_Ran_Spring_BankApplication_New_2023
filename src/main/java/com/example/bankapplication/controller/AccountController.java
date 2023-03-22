@@ -6,6 +6,7 @@ import com.example.bankapplication.entity.Account;
 import com.example.bankapplication.entity.enums.AccountStatus;
 import com.example.bankapplication.repository.AccountRepository;
 import com.example.bankapplication.service.AccountService;
+import com.example.bankapplication.service.impl.AccountServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,8 +22,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 public class AccountController {
-    private AccountService accountService;
-    private AccountRepository accountRepository;
+    private final AccountService accountService;
+    private final AccountRepository accountRepository;
 
     @GetMapping("/accounts/{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -33,30 +34,7 @@ public class AccountController {
     @GetMapping("/accounts")
     @ResponseStatus(HttpStatus.OK)
     public AccountListDTO getAllAccounts(){
-        return accountService.getAllAccountsStatus();
+        var accountStatusList = accountService.getAllAccountsStatus();
+        return accountStatusList;
     }
-
-//    @GetMapping("/accounts")
-//    //@ResponseStatus(HttpStatus.OK)
-//    public ResponseEntity<List<Account>> getAllAccounts(@RequestParam(required = false) AccountStatus status){
-//        try{
-//            List<Account> accounts = new ArrayList<>();
-//
-//            if(status == null){
-//                log.info("hallo");
-//                accountRepository.findAll().forEach(accounts::add);
-//            }
-//            else{
-//
-//                accountRepository.getAllByStatus(status).forEach(accounts::add);
-//            }
-//            if(accounts.isEmpty()){
-//                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//            }
-//
-//            return new ResponseEntity<>(accounts, HttpStatus.OK);
-//        }catch (Exception e){
-//            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
 }

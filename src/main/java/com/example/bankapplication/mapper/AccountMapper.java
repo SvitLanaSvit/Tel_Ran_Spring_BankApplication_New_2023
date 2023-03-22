@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.UUID;
 
 @Mapper(componentModel = "spring")
-//@Component
 public interface AccountMapper {
     AccountDTO toDTO(Account account);
     Account toEntity(AccountDTO accountDTO);

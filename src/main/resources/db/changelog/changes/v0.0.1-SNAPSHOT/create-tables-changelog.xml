@@ -12,7 +12,7 @@
             </not>
         </preConditions>
         <createTable tableName="managers">
-            <column name="id" type="uuid">
+            <column name="id" type="binary(50)">            //
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="first_name" type="VARCHAR(50)">
@@ -36,7 +36,7 @@
             </not>
         </preConditions>
         <createTable tableName="clients">
-            <column name="id" type="uuid">
+            <column name="id" type="binary(50)">    //
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="status" type="VARCHAR(20)">
@@ -64,7 +64,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="updated_at" type="TIMESTAMP"/>
-            <column name="manager_id" type="uuid">
+            <column name="manager_id" type="binary(50)">    //
                 <constraints foreignKeyName="manager_id" references="managers(id)" nullable="false"/>
             </column>
         </createTable>
@@ -77,7 +77,7 @@
             </not>
         </preConditions>
         <createTable tableName="accounts">
-            <column name="id" type="uuid">
+            <column name="id" type="binary(50)">    //
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="name" type="VARCHAR(100)">
@@ -97,7 +97,7 @@
             </column>
             <column name="created_at" type="TIMESTAMP" defaultValueDate="CURRENT_TIMESTAMP"/>
             <column name="updated_at" type="TIMESTAMP"/>
-            <column name="client_id" type="uuid">
+            <column name="client_id" type="binary(50)"> //
                 <constraints foreignKeyName="client_id" references="clients(id)" nullable="false"/>
             </column>
         </createTable>
@@ -110,7 +110,7 @@
             </not>
         </preConditions>
         <createTable tableName="transactions">
-            <column name="id" type="uuid">
+            <column name="id" type="binary(50)">    //
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="type" type="VARCHAR(50)">
@@ -123,10 +123,10 @@
                 <constraints nullable="true"/>
             </column>
             <column name="created_at" type="TIMESTAMP" defaultValueDate="CURRENT_TIMESTAMP"/>
-            <column name="debit_account_id" type="uuid">
+            <column name="debit_account_id" type="binary(50)">
                 <constraints foreignKeyName="debit_account_id" references="accounts(id)"/>
             </column>
-            <column name="credit_account_id" type="uuid">
+            <column name="credit_account_id" type="binary(50)"> //
                 <constraints foreignKeyName="credit_account_id" references="accounts(id)"/>
             </column>
         </createTable>
@@ -139,7 +139,7 @@
             </not>
         </preConditions>
         <createTable tableName="products">
-            <column name="id" type="uuid">
+            <column name="id" type="binary(50)">    //
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="name" type="VARCHAR(70)">
@@ -159,7 +159,7 @@
             </column>
             <column name="created_at" type="TIMESTAMP" defaultValueDate="CURRENT_TIMESTAMP"/>
             <column name="updated_at" type="TIMESTAMP"/>
-            <column name="manager_id" type="uuid">
+            <column name="manager_id" type="binary(50)">    //
                 <constraints foreignKeyName="manager_id_fk" references="managers(id)" nullable="false"/>
             </column>
         </createTable>
@@ -172,7 +172,7 @@
             </not>
         </preConditions>
         <createTable tableName="agreements">
-            <column name="id" type="uuid">
+            <column name="id" type="binary(50)">    //
                 <constraints primaryKey="true" nullable="false" />
             </column>
             <column name="interest_rate" type="DECIMAL(6,4)">
@@ -187,10 +187,10 @@
             <column name="created_at" type="TIMESTAMP" defaultValueDate="CURRENT_TIMESTAMP"/>
             <column name="updated_at" type="TIMESTAMP" />
 
-            <column name="product_id" type="uuid">
+            <column name="product_id" type="binary(50)">    //
                 <constraints foreignKeyName="product_id_fk" references="products(id)" nullable="false" />
             </column>
-            <column name="account_id" type="uuid">
+            <column name="account_id" type="binary(50)">    //
                 <constraints foreignKeyName="account_id_fk" references="accounts(id)" nullable="false" />
             </column>
         </createTable>
