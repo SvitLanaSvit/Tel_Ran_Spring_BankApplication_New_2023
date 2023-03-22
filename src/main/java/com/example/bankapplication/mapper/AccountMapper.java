@@ -9,19 +9,12 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.UUID;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = UuidMapper.class)
 public interface AccountMapper {
     AccountDTO toDTO(Account account);
     Account toEntity(AccountDTO accountDTO);
     List<AccountDTO> accountsToAccountsDTO(List<Account> accounts);
-    default String map(Client value){
-        return value.toString();
-    }
-
-    default String toString(UUID uuid) {
-        return uuid.toString();
-    }
-    default UUID fromString(String uuid) {
-        return UUID.fromString(uuid);
-    }
+//    default String map(Client value){
+//        return value.toString();
+//    }
 }

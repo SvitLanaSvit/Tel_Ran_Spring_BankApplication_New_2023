@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
-
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;

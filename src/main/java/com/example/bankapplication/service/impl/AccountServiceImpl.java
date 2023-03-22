@@ -26,7 +26,7 @@ public class AccountServiceImpl implements AccountService {
     @Transactional
     public AccountDTO getAccountById(UUID id) {
         log.info("Get an account with id {}", id);
-        return accountMapper.toDTO(accountRepository.findAccountById(id).orElseThrow(
+        return accountMapper.toDTO(accountRepository.findById(id).orElseThrow(
                 () -> new AccountNotFoundException(ErrorMessage.ACCOUNT_NOT_FOUND)
         ));
     }

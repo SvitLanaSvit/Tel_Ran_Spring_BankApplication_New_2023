@@ -1,23 +1,19 @@
 package com.example.bankapplication.dto;
 
-import com.example.bankapplication.entity.Client;
-import com.example.bankapplication.entity.enums.AccountStatus;
-import com.example.bankapplication.entity.enums.AccountType;
-import com.example.bankapplication.entity.enums.CurrencyCode;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Value;
-
-import java.sql.Timestamp;
-import java.util.UUID;
 
 @Value
 public class AccountDTO {
-    UUID id;
+    String id;
     String name;
-    AccountType type;
-    AccountStatus status;
-    Double balance;
-    CurrencyCode currencyCode;
-    Timestamp createAt;
-    Timestamp updateAt;
-    Client client;
+    String type;
+    String status;
+    String balance;
+    String currencyCode;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    String create_at;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    String update_at;
 }
