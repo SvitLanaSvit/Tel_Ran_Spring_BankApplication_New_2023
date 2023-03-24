@@ -3,6 +3,9 @@ package com.example.bankapplication.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Value;
 
+import java.sql.Timestamp;
+
+
 @Value
 public class AccountDTO {
     String id;
@@ -13,7 +16,8 @@ public class AccountDTO {
     String currencyCode;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    String create_at;
+    Timestamp createdAt;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    String update_at;
+    Timestamp updatedAt;
 }

@@ -3,6 +3,7 @@ package com.example.bankapplication.entity;
 import com.example.bankapplication.entity.enums.AccountStatus;
 import com.example.bankapplication.entity.enums.AccountType;
 import com.example.bankapplication.entity.enums.CurrencyCode;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -48,7 +49,7 @@ public class Account {
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
-    @ManyToOne(cascade = {MERGE, PERSIST, REFRESH},fetch = FetchType.LAZY)
+    @ManyToOne(cascade = {MERGE, PERSIST, REFRESH},fetch = FetchType.EAGER)
     @JoinColumn(name = "client_id", referencedColumnName = "id")
     private Client client;
 
