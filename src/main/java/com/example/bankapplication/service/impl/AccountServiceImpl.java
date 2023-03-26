@@ -33,6 +33,7 @@ public class AccountServiceImpl implements AccountService {
         ));
     }
 
+    @Override
     public AccountListDTO getAllAccountsStatus() {
         log.info("Get all active accounts");
         return new AccountListDTO(accountMapper.accountsToAccountsDTO(accountRepository.getAllByStatus(AccountStatus.ACTIVE)));
