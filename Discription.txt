@@ -1,0 +1,87 @@
+ClientController
+@RestController
+@RequestMapping("/auth")
+@RequiredArgsConstructor
+public class ClientController {
+    private final ClientService clientService;
+
+    @RequestMapping("/clients/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ClientDTO getClientBiId(@PathVariable UUID id){
+        return clientService.getClientById(id);
+    }
+
+    @RequestMapping("/accounts")
+    public ClientListDTO getAllClients(){
+        return clientService.getClientsStatus();
+    }
+}
+
+
+1. ClientRepository
+public interface ClientRepository extends JpaRepository<Client, UUID> {
+    Optional<Client> findClientById(UUID id);
+    List<Client> getAllByStatus(ClientStatus status);
+}
+
+2.DTO
+2.1.ClientDTO
+@Value
+public class ClientDTO {
+    String id;
+    String status;
+    String taxCode;
+    String firstName;
+    String lastName;
+    String email;
+    String address;
+    String phone;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    Timestamp createdAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    Timestamp updatedAt;
+}
+2.2ClientListDTO
+@Value
+public class ClientListDTO {
+    List<ClientDTO> clientDTOList;
+}
+
+3.ClientService
+public interface ClientService {
+    ClientDTO getClientById(UUID id);
+    ClientListDTO getClientsStatus();
+}
+
+4.ClientMapper
+@Mapper(componentModel = "spring", uses = UuidMapper.class)
+public interface ClientMapper {
+    ClientDTO toDTO(Client client);
+    Client toEntity(ClientDTO clientDTO);
+    List<ClientListDTO> clientsToClientsDTO(List<Client> clients);
+}
+
+5.ClientServiceImpl
+@Service
+@RequiredArgsConstructor
+@Slf4j
+public class ClientServiceImpl implements ClientService {
+
+    private final ClientRepository clientRepository;
+    private final ClientMapper clientMapper;
+
+    @Override
+    @Transactional
+    public ClientDTO getClientById(UUID id) {
+        log.info("Get an client with id {}", id);
+        return clientMapper.toDTO(clientRepository.findClientById(id).orElseThrow(
+                () -> new ClientNotFoundException(ErrorMessage.CLIENT_NOT_FOUND)
+        ));
+    }
+
+    @Override
+    public ClientListDTO getClientsStatus() {
+        log.info("Get all clients with status active!");
+        return new ClientListDTO(clientMapper.clientsToClientsDTO(clientRepository.getAllByStatus(ClientStatus.ACTIVE)));
+    }
+}

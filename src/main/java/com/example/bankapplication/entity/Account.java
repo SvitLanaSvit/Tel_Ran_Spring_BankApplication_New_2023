@@ -49,7 +49,7 @@ public class Account {
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
-    @ManyToOne(cascade = {MERGE, PERSIST, REFRESH},fetch = FetchType.EAGER)
+    @ManyToOne(cascade = {MERGE, PERSIST, REFRESH},fetch = FetchType.LAZY) //eager
     @JoinColumn(name = "client_id", referencedColumnName = "id")
     private Client client;
 
