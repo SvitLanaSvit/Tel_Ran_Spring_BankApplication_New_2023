@@ -5,19 +5,13 @@ import lombok.Value;
 import java.sql.Timestamp;
 
 @Value
-public class ClientDTO {
+public class ManagerDTO {
     String id;
-    String status;
-    String taxCode;
     String firstName;
     String lastName;
-    String email;
-    String address;
-    String phone;
+    String status;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     Timestamp createdAt;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     Timestamp updatedAt;
-
-    ManagerDTO manager;
 }
