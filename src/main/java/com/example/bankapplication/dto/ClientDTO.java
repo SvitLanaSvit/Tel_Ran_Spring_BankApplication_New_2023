@@ -19,5 +19,6 @@ public class ClientDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     Timestamp updatedAt;
 
-    ManagerDTO manager;
+    //ManagerDTO manager;
+    String managerId;
 }

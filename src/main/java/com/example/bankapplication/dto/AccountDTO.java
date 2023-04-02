@@ -19,5 +19,6 @@ public class AccountDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     Timestamp updatedAt;
 
-    ClientDTO client;
+    //ClientDTO client;
+    String clientId;
 }

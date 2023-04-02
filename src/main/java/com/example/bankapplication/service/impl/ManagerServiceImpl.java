@@ -1,5 +1,6 @@
 package com.example.bankapplication.service.impl;
 
+import com.example.bankapplication.dto.CreateManagerDTO;
 import com.example.bankapplication.dto.ManagerDTO;
 import com.example.bankapplication.dto.ManagerListDTO;
 import com.example.bankapplication.entity.enums.ManagerStatus;
@@ -10,15 +11,18 @@ import com.example.bankapplication.service.exception.ErrorMessage;
 import com.example.bankapplication.service.exception.ManagerNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class ManagerServiceImpl implements ManagerService {
-    private final ManagerRepository managerRepository;
-    private final ManagerMapper managerMapper;
+    @Autowired
+    private ManagerRepository managerRepository;
+    @Autowired
+    private ManagerMapper managerMapper;
 
     @Override
     @Transactional
@@ -31,5 +35,12 @@ public class ManagerServiceImpl implements ManagerService {
     @Override
     public ManagerListDTO getManagersStatus() {
         return new ManagerListDTO(managerMapper.managersToManagersDTO(managerRepository.getAllByStatus(ManagerStatus.ACTIVE)));
+    }
+
+    @Override
+    public ManagerDTO create(CreateManagerDTO dto) {
+        var manager = managerMapper.createToEntity(dto);
+        var result = managerRepository.save(manager);
+        return managerMapper.toDTO(result);
     }
 }

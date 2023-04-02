@@ -20,8 +20,9 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Agreement {
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "com.example.bankapplication.generator.UuidTimeSequenceGenerator")
+    //@GeneratedValue(generator = "UUID")
+//    @GenericGenerator(name = "UUID", strategy = "com.example.bankapplication.generator.UuidTimeSequenceGenerator")
+    @GeneratedValue(generator = "UUID", strategy = GenerationType.UUID)
     @Column(name = "id")
     private UUID id;
     @Column(name = "interest_rate")
