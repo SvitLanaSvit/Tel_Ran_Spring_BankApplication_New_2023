@@ -1,6 +1,7 @@
 package com.example.bankapplication.mapper;
 
 import com.example.bankapplication.dto.AccountDTO;
+import com.example.bankapplication.dto.CreateAccountDTO;
 import com.example.bankapplication.entity.Account;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -15,4 +16,6 @@ public interface AccountMapper {
     AccountDTO toDTO(Account account);
     Account toEntity(AccountDTO accountDTO);
     List<AccountDTO> accountsToAccountsDTO(List<Account> accounts);
+    @Mapping(source = "clientId", target = "client.id")
+    Account createToEntity(CreateAccountDTO dto);
 }

@@ -23,7 +23,7 @@ import static jakarta.persistence.CascadeType.*;
 @AllArgsConstructor
 public class Manager {
     @Id
-    //@GeneratedValue(generator = "UUID")
+//    @GeneratedValue(generator = "UUID")
 //    @GenericGenerator(name = "UUID", strategy = "com.example.bankapplication.generator.UuidTimeSequenceGenerator")
     @GeneratedValue(generator = "UUID", strategy = GenerationType.UUID)
     @Column(name = "id")

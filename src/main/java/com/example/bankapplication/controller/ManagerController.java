@@ -31,4 +31,9 @@ public class ManagerController {
     public ManagerListDTO getAllManagers(){
         return managerService.getManagersStatus();
     }
+
+    @DeleteMapping("deleteManager/{id}")
+    public void delete(@PathVariable UUID id){
+        managerService.deleteById(id);
+    }
 }

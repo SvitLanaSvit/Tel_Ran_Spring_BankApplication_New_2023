@@ -9,4 +9,5 @@ public interface ManagerService {
     ManagerDTO getManagerById(UUID id);
     ManagerListDTO getManagersStatus();
     ManagerDTO create(CreateManagerDTO dto);
+    void deleteById(UUID id);
 }
