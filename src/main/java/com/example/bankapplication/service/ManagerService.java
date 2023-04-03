@@ -10,4 +10,5 @@ public interface ManagerService {
     ManagerListDTO getManagersStatus();
     ManagerDTO create(CreateManagerDTO dto);
     void deleteById(UUID id);
+    ManagerDTO editManagerById(UUID id, CreateManagerDTO dto);
 }

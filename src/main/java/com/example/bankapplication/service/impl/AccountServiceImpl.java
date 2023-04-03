@@ -5,14 +5,12 @@ import com.example.bankapplication.dto.AccountListDTO;
 import com.example.bankapplication.dto.CreateAccountDTO;
 import com.example.bankapplication.entity.enums.AccountStatus;
 import com.example.bankapplication.mapper.AccountMapper;
-import com.example.bankapplication.mapper.ClientMapper;
 import com.example.bankapplication.repository.AccountRepository;
 import com.example.bankapplication.repository.ClientRepository;
 import com.example.bankapplication.service.AccountService;
 import com.example.bankapplication.service.exception.AccountNotFoundException;
 import com.example.bankapplication.service.exception.ClientNotFoundException;
 import com.example.bankapplication.service.exception.ErrorMessage;
-import com.example.bankapplication.service.exception.ManagerNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -65,6 +63,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Transactional
     public void deleteAccountById(UUID id) {
         log.info("Deleting account {}", id);
         accountRepository.deleteById(id);

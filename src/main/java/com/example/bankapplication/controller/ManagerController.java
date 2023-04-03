@@ -15,7 +15,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ManagerController {
     private final ManagerService managerService;
-    @PostMapping
+    @PostMapping("createManager")
     public ManagerDTO create(@RequestBody CreateManagerDTO manager){
         return managerService.create(manager);
     }
@@ -35,5 +35,10 @@ public class ManagerController {
     @DeleteMapping("deleteManager/{id}")
     public void delete(@PathVariable UUID id){
         managerService.deleteById(id);
+    }
+
+    @PutMapping("editManager/{id}")
+    public ManagerDTO editManager(@PathVariable UUID id, @RequestBody CreateManagerDTO dto){
+        return managerService.editManagerById(id, dto);
     }
 }

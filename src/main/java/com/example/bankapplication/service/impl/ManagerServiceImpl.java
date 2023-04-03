@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @Service
@@ -54,5 +55,23 @@ public class ManagerServiceImpl implements ManagerService {
     public void deleteById(UUID id) {
         log.info("Deleting manager {}", id);
         managerRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public ManagerDTO editManagerById(UUID id, CreateManagerDTO dto) {
+        log.info("Edit manager {}", id);
+        var manager = managerRepository.findManagerById(id).orElseThrow(
+                () -> new ManagerNotFoundException(ErrorMessage.Manager_NOT_FOUND)
+        );
+        log.info("Id manager: " + manager.getId());
+        log.info("Firstname: " + dto.getFirstName());
+        manager.setFirstName(dto.getFirstName());
+        manager.setLastName(dto.getLastName());
+        manager.setStatus(dto.getStatus());
+        manager.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
+
+        var result = managerRepository.save(manager);
+        return managerMapper.toDTO(result);
     }
 }
