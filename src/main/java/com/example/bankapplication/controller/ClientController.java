@@ -2,13 +2,12 @@ package com.example.bankapplication.controller;
 
 import com.example.bankapplication.dto.ClientDTO;
 import com.example.bankapplication.dto.ClientListDTO;
+import com.example.bankapplication.dto.CreateClientDTO;
 import com.example.bankapplication.service.ClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.UUID;
 
 @RestController
@@ -16,6 +15,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ClientController {
     private final ClientService clientService;
+
+    @PostMapping("createClient")
+    @ResponseStatus(HttpStatus.OK)
+    public ClientDTO createClient(@RequestBody CreateClientDTO dto){
+        return clientService.createClient(dto);
+    }
 
     @RequestMapping("/clients/{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -27,5 +32,17 @@ public class ClientController {
     @ResponseStatus(HttpStatus.OK)
     public ClientListDTO getAllClients(){
         return clientService.getClientsStatus();
+    }
+
+    @DeleteMapping("deleteClient/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteClient(@PathVariable UUID id){
+        clientService.deleteClientById(id);
+    }
+
+    @PutMapping("editClient/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ClientDTO editClient(@PathVariable UUID id, @RequestBody CreateClientDTO dto){
+        return clientService.editClientById(id, dto);
     }
 }

@@ -35,7 +35,14 @@ public class AccountController {
     }
 
     @DeleteMapping("deleteAccount/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable UUID id){
         accountService.deleteAccountById(id);
+    }
+
+    @PutMapping("editAccount/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public AccountDTO editAccount(@PathVariable UUID id, @RequestBody CreateAccountDTO dto){
+        return accountService.editAccountById(id, dto);
     }
 }

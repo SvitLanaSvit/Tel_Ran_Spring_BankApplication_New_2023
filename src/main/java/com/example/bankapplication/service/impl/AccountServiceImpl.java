@@ -4,6 +4,8 @@ import com.example.bankapplication.dto.AccountDTO;
 import com.example.bankapplication.dto.AccountListDTO;
 import com.example.bankapplication.dto.CreateAccountDTO;
 import com.example.bankapplication.entity.enums.AccountStatus;
+import com.example.bankapplication.entity.enums.AccountType;
+import com.example.bankapplication.entity.enums.CurrencyCode;
 import com.example.bankapplication.mapper.AccountMapper;
 import com.example.bankapplication.repository.AccountRepository;
 import com.example.bankapplication.repository.ClientRepository;
@@ -16,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @Service
@@ -67,5 +70,28 @@ public class AccountServiceImpl implements AccountService {
     public void deleteAccountById(UUID id) {
         log.info("Deleting account {}", id);
         accountRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public AccountDTO editAccountById(UUID id, CreateAccountDTO dto) {
+        var account = accountRepository.findAccountById(id).orElseThrow(
+                () -> new AccountNotFoundException(ErrorMessage.ACCOUNT_NOT_FOUND)
+        );
+
+        var clientUUID = dto.getClientId();
+        var client = clientRepository.findClientById(clientUUID).orElseThrow(
+                () -> new ClientNotFoundException(ErrorMessage.CLIENT_NOT_FOUND)
+        );
+        account.setName(dto.getName());
+        account.setType(AccountType.valueOf(dto.getType()));
+        account.setStatus(AccountStatus.valueOf(dto.getStatus()));
+        account.setBalance(Double.parseDouble(dto.getBalance()));
+        account.setCurrencyCode(CurrencyCode.valueOf(dto.getCurrencyCode()));
+        account.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
+        account.setClient(client);
+
+        var result = accountRepository.save(account);
+        return accountMapper.toDTO(result);
     }
 }

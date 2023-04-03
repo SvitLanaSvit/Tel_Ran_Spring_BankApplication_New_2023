@@ -12,5 +12,5 @@ public interface AccountService {
     AccountListDTO getAllAccountsStatus();
     AccountDTO createAccount(CreateAccountDTO dto);
     void deleteAccountById(UUID id);
-
+    AccountDTO editAccountById(UUID id, CreateAccountDTO dto);
 }
