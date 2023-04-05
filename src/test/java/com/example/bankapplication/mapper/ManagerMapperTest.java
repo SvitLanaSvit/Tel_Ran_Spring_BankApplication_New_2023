@@ -8,9 +8,12 @@ import com.example.bankapplication.util.EntityCreator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.SimpleFormatter;
 
 import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("Test class for ManagerMapper")
@@ -19,7 +22,7 @@ class ManagerMapperTest {
     private final ManagerMapper managerMapper = new ManagerMapperImpl();
 
     @Test
-    @DisplayName("When we have correct entity then return correct ProductDto")
+    @DisplayName("When we have correct entity then return correct ManagerDto")
     void testToDTO() {
         UUID id = UUID.randomUUID();
         Manager manager = EntityCreator.getManager(id);
@@ -29,7 +32,7 @@ class ManagerMapperTest {
     }
 
     @Test
-    @DisplayName("When we have correct ProductDto then return correct entity")
+    @DisplayName("When we have correct ManagerDto then return correct entity")
     void testToEntity() {
         UUID id = UUID.randomUUID();
         ManagerDTO dto = DTOCreator.getManagerDTO(id);
@@ -39,21 +42,30 @@ class ManagerMapperTest {
     }
 
     @Test
+    @DisplayName("When we have correct list of Managers then return correct list of ManagersDto")
     void testManagersToManagersDTO() {
         UUID id = UUID.randomUUID();
         List<Manager> managerList = new ArrayList<>();
         managerList.add(EntityCreator.getManager(id));
 
-        List<ManagerDTO> managerDTOList = managerMapper.managersToManagersDTO(managerList);  //uuid
+        List<ManagerDTO> managerDTOList = managerMapper.managersToManagersDTO(managerList);  //id is null????? Not so
         compareManagerListWithListDto(managerList, managerDTOList);
     }
 
     @Test
+    @DisplayName("Check to init correct current date")
     void testCreateToEntity() {
         CreateManagerDTO dto = DTOCreator.getManagerToCreateWithCreateDate();
         Manager manager = managerMapper.createToEntity(dto);
+
+        Timestamp currentDate = new Timestamp(System.currentTimeMillis());
+        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+        String current = date.format(currentDate);
+        String managerDate = date.format(manager.getCreatedAt());
+
         assertNull(dto.getCreatedAt());
         assertNotNull(manager.getCreatedAt());
+        assertEquals(managerDate, current);
     }
 
     private void compareEntityWithDto(Manager manager, ManagerDTO managerDTO){
