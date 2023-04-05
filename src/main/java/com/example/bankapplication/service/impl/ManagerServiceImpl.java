@@ -68,7 +68,7 @@ public class ManagerServiceImpl implements ManagerService {
         log.info("Firstname: " + dto.getFirstName());
         manager.setFirstName(dto.getFirstName());
         manager.setLastName(dto.getLastName());
-        manager.setStatus(dto.getStatus());
+        manager.setStatus(ManagerStatus.valueOf(dto.getStatus()));
         manager.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
 
         var result = managerRepository.save(manager);

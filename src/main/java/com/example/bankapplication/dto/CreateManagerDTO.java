@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 public class CreateManagerDTO {
     String firstName;
     String lastName;
-    ManagerStatus status;
+    String status;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     Timestamp createdAt;
 
