@@ -35,7 +35,7 @@ class ManagerServiceImplTest {
     private ManagerServiceImpl service;
 
     @Test
-    void getManagerById() {
+    void testGetManagerById() {
         UUID id = UUID.randomUUID();
         Manager manager = EntityCreator.getManager(id);
         ManagerDTO managerDTO = DTOCreator.getManagerDTO(id);
@@ -51,7 +51,7 @@ class ManagerServiceImplTest {
     }
 
     @Test
-    void getManagersStatus() {
+    void testGetManagersStatus() {
         UUID id = UUID.randomUUID();
         List<Manager> managerList = new ArrayList<>();
         managerList.add(EntityCreator.getManager(id));
@@ -72,7 +72,7 @@ class ManagerServiceImplTest {
     }
 
     @Test
-    void create() {
+    void testCreate() {
         UUID id = UUID.randomUUID();
         CreateManagerDTO createManagerDTO = DTOCreator.getManagerToCreate();
         System.out.println("createManagerDTO name: " + createManagerDTO.getFirstName());
@@ -92,7 +92,7 @@ class ManagerServiceImplTest {
     }
 
     @Test
-    void deleteById() {
+    void testDeleteById() {
         UUID id = UUID.randomUUID();
         Manager manager = EntityCreator.getManager(id);
         managerRepository.save(manager);
@@ -102,7 +102,7 @@ class ManagerServiceImplTest {
     }
 
     @Test
-    void editManagerById() {
+    void testEditManagerById() {
         UUID id = UUID.randomUUID();
         Manager managerFromDB = EntityCreator.getManager(id);
         System.out.println(managerFromDB);
