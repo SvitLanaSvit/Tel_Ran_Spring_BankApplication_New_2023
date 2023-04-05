@@ -28,4 +28,14 @@ public class DTOCreator {
                 Timestamp.valueOf("2023-04-02 00:00:00")
         );
     }
+
+    public static CreateManagerDTO getManagerToCreateWithCreateDate(){
+        return new CreateManagerDTO(
+                "John",
+                "Doe",
+                "ACTIVE",
+                null,
+                null
+        );
+    }
 }

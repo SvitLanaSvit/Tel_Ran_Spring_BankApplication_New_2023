@@ -1,5 +1,6 @@
 package com.example.bankapplication.mapper;
 
+import com.example.bankapplication.dto.CreateManagerDTO;
 import com.example.bankapplication.dto.ManagerDTO;
 import com.example.bankapplication.entity.Manager;
 import com.example.bankapplication.util.DTOCreator;
@@ -19,7 +20,7 @@ class ManagerMapperTest {
 
     @Test
     @DisplayName("When we have correct entity then return correct ProductDto")
-    void toDTO() {
+    void testToDTO() {
         UUID id = UUID.randomUUID();
         Manager manager = EntityCreator.getManager(id);
         System.out.println(manager.getId());
@@ -29,7 +30,7 @@ class ManagerMapperTest {
 
     @Test
     @DisplayName("When we have correct ProductDto then return correct entity")
-    void toEntity() {
+    void testToEntity() {
         UUID id = UUID.randomUUID();
         ManagerDTO dto = DTOCreator.getManagerDTO(id);
         System.out.println(dto.getId());
@@ -38,7 +39,7 @@ class ManagerMapperTest {
     }
 
     @Test
-    void managersToManagersDTO() {
+    void testManagersToManagersDTO() {
         UUID id = UUID.randomUUID();
         List<Manager> managerList = new ArrayList<>();
         managerList.add(EntityCreator.getManager(id));
@@ -48,7 +49,11 @@ class ManagerMapperTest {
     }
 
     @Test
-    void createToEntity() {
+    void testCreateToEntity() {
+        CreateManagerDTO dto = DTOCreator.getManagerToCreateWithCreateDate();
+        Manager manager = managerMapper.createToEntity(dto);
+        assertNull(dto.getCreatedAt());
+        assertNotNull(manager.getCreatedAt());
     }
 
     private void compareEntityWithDto(Manager manager, ManagerDTO managerDTO){
