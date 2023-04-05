@@ -6,17 +6,14 @@ import com.example.bankapplication.dto.ManagerListDTO;
 import com.example.bankapplication.entity.Manager;
 import com.example.bankapplication.entity.enums.ManagerStatus;
 import com.example.bankapplication.mapper.ManagerMapper;
-import com.example.bankapplication.mapper.ManagerMapperImpl;
 import com.example.bankapplication.repository.ManagerRepository;
 import com.example.bankapplication.util.DTOCreator;
 import com.example.bankapplication.util.EntityCreator;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,11 +33,6 @@ class ManagerServiceImplTest {
     private ManagerMapper managerMapper;
     @InjectMocks
     private ManagerServiceImpl service;
-
-//    @BeforeEach
-//    public void init(){
-//        this.managerMapper = new ManagerMapperImpl();
-//    }
 
     @Test
     void getManagerById() {
@@ -87,13 +79,7 @@ class ManagerServiceImplTest {
 
         Manager manager = EntityCreator.getManagerAfterDTO(id, createManagerDTO); //null
         System.out.println("Manager: " + manager);
-//
-//        //Manager managerAfterDTO = EntityCreator.getManagerAfterDTO(id, createManagerDTO);
-//        when(managerRepository.save(any())).thenReturn(manager);
-//
-//        //ManagerDTO result = service.create(createManagerDTO);
-//
-//        verify(managerRepository, times(1)).save(manager);
+
         when(managerMapper.createToEntity(createManagerDTO)).thenReturn(manager);
         when(managerRepository.save(any())).thenReturn(manager);
 
