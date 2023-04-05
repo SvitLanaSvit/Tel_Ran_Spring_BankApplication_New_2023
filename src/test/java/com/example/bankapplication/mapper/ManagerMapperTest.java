@@ -73,7 +73,7 @@ class ManagerMapperTest {
                 () -> assertEquals(manager.getId(), managerDTO.getId()),
                 () -> assertEquals(manager.getFirstName(), managerDTO.getFirstName()),
                 () -> assertEquals(manager.getLastName(), managerDTO.getLastName()),
-                () -> assertEquals(manager.getStatus(), managerDTO.getStatus()),
+                () -> assertEquals(manager.getStatus().toString(), managerDTO.getStatus()),
                 () -> assertEquals(manager.getCreatedAt(), managerDTO.getCreatedAt()),
                 () -> assertEquals(manager.getUpdatedAt(), managerDTO.getUpdatedAt())
         );
