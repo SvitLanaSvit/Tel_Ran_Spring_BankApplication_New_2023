@@ -5,7 +5,6 @@ import com.example.bankapplication.dto.AccountListDTO;
 import com.example.bankapplication.dto.CreateAccountDTO;
 import com.example.bankapplication.service.AccountService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
@@ -13,7 +12,6 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
-@Slf4j
 public class AccountController {
     private final AccountService accountService;
 
@@ -44,5 +42,11 @@ public class AccountController {
     @ResponseStatus(HttpStatus.OK)
     public AccountDTO editAccount(@PathVariable UUID id, @RequestBody CreateAccountDTO dto){
         return accountService.editAccountById(id, dto);
+    }
+
+    @RequestMapping("accounts/all")
+    @ResponseStatus(HttpStatus.OK)
+    public AccountListDTO getAll(){
+        return accountService.getAll();
     }
 }

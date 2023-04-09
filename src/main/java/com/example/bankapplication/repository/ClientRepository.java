@@ -12,4 +12,5 @@ public interface ClientRepository extends JpaRepository<Client, UUID> {
     Optional<Client> findClientById(UUID id);
     Optional<Client> findClientByTaxCode(String taxCode);
     List<Client> getAllByStatus(ClientStatus status);
+    List<Client> findAll();
 }

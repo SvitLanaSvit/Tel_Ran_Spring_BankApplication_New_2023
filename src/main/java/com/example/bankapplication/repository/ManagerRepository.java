@@ -12,5 +12,6 @@ import java.util.UUID;
 public interface ManagerRepository extends JpaRepository<Manager, UUID> {
     Optional<Manager> findManagerById(UUID id);
     List<Manager> getAllByStatus(ManagerStatus managerStatus);
-
+    List<Manager> findByStatus(ManagerStatus status);
+    List<Manager> findAll();
 }

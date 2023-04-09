@@ -94,4 +94,10 @@ public class AccountServiceImpl implements AccountService {
         var result = accountRepository.save(account);
         return accountMapper.toDTO(result);
     }
+
+    @Override
+    public AccountListDTO getAll() {
+        log.info("Get all accounts");
+        return new AccountListDTO(accountMapper.accountsToAccountsDTO(accountRepository.findAll()));
+    }
 }

@@ -13,7 +13,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.logging.SimpleFormatter;
 
 import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("Test class for ManagerMapper")
@@ -70,7 +69,7 @@ class ManagerMapperTest {
 
     private void compareEntityWithDto(Manager manager, ManagerDTO managerDTO){
         assertAll(
-                () -> assertEquals(manager.getId(), managerDTO.getId()),
+                () -> assertEquals(manager.getId().toString(), managerDTO.getId()),
                 () -> assertEquals(manager.getFirstName(), managerDTO.getFirstName()),
                 () -> assertEquals(manager.getLastName(), managerDTO.getLastName()),
                 () -> assertEquals(manager.getStatus().toString(), managerDTO.getStatus()),

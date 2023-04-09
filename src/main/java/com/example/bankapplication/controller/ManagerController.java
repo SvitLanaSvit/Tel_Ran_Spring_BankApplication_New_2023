@@ -3,6 +3,7 @@ package com.example.bankapplication.controller;
 import com.example.bankapplication.dto.CreateManagerDTO;
 import com.example.bankapplication.dto.ManagerDTO;
 import com.example.bankapplication.dto.ManagerListDTO;
+import com.example.bankapplication.entity.enums.ManagerStatus;
 import com.example.bankapplication.service.ManagerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,7 @@ public class ManagerController {
         return managerService.create(manager);
     }
 
-    @RequestMapping("managers/{id}")
+    @RequestMapping("managers/{id:[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}}")
     @ResponseStatus(HttpStatus.OK)
     public ManagerDTO getManagerById(@PathVariable UUID id){
         return managerService.getManagerById(id);
@@ -32,6 +33,13 @@ public class ManagerController {
         return managerService.getManagersStatus();
     }
 
+    @RequestMapping("managers/status/{status}")
+    @ResponseStatus(HttpStatus.OK)
+    public ManagerListDTO getAllManagersByStatus(@PathVariable String status){
+        String statusUp = status.toUpperCase();
+        return managerService.getAllManagersByStatus(ManagerStatus.valueOf(statusUp));
+    }
+
     @DeleteMapping("deleteManager/{id}")
     public void delete(@PathVariable UUID id){
         managerService.deleteById(id);
@@ -40,5 +48,11 @@ public class ManagerController {
     @PutMapping("editManager/{id}")
     public ManagerDTO editManager(@PathVariable UUID id, @RequestBody CreateManagerDTO dto){
         return managerService.editManagerById(id, dto);
+    }
+
+    @RequestMapping("managers/all")
+    @ResponseStatus(HttpStatus.OK)
+    public ManagerListDTO getAll(){
+        return managerService.getAll();
     }
 }

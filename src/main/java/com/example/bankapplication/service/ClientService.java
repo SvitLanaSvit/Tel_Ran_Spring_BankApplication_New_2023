@@ -12,4 +12,5 @@ public interface ClientService {
     ClientDTO createClient(CreateClientDTO dto);
     void deleteClientById(UUID id);
     ClientDTO editClientById(UUID id, CreateClientDTO dto);
+    ClientListDTO getAll();
 }

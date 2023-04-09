@@ -74,4 +74,20 @@ public class ManagerServiceImpl implements ManagerService {
         var result = managerRepository.save(manager);
         return managerMapper.toDTO(result);
     }
+
+    @Override
+    @Transactional
+    public ManagerListDTO getAllManagersByStatus(ManagerStatus status) {
+        log.info("Get all managers by status {}", status);
+        return new ManagerListDTO(
+                managerMapper.managersToManagersDTO(managerRepository.findByStatus(status)));
+    }
+
+    @Override
+    @Transactional
+    public ManagerListDTO getAll() {
+        log.info("Get all managers");
+        return new ManagerListDTO(managerMapper.managersToManagersDTO(managerRepository.findAll()));
+    }
+
 }

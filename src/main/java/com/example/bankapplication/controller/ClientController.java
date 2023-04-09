@@ -45,4 +45,10 @@ public class ClientController {
     public ClientDTO editClient(@PathVariable UUID id, @RequestBody CreateClientDTO dto){
         return clientService.editClientById(id, dto);
     }
+
+    @RequestMapping("clients/all")
+    @ResponseStatus(HttpStatus.OK)
+    public ClientListDTO getAll(){
+        return clientService.getAll();
+    }
 }

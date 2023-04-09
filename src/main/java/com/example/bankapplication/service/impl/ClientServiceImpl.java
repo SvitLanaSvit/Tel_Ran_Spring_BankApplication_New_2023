@@ -103,4 +103,10 @@ public class ClientServiceImpl implements ClientService {
         var result = clientRepository.save(client);
         return clientMapper.toDTO(result);
     }
+
+    @Override
+    public ClientListDTO getAll() {
+        log.info("Get all clients");
+        return new ClientListDTO(clientMapper.clientsToClientsDTO(clientRepository.findAll()));
+    }
 }
