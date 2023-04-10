@@ -69,7 +69,10 @@ public class AccountServiceImpl implements AccountService {
     @Transactional
     public void deleteAccountById(UUID id) {
         log.info("Deleting account {}", id);
-        accountRepository.deleteById(id);
+        var account = accountRepository.findAccountById(id);
+        if(account.isPresent())
+            accountRepository.deleteById(id);
+        else throw new AccountNotFoundException(ErrorMessage.ACCOUNT_NOT_FOUND);
     }
 
     @Override

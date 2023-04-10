@@ -54,7 +54,10 @@ public class ManagerServiceImpl implements ManagerService {
     @Transactional
     public void deleteById(UUID id) {
         log.info("Deleting manager {}", id);
-        managerRepository.deleteById(id);
+        var manager = managerRepository.findManagerById(id);
+        if(manager.isPresent())
+            managerRepository.deleteById(id);
+        else throw new ManagerNotFoundException(ErrorMessage.Manager_NOT_FOUND);
     }
 
     @Override

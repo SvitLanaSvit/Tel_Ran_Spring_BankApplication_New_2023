@@ -75,7 +75,10 @@ public class ClientServiceImpl implements ClientService {
     @Transactional
     public void deleteClientById(UUID id) {
         log.info("Deleting client {}", id);
-        clientRepository.deleteById(id);
+        var client = clientRepository.findClientById(id);
+        if(client.isPresent())
+            clientRepository.deleteById(id);
+        else throw new ClientNotFoundException(ErrorMessage.CLIENT_NOT_FOUND);
     }
 
     @Override

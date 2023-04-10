@@ -1,5 +1,6 @@
 package com.example.bankapplication.mapper;
 
+import com.example.bankapplication.dto.CreateTransactionDTO;
 import com.example.bankapplication.dto.TransactionDTO;
 import com.example.bankapplication.entity.Transaction;
 import org.mapstruct.Mapper;
@@ -15,4 +16,6 @@ public interface TransactionMapper {
     TransactionDTO toDTO(Transaction transaction);
     Transaction toEntity(TransactionDTO transactionDTO);
     List<TransactionDTO> transactionsToTransactionsDTO(List<Transaction> transactions);
+    @Mapping(target = "createdAt", expression = "java(new Timestamp(System.currentTimeMillis()))")
+    Transaction createToEntity(CreateTransactionDTO dto);
 }

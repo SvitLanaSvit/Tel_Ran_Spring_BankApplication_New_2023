@@ -38,9 +38,6 @@ public class AgreementServiceImpl implements AgreementService {
     @Override
     public AgreementDTO getAgreementById(UUID id) {
         log.info("Get agreement by id {}", id);
-        if(id == null){
-            throw new NullPointerException("This id {" + id + "} is null");
-        }
         return agreementMapper.toDTO(agreementRepository.findAgreementById(id).orElseThrow(
                 () -> new AgreementNotFoundException(ErrorMessage.AGREEMENT_NOT_FOUND)
         ));
@@ -74,9 +71,6 @@ public class AgreementServiceImpl implements AgreementService {
     @Override
     public AgreementDTO editAgreementById(UUID id, CreateAgreementDTO dto) {
         log.info("Edit agreement by id {}", id);
-        if(id == null){
-            throw new NullPointerException("This id {" + id + "} is null");
-        }
 
         var agreement = agreementRepository.findAgreementById(id).orElseThrow(
                 () -> new AgreementNotFoundException(ErrorMessage.AGREEMENT_NOT_FOUND)
@@ -106,6 +100,9 @@ public class AgreementServiceImpl implements AgreementService {
     @Override
     public void deleteAgreementById(UUID id) {
         log.info("Deleting agreement {}", id);
-        agreementRepository.deleteById(id);
+        var agreement = agreementRepository.findAgreementById(id);
+        if(agreement.isPresent())
+            agreementRepository.deleteById(id);
+        else throw new AgreementNotFoundException(ErrorMessage.AGREEMENT_NOT_FOUND);
     }
 }

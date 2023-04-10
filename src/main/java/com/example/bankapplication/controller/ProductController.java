@@ -34,5 +34,15 @@ public class ProductController {
         return productService.create(dto);
     }
 
+    @PutMapping("editProduct/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ProductDTO editProductById(@PathVariable UUID id, @RequestBody CreateProductDTO dto){
+        return productService.editProductById(id, dto);
+    }
 
+    @DeleteMapping("deleteProduct/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteProductById(@PathVariable UUID id){
+        productService.deleteProductById(id);
+    }
 }
