@@ -1,5 +1,7 @@
 package com.example.bankapplication.mapper;
 
+import com.example.bankapplication.dto.CreateAgreementDTO;
+import com.example.bankapplication.dto.CreateProductDTO;
 import com.example.bankapplication.dto.ProductDTO;
 import com.example.bankapplication.dto.ProductListDTO;
 import com.example.bankapplication.entity.Product;
@@ -15,4 +17,6 @@ public interface ProductMapper {
     ProductDTO toDTO(Product product);
     Product toEntity(ProductDTO productDTO);
     List<ProductDTO> productsToProductsDTO(List<Product> products);
+    @Mapping(target = "createdAt", expression = "java(new Timestamp(System.currentTimeMillis()))")
+    Product createToEntity(CreateProductDTO dto);
 }

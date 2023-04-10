@@ -154,7 +154,7 @@
             <column name="interest_rate" type="DECIMAL(6,4)">
                 <constraints nullable="false"/>
             </column>
-            <column name="limit" type="INTEGER">
+            <column name="product_limit" type="INTEGER">
                 <constraints nullable="false"/>
             </column>
             <column name="created_at" type="TIMESTAMP" defaultValueDate="CURRENT_TIMESTAMP"/>

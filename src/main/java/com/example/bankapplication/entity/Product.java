@@ -38,8 +38,8 @@ public class Product {
     private CurrencyCode currencyCode;
     @Column(name = "interest_rate")
     private double interestRate;
-    @Column(name = "limit")
-    private int limit;
+    @Column(name = "product_limit")
+    private int productLimit;
     @Column(name = "created_at")
     private Timestamp createdAt;
     @Column(name = "updated_at")
@@ -73,7 +73,7 @@ public class Product {
                 ", status=" + status +
                 ", currencyCode=" + currencyCode +
                 ", interestRate=" + interestRate +
-                ", limit=" + limit +
+                ", limit=" + productLimit +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 ", manager=" + manager +

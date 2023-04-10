@@ -195,7 +195,7 @@
             <column name="status" value="ACTIVE"/>
             <column name="currency_code" value="USD"/>
             <column name="interest_rate" value="0.05"/>
-            <column name="limit" value="1000"/>
+            <column name="product_limit" value="1000"/>
             <column name="manager_id" valueComputed="UUID_TO_BIN('0eb587d1-5ccd-4a9f-9556-aa0be1fab212')"/>
         </insert>
     </changeSet>

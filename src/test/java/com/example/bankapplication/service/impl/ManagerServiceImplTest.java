@@ -119,4 +119,25 @@ class ManagerServiceImplTest {
 
         assertNotNull(result); //null
     }
+
+    @Test
+    void testGetAll(){
+        UUID id = UUID.randomUUID();
+        List<Manager> managerList = new ArrayList<>();
+        managerList.add(EntityCreator.getManager(id));
+
+        List<ManagerDTO> managerDTOList = new ArrayList<>();
+        managerDTOList.add(DTOCreator.getManagerDTO(id));
+
+        ManagerListDTO listDTO = new ManagerListDTO(managerDTOList);
+
+        when(managerRepository.findAll()).thenReturn(managerList);
+        when(managerMapper.managersToManagersDTO(managerList)).thenReturn(managerDTOList);
+
+        ManagerListDTO result = service.getAll();
+
+        verify(managerRepository).findAll();
+        verify(managerMapper).managersToManagersDTO(managerList);
+        assertEquals(listDTO, result);
+    }
 }
