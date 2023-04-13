@@ -2,6 +2,8 @@ package com.example.bankapplication.service;
 
 import com.example.bankapplication.dto.AccountIdDTO;
 import com.example.bankapplication.dto.AgreementIdDTO;
+import com.example.bankapplication.dto.ClientInfoDTO;
+import com.example.bankapplication.dto.ManagerInfoDTO;
 import com.example.bankapplication.entity.enums.ProductStatus;
 import jakarta.transaction.Transactional;
 
@@ -17,4 +19,10 @@ public interface RequestService {
 
     @Transactional
     Collection<AgreementIdDTO> findAgreementByClientId(UUID clientId);
+
+    @Transactional
+    Collection<ClientInfoDTO> findClientsWhereBalanceMoreThan(Double balance);
+
+    @Transactional
+    Collection<ManagerInfoDTO> findAllManagersSortedByProductQuantity();
 }

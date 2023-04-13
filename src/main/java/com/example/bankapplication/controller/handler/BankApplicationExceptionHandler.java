@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.net.HttpURLConnection;
+import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 
 @Slf4j
@@ -66,6 +67,13 @@ public class BankApplicationExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<ErrorDTO> handleNullPointerException(NullPointerException ex){
         log.error("NullPointerException", ex);
+        var error = new ErrorDTO(HttpURLConnection.HTTP_INTERNAL_ERROR, ex.getMessage());
+        return ResponseEntity.status(HttpURLConnection.HTTP_INTERNAL_ERROR).body(error);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorDTO> handleSQLException(SQLException ex){
+        log.error("SQLException", ex);
         var error = new ErrorDTO(HttpURLConnection.HTTP_INTERNAL_ERROR, ex.getMessage());
         return ResponseEntity.status(HttpURLConnection.HTTP_INTERNAL_ERROR).body(error);
     }

@@ -2,13 +2,16 @@ package com.example.bankapplication.controller;
 
 import com.example.bankapplication.dto.CreateManagerDTO;
 import com.example.bankapplication.dto.ManagerDTO;
+import com.example.bankapplication.dto.ManagerInfoDTO;
 import com.example.bankapplication.dto.ManagerListDTO;
 import com.example.bankapplication.entity.enums.ManagerStatus;
 import com.example.bankapplication.service.ManagerService;
+import com.example.bankapplication.service.RequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.UUID;
 
 @RestController
@@ -16,6 +19,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ManagerController {
     private final ManagerService managerService;
+    private final RequestService requestService;
+
     @PostMapping("createManager")
     public ManagerDTO create(@RequestBody CreateManagerDTO manager){
         return managerService.create(manager);
@@ -54,5 +59,11 @@ public class ManagerController {
     @ResponseStatus(HttpStatus.OK)
     public ManagerListDTO getAll(){
         return managerService.getAll();
+    }
+
+    @GetMapping("managers/productsQuantity")
+    @ResponseStatus(HttpStatus.OK)
+    public Collection<ManagerInfoDTO> getAllManagersSortedByProductQuantity(){
+        return requestService.findAllManagersSortedByProductQuantity();
     }
 }

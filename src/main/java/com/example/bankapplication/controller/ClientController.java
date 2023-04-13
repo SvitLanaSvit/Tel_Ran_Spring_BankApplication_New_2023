@@ -1,13 +1,16 @@
 package com.example.bankapplication.controller;
 
 import com.example.bankapplication.dto.ClientDTO;
+import com.example.bankapplication.dto.ClientInfoDTO;
 import com.example.bankapplication.dto.ClientListDTO;
 import com.example.bankapplication.dto.CreateClientDTO;
 import com.example.bankapplication.service.ClientService;
+import com.example.bankapplication.service.RequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.UUID;
 
 @RestController
@@ -15,6 +18,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ClientController {
     private final ClientService clientService;
+    private final RequestService requestService;
 
     @PostMapping("createClient")
     @ResponseStatus(HttpStatus.OK)
@@ -28,7 +32,7 @@ public class ClientController {
         return clientService.getClientById(id);
     }
 
-    @RequestMapping("/clients")
+    @RequestMapping("/clients/active")
     @ResponseStatus(HttpStatus.OK)
     public ClientListDTO getAllClients(){
         return clientService.getClientsStatus();
@@ -50,5 +54,11 @@ public class ClientController {
     @ResponseStatus(HttpStatus.OK)
     public ClientListDTO getAll(){
         return clientService.getAll();
+    }
+
+    @GetMapping("clients/balanceMore")
+    @ResponseStatus(HttpStatus.OK)
+    public Collection<ClientInfoDTO> getAllClientsWhereBalanceMoreThan(@RequestParam Double balance){
+        return requestService.findClientsWhereBalanceMoreThan(balance);
     }
 }
