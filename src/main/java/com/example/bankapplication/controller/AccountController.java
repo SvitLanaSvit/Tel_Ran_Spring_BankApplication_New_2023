@@ -1,12 +1,14 @@
 package com.example.bankapplication.controller;
 
-import com.example.bankapplication.dto.AccountDTO;
-import com.example.bankapplication.dto.AccountListDTO;
-import com.example.bankapplication.dto.CreateAccountDTO;
+import com.example.bankapplication.dto.*;
+import com.example.bankapplication.entity.enums.ProductStatus;
 import com.example.bankapplication.service.AccountService;
+import com.example.bankapplication.service.RequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
 import java.util.UUID;
 
 @RestController
@@ -14,6 +16,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AccountController {
     private final AccountService accountService;
+    private final RequestService requestService;
 
     @PostMapping("/createAccount")
     public AccountDTO createAccount(@RequestBody CreateAccountDTO account){
@@ -48,5 +51,12 @@ public class AccountController {
     @ResponseStatus(HttpStatus.OK)
     public AccountListDTO getAll(){
         return accountService.getAll();
+    }
+
+    @GetMapping("find")
+    @ResponseStatus(HttpStatus.OK)
+    public Collection<AccountIdDTO> getAccountIdsByProductIdAndStatus(
+            @RequestParam UUID productId, @RequestParam ProductStatus status) {
+       return requestService.findAccountsByProductIdAndStatus(productId,status);
     }
 }
