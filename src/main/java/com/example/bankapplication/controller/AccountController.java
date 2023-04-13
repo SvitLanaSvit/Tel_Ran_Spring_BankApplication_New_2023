@@ -53,7 +53,7 @@ public class AccountController {
         return accountService.getAll();
     }
 
-    @GetMapping("find")
+    @GetMapping("findAccounts")
     @ResponseStatus(HttpStatus.OK)
     public Collection<AccountIdDTO> getAccountIdsByProductIdAndStatus(
             @RequestParam UUID productId, @RequestParam ProductStatus status) {

@@ -10,6 +10,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AccountIdDTO {
+public class AgreementIdDTO {
     UUID id;
 }
