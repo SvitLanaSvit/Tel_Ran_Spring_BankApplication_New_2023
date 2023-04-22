@@ -9,7 +9,7 @@ import org.mapstruct.Mapping;
 import java.sql.Timestamp;
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = UuidMapper.class, imports = Timestamp.class)
+@Mapper(componentModel = "spring", /*uses = UuidMapper.class,*/ imports = Timestamp.class)
 public interface AgreementMapper {
     @Mapping(source = "agreement.product.id", target = "productId")
     @Mapping(source = "agreement.account.id", target = "accountId")

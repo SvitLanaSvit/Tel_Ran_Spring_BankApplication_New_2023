@@ -21,38 +21,38 @@ class ManagerMapperTest {
     private final ManagerMapper managerMapper = new ManagerMapperImpl();
 
     @Test
-    @DisplayName("When we have correct entity then return correct ManagerDto")
+    @DisplayName("Positive test. When we have correct entity then return correct ManagerDto")
     void testToDTO() {
         UUID id = UUID.randomUUID();
         Manager manager = EntityCreator.getManager(id);
         System.out.println(manager.getId());
-        ManagerDTO managerDTO = managerMapper.toDTO(manager); //id is null????? Not so
+        ManagerDTO managerDTO = managerMapper.toDTO(manager);
         compareEntityWithDto(manager, managerDTO);
     }
 
     @Test
-    @DisplayName("When we have correct ManagerDto then return correct entity")
+    @DisplayName("Positive test. When we have correct ManagerDto then return correct entity")
     void testToEntity() {
         UUID id = UUID.randomUUID();
         ManagerDTO dto = DTOCreator.getManagerDTO(id);
         System.out.println(dto.getId());
-        Manager manager = managerMapper.toEntity(dto); //id is null????? Not so
+        Manager manager = managerMapper.toEntity(dto);
         compareEntityWithDto(manager, dto);
     }
 
     @Test
-    @DisplayName("When we have correct list of Managers then return correct list of ManagersDto")
+    @DisplayName("Positive test. When we have correct list of Manager then return correct list of ManagerDto")
     void testManagersToManagersDTO() {
         UUID id = UUID.randomUUID();
         List<Manager> managerList = new ArrayList<>();
         managerList.add(EntityCreator.getManager(id));
 
-        List<ManagerDTO> managerDTOList = managerMapper.managersToManagersDTO(managerList);  //id is null????? Not so
+        List<ManagerDTO> managerDTOList = managerMapper.managersToManagersDTO(managerList);
         compareManagerListWithListDto(managerList, managerDTOList);
     }
 
     @Test
-    @DisplayName("Check to init correct current date")
+    @DisplayName("Positive test. Check to init correct current date")
     void testCreateToEntity() {
         CreateManagerDTO dto = DTOCreator.getManagerToCreateWithCreateDate();
         Manager manager = managerMapper.createToEntity(dto);

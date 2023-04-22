@@ -9,7 +9,7 @@ import org.mapstruct.Mapping;
 import java.sql.Timestamp;
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = UuidMapper.class, imports = Timestamp.class)
+@Mapper(componentModel = "spring", /*uses = UuidMapper.class,*/ imports = Timestamp.class)
 public interface ClientMapper {
     @Mapping(source = "client.manager.id", target = "managerId")
     ClientDTO toDTO(Client client);

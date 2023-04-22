@@ -3,6 +3,7 @@ package com.example.bankapplication.util;
 import com.example.bankapplication.dto.CreateManagerDTO;
 import com.example.bankapplication.entity.*;
 import com.example.bankapplication.entity.enums.*;
+import lombok.Builder;
 
 import java.sql.Timestamp;
 import java.util.UUID;
@@ -28,10 +29,24 @@ public class EntityCreator {
         account.setType(AccountType.STUDENT);
         account.setStatus(AccountStatus.ACTIVE);
         account.setBalance(50);
+        account.setCurrencyCode(CurrencyCode.USD);
         account.setCreatedAt(Timestamp.valueOf("2023-04-02 00:00:00"));
         account.setUpdatedAt(Timestamp.valueOf("2023-04-02 00:00:00"));
         account.setClient(getClient(managerId));
         return account;
+    }
+
+    public static Agreement getAgreement(UUID managerId){
+        Agreement agreement = new Agreement();
+        agreement.setId(UUID.fromString("9c149059-3d2a-4741-9073-a05364ecb6cf"));
+        agreement.setInterestRate(0.004);
+        agreement.setStatus(AgreementStatus.ACTIVE);
+        agreement.setSum(10);
+        agreement.setCreatedAt(Timestamp.valueOf("2023-04-02 00:00:00"));
+        agreement.setUpdatedAt(Timestamp.valueOf("2023-04-02 00:00:00"));
+        agreement.setProduct(getProduct(managerId));
+        agreement.setAccount(getAccount(managerId));
+        return agreement;
     }
 
     public static Client getClient(UUID managerId){
@@ -50,6 +65,34 @@ public class EntityCreator {
         return client;
     }
 
+    public static Product getProduct(UUID managerId){
+        Product product = new Product();
+        product.setId(UUID.fromString("6006ec9c-41a0-4fa1-b8b9-17b4c13347e6"));
+        product.setName("Incredible Bronze Wallet Bank Product");
+        product.setStatus(ProductStatus.ACTIVE);
+        product.setCurrencyCode(CurrencyCode.USD);
+        product.setInterestRate(0.05);
+        product.setProductLimit(100);
+        product.setCreatedAt(Timestamp.valueOf("2023-04-02 00:00:00"));
+        product.setUpdatedAt(Timestamp.valueOf("2023-04-02 00:00:00"));
+        product.setManager(getManager(managerId));
+        return product;
+    }
+
+    public static Transaction getTransaction(UUID id){
+        Transaction transaction = new Transaction();
+        var creditAccount = mock(Account.class);
+        var debitAccount = mock(Account.class);
+        transaction.setId(id);
+        transaction.setType(TransactionType.PAYMENT);
+        transaction.setAmount(100.0);
+        transaction.setDescription("Monthly rent payment");
+        transaction.setCreatedAt(Timestamp.valueOf("2023-04-02 00:00:00"));
+        transaction.setDebitAccount(debitAccount);
+        transaction.setCreditAccount(creditAccount);
+        return transaction;
+    }
+
     public static Manager getManagerAfterDTO(UUID id, CreateManagerDTO dto){
         Manager manager = new Manager();
         manager.setId(id);
@@ -61,17 +104,5 @@ public class EntityCreator {
         return manager;
     }
 
-    public static Transaction getTransaction(UUID id){
-        Transaction transaction = new Transaction();
-        var creditAccount = mock(Account.class);
-        var debitAccount = mock(Account.class);
-        transaction.setId(id);
-        transaction.setType(TransactionType.PAYMENT);
-        transaction.setAmount(100);
-        transaction.setDescription("Monthly rent payment");
-        transaction.setCreatedAt(Timestamp.valueOf("2023-04-02 00:00:00"));
-        transaction.setDebitAccount(debitAccount);
-        transaction.setCreditAccount(creditAccount);
-        return transaction;
-    }
+
 }

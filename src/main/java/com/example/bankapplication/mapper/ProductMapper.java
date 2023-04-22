@@ -11,7 +11,7 @@ import org.mapstruct.Mapping;
 import java.sql.Timestamp;
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = UuidMapper.class, imports = Timestamp.class)
+@Mapper(componentModel = "spring", /*uses = UuidMapper.class,*/ imports = Timestamp.class)
 public interface ProductMapper {
     @Mapping(source = "product.manager.id", target = "managerId")
     ProductDTO toDTO(Product product);
