@@ -7,18 +7,17 @@ import com.example.bankapplication.entity.Manager;
 import com.example.bankapplication.entity.enums.ManagerStatus;
 import com.example.bankapplication.mapper.ManagerMapper;
 import com.example.bankapplication.repository.ManagerRepository;
+import com.example.bankapplication.service.exception.ManagerNotFoundException;
 import com.example.bankapplication.util.DTOCreator;
 import com.example.bankapplication.util.EntityCreator;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -35,6 +34,7 @@ class ManagerServiceImplTest {
     private ManagerServiceImpl service;
 
     @Test
+    @DisplayName("Positive test. Get manager by Id.")
     void testGetManagerById() {
         UUID id = UUID.randomUUID();
         Manager manager = EntityCreator.getManager(id);
@@ -51,6 +51,7 @@ class ManagerServiceImplTest {
     }
 
     @Test
+    @DisplayName("Positive test. Get manager by status.")
     void testGetManagersStatus() {
         UUID id = UUID.randomUUID();
         List<Manager> managerList = new ArrayList<>();
@@ -68,59 +69,105 @@ class ManagerServiceImplTest {
 
         verify(managerRepository).getAllByStatus(ManagerStatus.ACTIVE);
         verify(managerMapper).managersToManagersDTO(managerList);
-        assertEquals(listDTO, result);
+        assertEquals(listDTO.getManagerDTOList(), result.getManagerDTOList());
     }
 
     @Test
+    @DisplayName("Positive test. Create new manager.")
     void testCreate() {
         UUID id = UUID.randomUUID();
         CreateManagerDTO createManagerDTO = DTOCreator.getManagerToCreate();
-        System.out.println("createManagerDTO name: " + createManagerDTO.getFirstName());
+        Manager expectedManager = EntityCreator.getManagerAfterDTO(id, createManagerDTO);
+        ManagerDTO expectedManagerDTO = DTOCreator.getManagerDTO(id);
 
-        Manager manager = EntityCreator.getManagerAfterDTO(id, createManagerDTO); //null
-        System.out.println("Manager: " + manager);
+        when(managerMapper.createToEntity(createManagerDTO)).thenReturn(expectedManager);
+        when(managerRepository.save(any(Manager.class))).thenReturn(expectedManager);
+        when(managerMapper.toDTO(expectedManager)).thenReturn(expectedManagerDTO);
 
-        when(managerMapper.createToEntity(createManagerDTO)).thenReturn(manager);
+        // act
+        ManagerDTO actualManagerDTO = service.create(createManagerDTO);
+        assertNotNull(actualManagerDTO);
+        assertEquals(expectedManagerDTO.getId(), actualManagerDTO.getId());
+        assertEquals(expectedManagerDTO.getFirstName(), actualManagerDTO.getFirstName());
+        assertEquals(expectedManagerDTO.getLastName(), actualManagerDTO.getLastName());
+        assertEquals(expectedManagerDTO.getStatus(), actualManagerDTO.getStatus());
+        assertEquals(expectedManagerDTO.getCreatedAt(), actualManagerDTO.getCreatedAt());
+        assertEquals(expectedManagerDTO.getUpdatedAt(), actualManagerDTO.getUpdatedAt());
+    }
+
+    @Test
+    @DisplayName("Positive test. Delete manager by Id.")
+    void testDeleteById() {
+        UUID managerId = UUID.randomUUID();
+        when(managerRepository.findManagerById(managerId)).thenReturn(Optional.of(EntityCreator.getManager(managerId)));
+
+        // when
+        service.deleteById(managerId);
+        verify(managerRepository, times(1)).deleteById(managerId);
+    }
+
+    @Test
+    @DisplayName("Positive test. Edit manager by Id.")
+    void testEditManagerById() {
+        // Arrange
+        UUID id = UUID.randomUUID();
+        CreateManagerDTO dto = DTOCreator.getManagerToCreate();
+        Manager manager = EntityCreator.getManager(id);
+        ManagerDTO expected = DTOCreator.getManagerDTO(id);
+
+        when(managerRepository.findManagerById(id)).thenReturn(Optional.of(manager));
+        when(managerMapper.toDTO(any())).thenReturn(expected);
         when(managerRepository.save(any())).thenReturn(manager);
 
-        ManagerDTO result = service.create(createManagerDTO);
-        System.out.println("Result: " + result);
+        // Act
+        ManagerDTO actual = service.editManagerById(id, dto);
 
+        // Assert
+        assertEquals(expected.getId(), actual.getId());
+        assertEquals(expected.getFirstName(), actual.getFirstName());
+        assertEquals(expected.getLastName(), actual.getLastName());
+        assertEquals(expected.getStatus(), actual.getStatus());
+        assertNotNull(actual.getUpdatedAt());
+
+        verify(managerRepository, times(1)).findManagerById(id);
+        verify(managerMapper, times(1)).toDTO(manager);
         verify(managerRepository, times(1)).save(manager);
-
-        assertNotNull(result);
     }
 
     @Test
-    void testDeleteById() {
+    @DisplayName("Negative test. Not found manager by Id.")
+    public void editManagerById_shouldThrowExceptionWhenManagerNotFound() {
+        // Arrange
         UUID id = UUID.randomUUID();
-        Manager manager = EntityCreator.getManager(id);
-        managerRepository.save(manager);
+        CreateManagerDTO dto = DTOCreator.getManagerToCreate();
 
-        service.deleteById(manager.getId());
-        verify(managerRepository, times(1)).deleteById(manager.getId());
+        when(managerRepository.findManagerById(id)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(ManagerNotFoundException.class, () -> service.editManagerById(id, dto));
     }
 
     @Test
-    void testEditManagerById() {
+    public void testGetAllManagersByStatus() {
         UUID id = UUID.randomUUID();
-        Manager managerFromDB = EntityCreator.getManager(id);
-        System.out.println(managerFromDB);
+        List<Manager> managerList = new ArrayList<>();
+        managerList.add(EntityCreator.getManager(id));
 
-        when(managerRepository.findManagerById(id)).thenReturn(Optional.of(managerFromDB));
+        List<ManagerDTO> managerDTOList = new ArrayList<>();
+        managerDTOList.add(DTOCreator.getManagerDTO(id));
 
-        CreateManagerDTO managerDTO = DTOCreator.getManagerToCreate();
-        System.out.println(managerDTO.getFirstName());
+        ManagerListDTO listDTO = new ManagerListDTO(managerDTOList);
+        when(managerRepository.getAllByStatus(ManagerStatus.ACTIVE)).thenReturn(managerList);
+        when(managerMapper.managersToManagersDTO(managerList)).thenReturn(managerDTOList);
 
-        when(managerRepository.save(managerFromDB)).thenReturn(managerFromDB);
+        ManagerListDTO dto = service.getAllManagersByStatus(ManagerStatus.ACTIVE);
 
-        ManagerDTO result = service.editManagerById(id, managerDTO);
-        System.out.println(result);
+        verify(managerRepository).getAllByStatus(ManagerStatus.ACTIVE);
 
-        assertNotNull(result); //null
     }
 
     @Test
+    @DisplayName("Positive test. Get all managers.")
     void testGetAll(){
         UUID id = UUID.randomUUID();
         List<Manager> managerList = new ArrayList<>();
@@ -138,6 +185,6 @@ class ManagerServiceImplTest {
 
         verify(managerRepository).findAll();
         verify(managerMapper).managersToManagersDTO(managerList);
-        assertEquals(listDTO, result);
+        assertEquals(listDTO.getManagerDTOList(), result.getManagerDTOList());
     }
 }

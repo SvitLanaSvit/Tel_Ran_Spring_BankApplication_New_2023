@@ -77,4 +77,11 @@ public class BankApplicationExceptionHandler {
         var error = new ErrorDTO(HttpURLConnection.HTTP_INTERNAL_ERROR, ex.getMessage());
         return ResponseEntity.status(HttpURLConnection.HTTP_INTERNAL_ERROR).body(error);
     }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorDTO> handleIllegalArgumentException(IllegalArgumentException ex){
+        log.error("IllegalArgumentException", ex);
+        var error = new ErrorDTO(HttpURLConnection.HTTP_INTERNAL_ERROR, ex.getMessage());
+        return ResponseEntity.status(HttpURLConnection.HTTP_INTERNAL_ERROR).body(error);
+    }
 }

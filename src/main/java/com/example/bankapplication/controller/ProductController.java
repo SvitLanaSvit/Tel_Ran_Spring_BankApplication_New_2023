@@ -4,10 +4,12 @@ import com.example.bankapplication.dto.CreateProductDTO;
 import com.example.bankapplication.dto.ProductDTO;
 import com.example.bankapplication.dto.ProductListDTO;
 import com.example.bankapplication.service.ProductService;
+import com.example.bankapplication.service.RequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.UUID;
 
 @RestController
@@ -15,6 +17,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
+    private final RequestService requestService;
 
     @RequestMapping("products/all")
     @ResponseStatus(HttpStatus.OK)
@@ -44,5 +47,11 @@ public class ProductController {
     @ResponseStatus(HttpStatus.OK)
     public void deleteProductById(@PathVariable UUID id){
         productService.deleteProductById(id);
+    }
+
+    @GetMapping("changedProducts")
+    @ResponseStatus(HttpStatus.OK)
+    public Collection<ProductDTO> getAllChangedProducts(){
+        return requestService.findAllChangedProducts();
     }
 }

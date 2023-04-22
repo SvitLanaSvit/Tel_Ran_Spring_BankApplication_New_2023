@@ -23,7 +23,7 @@ public class AccountController {
         return accountService.createAccount(account);
     }
 
-    @GetMapping("/accounts/{id}")
+    @GetMapping("/account/{id}")
     @ResponseStatus(HttpStatus.OK)
     public AccountDTO getAccountById(@PathVariable UUID id){
         return accountService.getAccountById(id);

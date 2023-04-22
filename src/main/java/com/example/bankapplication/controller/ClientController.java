@@ -26,7 +26,7 @@ public class ClientController {
         return clientService.createClient(dto);
     }
 
-    @RequestMapping("/clients/{id}")
+    @RequestMapping("/client/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ClientDTO getClientBiId(@PathVariable UUID id){
         return clientService.getClientById(id);

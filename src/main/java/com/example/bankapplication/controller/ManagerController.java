@@ -26,7 +26,7 @@ public class ManagerController {
         return managerService.create(manager);
     }
 
-    @RequestMapping("managers/{id:[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}}")
+    @RequestMapping("manager/{id:[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}}")
     @ResponseStatus(HttpStatus.OK)
     public ManagerDTO getManagerById(@PathVariable UUID id){
         return managerService.getManagerById(id);

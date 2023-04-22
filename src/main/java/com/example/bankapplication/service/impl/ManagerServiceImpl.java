@@ -20,7 +20,6 @@ import java.util.UUID;
 
 @Service
 @Slf4j
-//@RequiredArgsConstructor
 public class ManagerServiceImpl implements ManagerService {
     @Autowired
     private ManagerRepository managerRepository;
