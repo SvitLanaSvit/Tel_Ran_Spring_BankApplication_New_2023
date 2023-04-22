@@ -62,6 +62,18 @@ public class Account {
     @OneToMany(mappedBy = "creditAccount", cascade = {MERGE, PERSIST, REFRESH}, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Transaction> creditTransactions;
 
+    public Account(UUID id, String name, AccountType type, AccountStatus status, double balance, CurrencyCode currencyCode, Timestamp createdAt, Timestamp updatedAt, Client client) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.status = status;
+        this.balance = balance;
+        this.currencyCode = currencyCode;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.client = client;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
