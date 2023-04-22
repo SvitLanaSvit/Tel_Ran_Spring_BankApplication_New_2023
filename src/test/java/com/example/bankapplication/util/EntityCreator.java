@@ -21,34 +21,34 @@ public class EntityCreator {
         return manager;
     }
 
-//    public static Account getAccount(){
-//        Account account = new Account();
-//        account.setId(UUID.fromString("2c1a2a48-63f8-4931-bcf5-353f16fdbd7a"));
-//        account.setName("MyAccount");
-//        account.setType(AccountType.STUDENT);
-//        account.setStatus(AccountStatus.ACTIVE);
-//        account.setBalance(50);
-//        account.setCreatedAt(Timestamp.valueOf("2023-04-02 00:00:00"));
-//        account.setUpdatedAt(Timestamp.valueOf("2023-04-02 00:00:00"));
-//        account.setClient(getClient());
-//        return account;
-//    }
-//
-//    public static Client getClient(UUID managerId){
-//        Client client = new Client();
-//        client.setId(UUID.fromString("06edf03a-d58b-4b26-899f-f4ce69fb6b6f"));
-//        client.setStatus(ClientStatus.ACTIVE);
-//        client.setTaxCode("5658380715");
-//        client.setFirstName("Myles");
-//        client.setLastName("Mertz");
-//        client.setEmail("lionel.kassulke@gmail.com");
-//        client.setAddress("18485 Ronald Tunnel, Edmundoland, NC 91506-5269");
-//        client.setPhone("869-158-2533 x717");
-//        client.setCreatedAt(Timestamp.valueOf("2023-04-02 00:00:00"));
-//        client.setUpdatedAt(Timestamp.valueOf("2023-04-02 00:00:00"));
-//        client.setManager(getManager(managerId));
-//        return client;
-//    }
+    public static Account getAccount(UUID managerId){
+        Account account = new Account();
+        account.setId(UUID.fromString("2c1a2a48-63f8-4931-bcf5-353f16fdbd7a"));
+        account.setName("MyAccount");
+        account.setType(AccountType.STUDENT);
+        account.setStatus(AccountStatus.ACTIVE);
+        account.setBalance(50);
+        account.setCreatedAt(Timestamp.valueOf("2023-04-02 00:00:00"));
+        account.setUpdatedAt(Timestamp.valueOf("2023-04-02 00:00:00"));
+        account.setClient(getClient(managerId));
+        return account;
+    }
+
+    public static Client getClient(UUID managerId){
+        Client client = new Client();
+        client.setId(UUID.fromString("06edf03a-d58b-4b26-899f-f4ce69fb6b6f"));
+        client.setStatus(ClientStatus.ACTIVE);
+        client.setTaxCode("5658380715");
+        client.setFirstName("Myles");
+        client.setLastName("Mertz");
+        client.setEmail("lionel.kassulke@gmail.com");
+        client.setAddress("18485 Ronald Tunnel, Edmundoland, NC 91506-5269");
+        client.setPhone("869-158-2533 x717");
+        client.setCreatedAt(Timestamp.valueOf("2023-04-02 00:00:00"));
+        client.setUpdatedAt(Timestamp.valueOf("2023-04-02 00:00:00"));
+        client.setManager(getManager(managerId));
+        return client;
+    }
 
     public static Manager getManagerAfterDTO(UUID id, CreateManagerDTO dto){
         Manager manager = new Manager();
