@@ -10,6 +10,18 @@ ___
 ___
 ## Database structure
 
+### Table manager (Bank's managers table)
+
+| Column name | Type         | Description                                   |
+|-------------|--------------|-----------------------------------------------|
+| id          | binary(16)   | id key of row - unique, not null, primary key | 
+| first_name  | varchar(50)  | manager's name                                | 
+| last_name   | varchar(50)  | manager's surname                             | 
+| status      | varchar(50)  | manager's status from enum ManagerStatus      | 
+| created_at  | timestamp    | timestamp of row creation                     |
+| updated_at  | timestamp    | timestamp of last update                      | 
+
+
 ### Table client ( Bank's clients table )
 
 | Column name | Type        | Description                                   |
@@ -42,6 +54,19 @@ ___
 | client_id       | binary(16)    | client`s id FK references clients(id)   | 
 
 
+### Table transaction (Bank's transactions table) 
+
+| Column name        | Type          | Description                            |
+|--------------------|---------------|----------------------------------------|
+| id                 | binary(16)    | id key of entity - unique, not null, PK| 
+| type               | byte          | transaction type  -124 bis 125         | 
+| amount             | decimal(12,4) | transaction amount                     | 
+| description        | varchar(255)  | description of transaction             | 
+| created_at         | timestamp     | timestamp of entity creation           | 
+| debit_account_id   | binary(16)    | account`s id FK references accounts(id)| 
+| credit_account_id  | binary(16)    | account`s id FK references accounts(id)| 
+
+
 ### Table product (Bank's products table)
 
 | Column name   | Type          | Description                               |
@@ -69,29 +94,3 @@ ___
 | updated_at    | timestamp     | timestamp of last update                    | 
 | product_id    | binary(16)    | product's id FK references products(id)     |
 | account_id    | binary(16)    | client's FK references accounts(id)         | 
- 
-
-
-### Table transaction (Bank's transactions table) 
-
-| Column name        | Type          | Description                            |
-|--------------------|---------------|----------------------------------------|
-| id                 | binary(16)    | id key of entity - unique, not null, PK| 
-| type               | byte          | transaction type  -124 bis 125         | 
-| amount             | decimal(12,4) | transaction amount                     | 
-| description        | varchar(255)  | description of transaction             | 
-| created_at         | timestamp     | timestamp of entity creation           | 
-| debit_account_id   | binary(16)    | account`s id FK references accounts(id)| 
-| credit_account_id  | binary(16)    | account`s id FK references accounts(id)| 
-
-
-### Table manager (Bank's managers table)
-
-| Column name | Type         | Description                                   |
-|-------------|--------------|-----------------------------------------------|
-| id          | binary(16)   | id key of row - unique, not null, primary key | 
-| first_name  | varchar(50)  | manager's name                                | 
-| last_name   | varchar(50)  | manager's surname                             | 
-| status      | varchar(50)  | manager's status from enum ManagerStatus      | 
-| created_at  | timestamp    | timestamp of row creation                     |
-| updated_at  | timestamp    | timestamp of last update                      | 
