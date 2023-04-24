@@ -18,3 +18,21 @@ spring:
 app:
   server:
     url: ${app.server.url}
+
+springdoc:
+  webjars:
+    prefix:
+  swagger-ui:
+    path: "/"
+    disable-swagger-default-url: true
+    url: /v3/api-docs.yaml
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  prometheus:
+    metrics:
+      export:
+        enabled: true

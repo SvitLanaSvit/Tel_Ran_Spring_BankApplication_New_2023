@@ -19,13 +19,13 @@ public class ProductController {
     private final ProductService productService;
     private final RequestService requestService;
 
-    @RequestMapping("products/all")
+    @GetMapping("products/all")
     @ResponseStatus(HttpStatus.OK)
     public ProductListDTO getAll(){
         return productService.getAll();
     }
 
-    @RequestMapping("product/{id}")
+    @GetMapping("product/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ProductDTO getProductById(@PathVariable UUID id){
         return productService.getProductById(id);

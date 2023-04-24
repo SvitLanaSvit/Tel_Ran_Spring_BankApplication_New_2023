@@ -26,19 +26,19 @@ public class ManagerController {
         return managerService.create(manager);
     }
 
-    @RequestMapping("manager/{id:[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}}")
+    @GetMapping("manager/{id:[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}}")
     @ResponseStatus(HttpStatus.OK)
     public ManagerDTO getManagerById(@PathVariable UUID id){
         return managerService.getManagerById(id);
     }
 
-    @RequestMapping("managers")
+    @GetMapping("managers")
     @ResponseStatus(HttpStatus.OK)
     public ManagerListDTO getAllManagers(){
         return managerService.getManagersStatus();
     }
 
-    @RequestMapping("managers/status/{status}")
+    @GetMapping("managers/status/{status}")
     @ResponseStatus(HttpStatus.OK)
     public ManagerListDTO getAllManagersByStatus(@PathVariable String status){
         String statusUp = status.toUpperCase();
@@ -55,7 +55,7 @@ public class ManagerController {
         return managerService.editManagerById(id, dto);
     }
 
-    @RequestMapping("managers/all")
+    @GetMapping("managers/all")
     @ResponseStatus(HttpStatus.OK)
     public ManagerListDTO getAll(){
         return managerService.getAll();

@@ -26,13 +26,13 @@ public class ClientController {
         return clientService.createClient(dto);
     }
 
-    @RequestMapping("/client/{id}")
+    @GetMapping("/client/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ClientDTO getClientBiId(@PathVariable UUID id){
         return clientService.getClientById(id);
     }
 
-    @RequestMapping("/clients/active")
+    @GetMapping("/clients/active")
     @ResponseStatus(HttpStatus.OK)
     public ClientListDTO getAllClients(){
         return clientService.getClientsStatus();
@@ -50,7 +50,7 @@ public class ClientController {
         return clientService.editClientById(id, dto);
     }
 
-    @RequestMapping("clients/all")
+    @GetMapping("clients/all")
     @ResponseStatus(HttpStatus.OK)
     public ClientListDTO getAll(){
         return clientService.getAll();

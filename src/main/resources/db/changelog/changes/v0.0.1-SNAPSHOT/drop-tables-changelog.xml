@@ -28,12 +28,4 @@
         <dropTable tableName="managers"/>
     </changeSet>
 
-<!--    <changeSet id="drop-databasechangelog-table" author="svitlana_kizilpinar">-->
-<!--        <dropTable tableName="managers"/>-->
-<!--    </changeSet>-->
-
-<!--    <changeSet id="drop-databasechangeloglock-table" author="svitlana_kizilpinar">-->
-<!--        <dropTable tableName="managers"/>-->
-<!--    </changeSet>-->
-
 </databaseChangeLog>

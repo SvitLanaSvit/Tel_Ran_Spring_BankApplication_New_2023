@@ -13,33 +13,6 @@
         </insert>
     </changeSet>
 
-<!--    <changeSet id="insert manager2 data into managers table" author="svitlana_kizilpinar">-->
-<!--        <insert tableName="managers">-->
-<!--            <column name="id" valueComputed="UUID_TO_BIN('e3e299b1-f688-4a38-8f87-3f0f99db42f1')"/> &lt;!&ndash;&ndash;&gt;-->
-<!--            <column name="first_name" value="Prince"/>-->
-<!--            <column name="last_name" value="Armstrong"/>-->
-<!--            <column name="status" value="ACTIVE"/>-->
-<!--        </insert>-->
-<!--    </changeSet>-->
-
-<!--    <changeSet id="insert manager3 data into managers table" author="svitlana_kizilpinar">-->
-<!--        <insert tableName="managers">-->
-<!--            <column name="id" valueComputed="UUID_TO_BIN('027319ee-a260-43b7-89b9-6d101b369e25')"/> &lt;!&ndash;&ndash;&gt;-->
-<!--            <column name="first_name" value="Thaddeus"/>-->
-<!--            <column name="last_name" value="Bosco"/>-->
-<!--            <column name="status" value="ACTIVE"/>-->
-<!--        </insert>-->
-<!--    </changeSet>-->
-
-<!--    <changeSet id="insert manager4 data into managers table" author="svitlana_kizilpinar">-->
-<!--        <insert tableName="managers">-->
-<!--            <column name="id" valueComputed="UUID_TO_BIN('ac8b4751-db25-4d84-8e37-d831b8c89e0e')"/> &lt;!&ndash;&ndash;&gt;-->
-<!--            <column name="first_name" value="Hiroko"/>-->
-<!--            <column name="last_name" value="Murphy"/>-->
-<!--            <column name="status" value="ACTIVE"/>-->
-<!--        </insert>-->
-<!--    </changeSet>-->
-
     <changeSet id="insert client1 data into clients table" author="svitlana_kizilpinar">
         <insert tableName="clients">
             <column name="id" valueComputed="UUID_TO_BIN('34fe63b8-0958-49f3-b0c4-f9f50744a77f')"/> <!---->
@@ -68,34 +41,6 @@
         </insert>
     </changeSet>
 
-<!--    <changeSet id="insert client3 data into clients table" author="svitlana_kizilpinar">-->
-<!--        <insert tableName="clients">-->
-<!--            <column name="id" valueComputed="UUID_TO_BIN('9537ee8e-2c2b-4c80-8844-e4e574f184aa')"/> &lt;!&ndash;&ndash;&gt;-->
-<!--            <column name="status" value="ACTIVE"/>-->
-<!--            <column name="tax_code" value="8378236406"/>-->
-<!--            <column name="first_name" value="Rena"/>-->
-<!--            <column name="last_name" value="Mayer"/>-->
-<!--            <column name="email" value="johnie.moore@gmail.com"/>-->
-<!--            <column name="address" value="251 Angeline Shore, East Bee, SD 46391-3611"/>-->
-<!--            <column name="phone" value="(713) 007-8370 x1540"/>-->
-<!--            <column name="manager_id" valueComputed="UUID_TO_BIN('e3e299b1-f688-4a38-8f87-3f0f99db42f1')"/> &lt;!&ndash;&ndash;&gt;-->
-<!--        </insert>-->
-<!--    </changeSet>-->
-
-<!--    <changeSet id="insert client4 data into clients table" author="svitlana_kizilpinar">-->
-<!--        <insert tableName="clients">-->
-<!--            <column name="id" valueComputed="UUID_TO_BIN('13284528-8e80-4b28-9093-7e5170945f49')"/> &lt;!&ndash;&ndash;&gt;-->
-<!--            <column name="status" value="ACTIVE"/>-->
-<!--            <column name="tax_code" value="4777780858"/>-->
-<!--            <column name="first_name" value="Ismael"/>-->
-<!--            <column name="last_name" value="Casper"/>-->
-<!--            <column name="email" value="sandy.kirlin@hotmail.com"/>-->
-<!--            <column name="address" value="Suite 501 748 Brad Cliff, Lake Kirkfort, IN 60007"/>-->
-<!--            <column name="phone" value="1-448-184-3778 x107"/>-->
-<!--            <column name="manager_id" valueComputed="UUID_TO_BIN('e3e299b1-f688-4a38-8f87-3f0f99db42f1')"/> &lt;!&ndash;&ndash;&gt;-->
-<!--        </insert>-->
-<!--    </changeSet>-->
-
     <changeSet id="insert account1 data into accounts table" author="svitlana_kizilpinar">
         <insert tableName="accounts">
             <column name="id" valueComputed="UUID_TO_BIN('88fbc41b-b95d-4ec6-a4e5-6484021f64c1')"/>
@@ -120,30 +65,6 @@
         </insert>
     </changeSet>
 
-<!--    <changeSet id="insert account3 data into accounts table" author="svitlana_kizilpinar">-->
-<!--        <insert tableName="accounts">-->
-<!--            <column name="id" valueComputed="UUID_TO_BIN('886891ba-65bd-4b47-92ab-e0948ecdb1ae')"/>-->
-<!--            <column name="name" value="MyAccountI"/>-->
-<!--            <column name="type" value="ESCROW"/>-->
-<!--            <column name="status" value="ACTIVE"/>-->
-<!--            <column name="balance" value="50000.00"/>-->
-<!--            <column name="currency_code" value="USD"/>-->
-<!--            <column name="client_id" valueComputed="UUID_TO_BIN('9537ee8e-2c2b-4c80-8844-e4e574f184aa')"/>-->
-<!--        </insert>-->
-<!--    </changeSet>-->
-
-<!--    <changeSet id="insert account4 data into accounts table" author="svitlana_kizilpinar">-->
-<!--        <insert tableName="accounts">-->
-<!--            <column name="id" valueComputed="UUID_TO_BIN('9205b81d-0494-4089-a572-010d6bce966d')"/>-->
-<!--            <column name="name" value="MyAccountOk"/>-->
-<!--            <column name="type" value="ESCROW"/>-->
-<!--            <column name="status" value="ACTIVE"/>-->
-<!--            <column name="balance" value="500.00"/>-->
-<!--            <column name="currency_code" value="USD"/>-->
-<!--            <column name="client_id" valueComputed="UUID_TO_BIN('13284528-8e80-4b28-9093-7e5170945f49')"/>-->
-<!--        </insert>-->
-<!--    </changeSet>-->
-
     <changeSet id="insert transaction1 data into transactions table" author="svitlana_kizilpinar">
         <insert tableName="transactions">
             <column name="id" valueComputed="UUID_TO_BIN('d775ec6b-6bde-4259-b72d-d67d9f3b8a6f')"/>
@@ -154,39 +75,6 @@
             <column name="credit_account_id" valueComputed="UUID_TO_BIN('b58c054f-8572-43fe-a2bc-4165c76be5a3')"/>
         </insert>
     </changeSet>
-
-<!--    <changeSet id="insert transaction2 data into transactions table" author="svitlana_kizilpinar">-->
-<!--        <insert tableName="transactions">-->
-<!--            <column name="id" valueComputed="UUID_TO_BIN('48c3d1a5-3bb0-46d4-aa69-e5bb9dffcdb8')"/>-->
-<!--            <column name="type" value="PAYMENT"/>-->
-<!--            <column name="amount" value="50.00"/>-->
-<!--            <column name="description" value="Monthly rent payment"/>-->
-<!--            <column name="debit_account_id" valueComputed="UUID_TO_BIN('886891ba-65bd-4b47-92ab-e0948ecdb1ae')"/>-->
-<!--            <column name="credit_account_id" valueComputed="UUID_TO_BIN('b58c054f-8572-43fe-a2bc-4165c76be5a3')"/>-->
-<!--        </insert>-->
-<!--    </changeSet>-->
-
-<!--    <changeSet id="insert transaction3 data into transactions table" author="svitlana_kizilpinar">-->
-<!--        <insert tableName="transactions">-->
-<!--            <column name="id" valueComputed="UUID_TO_BIN('9911f584-b4b5-4a97-adc7-d1cc93082bfb')"/>-->
-<!--            <column name="type" value="PAYMENT"/>-->
-<!--            <column name="amount" value="150.00"/>-->
-<!--            <column name="description" value="Monthly rent payment"/>-->
-<!--            <column name="debit_account_id" valueComputed="UUID_TO_BIN('886891ba-65bd-4b47-92ab-e0948ecdb1ae')"/>-->
-<!--            <column name="credit_account_id" valueComputed="UUID_TO_BIN('9205b81d-0494-4089-a572-010d6bce966d')"/>-->
-<!--        </insert>-->
-<!--    </changeSet>-->
-
-<!--    <changeSet id="insert transaction4 data into transactions table" author="svitlana_kizilpinar">-->
-<!--        <insert tableName="transactions">-->
-<!--            <column name="id" valueComputed="UUID_TO_BIN('f7b9fccc-7e7e-4feb-add2-f3f42359c676')"/>-->
-<!--            <column name="type" value="PAYMENT"/>-->
-<!--            <column name="amount" value="30.00"/>-->
-<!--            <column name="description" value="Monthly rent payment"/>-->
-<!--            <column name="debit_account_id" valueComputed="UUID_TO_BIN('b58c054f-8572-43fe-a2bc-4165c76be5a3')"/>-->
-<!--            <column name="credit_account_id" valueComputed="UUID_TO_BIN('9205b81d-0494-4089-a572-010d6bce966d')"/>-->
-<!--        </insert>-->
-<!--    </changeSet>-->
 
     <changeSet id="insert product1 data into products table" author="svitlana_kizilpinar">
         <insert tableName="products">
@@ -200,42 +88,6 @@
         </insert>
     </changeSet>
 
-<!--    <changeSet id="insert product2 data into products table" author="svitlana_kizilpinar">-->
-<!--        <insert tableName="products">-->
-<!--            <column name="id" valueComputed="UUID_TO_BIN('d2fe624e-53bc-4112-827d-e98ea7c10aee')"/>-->
-<!--            <column name="name" value="Heavy Duty Aluminum Knife Bank Product"/>-->
-<!--            <column name="status" value="ACTIVE"/>-->
-<!--            <column name="currency_code" value="USD"/>-->
-<!--            <column name="interest_rate" value="0.05"/>-->
-<!--            <column name="limit" value="500"/>-->
-<!--            <column name="manager_id" valueComputed="UUID_TO_BIN('e3e299b1-f688-4a38-8f87-3f0f99db42f1')"/>-->
-<!--        </insert>-->
-<!--    </changeSet>-->
-
-<!--    <changeSet id="insert product3 data into products table" author="svitlana_kizilpinar">-->
-<!--        <insert tableName="products">-->
-<!--            <column name="id" valueComputed="UUID_TO_BIN('7b72d947-cbfd-4aca-bd08-e599bd8ff0dc')"/>-->
-<!--            <column name="name" value="Practical Paper Shirt Bank Product"/>-->
-<!--            <column name="status" value="ACTIVE"/>-->
-<!--            <column name="currency_code" value="USD"/>-->
-<!--            <column name="interest_rate" value="0.05"/>-->
-<!--            <column name="limit" value="200"/>-->
-<!--            <column name="manager_id" valueComputed="UUID_TO_BIN('027319ee-a260-43b7-89b9-6d101b369e25')"/>-->
-<!--        </insert>-->
-<!--    </changeSet>-->
-
-<!--    <changeSet id="insert product4 data into products table" author="svitlana_kizilpinar">-->
-<!--        <insert tableName="products">-->
-<!--            <column name="id" valueComputed="UUID_TO_BIN('9af1559f-fb62-41ea-b1aa-9af323e0b662')"/>-->
-<!--            <column name="name" value="Enormous Steel Gloves Bank Product"/>-->
-<!--            <column name="status" value="ACTIVE"/>-->
-<!--            <column name="currency_code" value="USD"/>-->
-<!--            <column name="interest_rate" value="0.05"/>-->
-<!--            <column name="limit" value="100"/>-->
-<!--            <column name="manager_id" valueComputed="UUID_TO_BIN('ac8b4751-db25-4d84-8e37-d831b8c89e0e')"/>-->
-<!--        </insert>-->
-<!--    </changeSet>-->
-
     <changeSet id="insert agreement1 data into agreements table" author="svitlana_kizilpinar">
         <insert tableName="agreements">
             <column name="id" valueComputed="UUID_TO_BIN('52af6550-ed15-4c72-bdab-3fdf44bc9b95')" />
@@ -246,38 +98,5 @@
             <column name="account_id" valueComputed="UUID_TO_BIN('88fbc41b-b95d-4ec6-a4e5-6484021f64c1')" />
         </insert>
     </changeSet>
-
-<!--    <changeSet id="insert agreement2 data into agreements table" author="svitlana_kizilpinar">-->
-<!--        <insert tableName="agreements">-->
-<!--            <column name="id" valueComputed="UUID_TO_BIN('15cf7718-d991-44fa-8bce-3836191d0516')" />-->
-<!--            <column name="interest_rate" value="0.025" />-->
-<!--            <column name="status" value="ACTIVE" />-->
-<!--            <column name="sum" value="10000.00" />-->
-<!--            <column name="product_id" valueComputed="UUID_TO_BIN('d2fe624e-53bc-4112-827d-e98ea7c10aee')" />-->
-<!--            <column name="account_id" valueComputed="UUID_TO_BIN('b58c054f-8572-43fe-a2bc-4165c76be5a3')" />-->
-<!--        </insert>-->
-<!--    </changeSet>-->
-
-<!--    <changeSet id="insert agreement3 data into agreements table" author="svitlana_kizilpinar">-->
-<!--        <insert tableName="agreements">-->
-<!--            <column name="id" valueComputed="UUID_TO_BIN('f502bbb1-dd48-4a00-a76c-a1dcc3055792')" />-->
-<!--            <column name="interest_rate" value="0.025" />-->
-<!--            <column name="status" value="ACTIVE" />-->
-<!--            <column name="sum" value="5500.00" />-->
-<!--            <column name="product_id" valueComputed="UUID_TO_BIN('7b72d947-cbfd-4aca-bd08-e599bd8ff0dc')" />-->
-<!--            <column name="account_id" valueComputed="UUID_TO_BIN('886891ba-65bd-4b47-92ab-e0948ecdb1ae')" />-->
-<!--        </insert>-->
-<!--    </changeSet>-->
-
-<!--    <changeSet id="insert agreement4 data into agreements table" author="svitlana_kizilpinar">-->
-<!--        <insert tableName="agreements">-->
-<!--            <column name="id" valueComputed="UUID_TO_BIN('fdffe7c7-7eb1-4a4b-8cb5-e70a35e03baa')" />-->
-<!--            <column name="interest_rate" value="0.040" />-->
-<!--            <column name="status" value="ACTIVE" />-->
-<!--            <column name="sum" value="25000.00" />-->
-<!--            <column name="product_id" valueComputed="UUID_TO_BIN('9af1559f-fb62-41ea-b1aa-9af323e0b662')" />-->
-<!--            <column name="account_id" valueComputed="UUID_TO_BIN('9205b81d-0494-4089-a572-010d6bce966d')" />-->
-<!--        </insert>-->
-<!--    </changeSet>-->
 
 </databaseChangeLog>

@@ -47,7 +47,7 @@ public class AccountController {
         return accountService.editAccountById(id, dto);
     }
 
-    @RequestMapping("accounts/all")
+    @GetMapping("accounts/all")
     @ResponseStatus(HttpStatus.OK)
     public AccountListDTO getAll(){
         return accountService.getAll();
