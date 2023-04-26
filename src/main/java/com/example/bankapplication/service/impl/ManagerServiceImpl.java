@@ -20,11 +20,12 @@ import java.util.UUID;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class ManagerServiceImpl implements ManagerService {
-    @Autowired
-    private ManagerRepository managerRepository;
-    @Autowired
-    private ManagerMapper managerMapper;
+
+    private final ManagerRepository managerRepository;
+
+    private final ManagerMapper managerMapper;
 
     @Override
     @Transactional
