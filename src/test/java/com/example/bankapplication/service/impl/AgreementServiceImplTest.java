@@ -95,7 +95,7 @@ class AgreementServiceImplTest {
     }
 
     @Test
-    void editAgreementById() {
+    void testEditAgreementById() {
         CreateAgreementDTO createAgreementDTO = DTOCreator.getAgreementToCreate();
         Agreement agreement = EntityCreator.getAgreement(UUID.randomUUID());
         AgreementDTO expectedAgreementDTO = DTOCreator.getAgreementDTO();
@@ -111,7 +111,8 @@ class AgreementServiceImplTest {
         AgreementDTO actualAgreementDTO = agreementService.editAgreementById(UUID.randomUUID(), createAgreementDTO);
 
         verify(agreementRepository, times(1)).findAgreementById(any(UUID.class));
-        verify(agreementRepository, times(1)).save(any(Agreement.class));
+        verify(accountRepository,times(1)).findAccountById(any(UUID.class));
+        verify(productRepository, times(1)).findProductById(any(UUID.class));
 
         assertEquals(expectedAgreementDTO.getId(), actualAgreementDTO.getId());
         assertEquals(expectedAgreementDTO.getProductId(), actualAgreementDTO.getProductId());
@@ -119,7 +120,7 @@ class AgreementServiceImplTest {
     }
 
     @Test
-    void deleteAgreementById() {
+    void testDeleteAgreementById() {
         UUID agreementId = UUID.randomUUID();
         when(agreementRepository.findAgreementById(any(UUID.class)))
                 .thenReturn(Optional.of(EntityCreator.getAgreement(UUID.randomUUID())));
@@ -127,5 +128,6 @@ class AgreementServiceImplTest {
         agreementService.deleteAgreementById(agreementId);
 
         verify(agreementRepository, times(1)).deleteById(agreementId);
+        verify(agreementRepository, times(1)).findAgreementById(agreementId);
     }
 }

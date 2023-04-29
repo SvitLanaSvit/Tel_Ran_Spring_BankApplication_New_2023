@@ -2,6 +2,7 @@ package com.example.bankapplication.util;
 
 import com.example.bankapplication.dto.CreateAccountDTO;
 import com.example.bankapplication.dto.CreateAgreementDTO;
+import com.example.bankapplication.dto.CreateClientDTO;
 import com.example.bankapplication.dto.CreateManagerDTO;
 import com.example.bankapplication.entity.*;
 import com.example.bankapplication.entity.enums.*;
@@ -131,5 +132,21 @@ public class EntityCreator {
         agreement.setProduct(EntityCreator.getProduct(UUID.randomUUID()));
         agreement.setAccount(EntityCreator.getAccount(UUID.randomUUID()));
         return agreement;
+    }
+
+    public static Client getClientAfterDTO(UUID id, CreateClientDTO createClientDTO){
+        Client client = new Client();
+        client.setId(id);
+        client.setStatus(ClientStatus.valueOf(createClientDTO.getStatus()));
+        client.setTaxCode(createClientDTO.getTaxCode());
+        client.setFirstName(createClientDTO.getFirstName());
+        client.setLastName(createClientDTO.getLastName());
+        client.setEmail(createClientDTO.getEmail());
+        client.setAddress(createClientDTO.getAddress());
+        client.setPhone(createClientDTO.getPhone());
+        client.setCreatedAt(createClientDTO.getCreatedAt());
+        client.setUpdatedAt(createClientDTO.getUpdatedAt());
+        client.setManager(getManager(createClientDTO.getManagerId()));
+        return  client;
     }
 }

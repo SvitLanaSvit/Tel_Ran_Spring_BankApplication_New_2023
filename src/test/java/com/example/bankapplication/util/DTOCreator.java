@@ -113,6 +113,21 @@ public class DTOCreator {
         );
     }
 
+    public static CreateClientDTO getClientToCreate(){
+        return  new CreateClientDTO(
+                "ACTIVE",
+                "5658380715",
+                "Myles",
+                "Mertz",
+                "lionel.kassulke@gmail.com",
+                "18485 Ronald Tunnel, Edmundoland, NC 91506-5269",
+                "869-158-2533 x717",
+                Timestamp.valueOf("2023-04-02 00:00:00"),
+                Timestamp.valueOf("2023-04-02 00:00:00"),
+                UUID.fromString("08608780-7143-4306-a92f-1937bbcbdebd")
+        );
+    }
+
     public static CreateManagerDTO getManagerToCreateWithCreateDate(){
         return new CreateManagerDTO(
                 "John",
