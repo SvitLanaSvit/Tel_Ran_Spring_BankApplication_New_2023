@@ -101,6 +101,18 @@ public class DTOCreator {
         );
     }
 
+    public static CreateAgreementDTO getAgreementToCreate(){
+        return new CreateAgreementDTO(
+                "0.004",
+                "ACTIVE",
+                "10.0",
+                Timestamp.valueOf("2023-04-02 00:00:00"),
+                Timestamp.valueOf("2023-04-02 00:00:00"),
+                UUID.fromString("6006ec9c-41a0-4fa1-b8b9-17b4c13347e6"),
+                UUID.fromString("2c1a2a48-63f8-4931-bcf5-353f16fdbd7a")
+        );
+    }
+
     public static CreateManagerDTO getManagerToCreateWithCreateDate(){
         return new CreateManagerDTO(
                 "John",

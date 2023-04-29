@@ -95,6 +95,7 @@ class AccountServiceImplTest {
         assertEquals(expectedAccountDTO.getStatus(), actualAccountDTO.getStatus());
         assertEquals(expectedAccountDTO.getCreatedAt(), actualAccountDTO.getCreatedAt());
         assertEquals(expectedAccountDTO.getUpdatedAt(), actualAccountDTO.getUpdatedAt());
+        assertEquals(expectedAccountDTO.getClientId(), actualAccountDTO.getClientId());
     }
 
     @Test
