@@ -1,5 +1,6 @@
 package com.example.bankapplication.util;
 
+import com.example.bankapplication.dto.CreateAccountDTO;
 import com.example.bankapplication.dto.CreateManagerDTO;
 import com.example.bankapplication.entity.*;
 import com.example.bankapplication.entity.enums.*;
@@ -102,6 +103,19 @@ public class EntityCreator {
         manager.setCreatedAt(dto.getCreatedAt());
         manager.setUpdatedAt(dto.getUpdatedAt());
         return manager;
+    }
+
+    public static Account getAccountAfterDTO(UUID id, CreateAccountDTO dto){
+        Account account = new Account();
+        account.setId(id);
+        account.setName(dto.getName());
+        account.setType(AccountType.valueOf(dto.getType()));
+        account.setStatus(AccountStatus.valueOf(dto.getStatus()));
+        account.setBalance(Double.parseDouble(dto.getBalance()));
+        account.setCurrencyCode(CurrencyCode.valueOf(dto.getCurrencyCode()));
+        account.setCreatedAt(dto.getCreatedAt());
+        account.setUpdatedAt(dto.getUpdatedAt());
+        return account;
     }
 
 

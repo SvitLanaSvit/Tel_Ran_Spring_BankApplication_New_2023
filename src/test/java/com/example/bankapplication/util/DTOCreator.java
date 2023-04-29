@@ -88,6 +88,19 @@ public class DTOCreator {
         );
     }
 
+    public static CreateAccountDTO getAccountToCreate(){
+        return new CreateAccountDTO(
+                "MyAccount",
+                "STUDENT",
+                "ACTIVE",
+                "50.0",
+                "USD",
+                Timestamp.valueOf("2023-04-02 00:00:00"),
+                Timestamp.valueOf("2023-04-02 00:00:00"),
+                UUID.fromString("06edf03a-d58b-4b26-899f-f4ce69fb6b6f")
+        );
+    }
+
     public static CreateManagerDTO getManagerToCreateWithCreateDate(){
         return new CreateManagerDTO(
                 "John",

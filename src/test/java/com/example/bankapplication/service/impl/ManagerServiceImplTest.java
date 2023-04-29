@@ -141,6 +141,7 @@ class ManagerServiceImplTest {
     }
 
     @Test
+    @DisplayName("Positive test. Found all managers by status ACTIVE.")
     public void testGetAllManagersByStatus() {
         UUID id = UUID.randomUUID();
         List<Manager> managerList = new ArrayList<>();
