@@ -27,7 +27,7 @@ class TransactionRepositoryTest {
     @DisplayName("Positive test. Find all transactions.")
     void testFindAll() {
         List<Transaction> transactions = new ArrayList<>(List.of(
-                EntityCreator.getTransaction(UUID.randomUUID())
+                EntityCreator.getTransaction()
         ));
 
         when(transactionRepository.findAll()).thenReturn(transactions);
@@ -40,7 +40,7 @@ class TransactionRepositoryTest {
     @Test
     @DisplayName("Positive test. Find transaction by id.")
     void findTransactionById() {
-        Transaction transaction = EntityCreator.getTransaction(UUID.randomUUID());
+        Transaction transaction = EntityCreator.getTransaction();
 
         when(transactionRepository.findTransactionById(transaction.getId())).thenReturn(Optional.of(transaction));
         Optional<Transaction> foundTransaction = transactionRepository.findTransactionById(transaction.getId());

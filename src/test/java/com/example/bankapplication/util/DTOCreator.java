@@ -78,6 +78,18 @@ public class DTOCreator {
         );
     }
 
+    public static TransactionDTO getTransactionDTO(){
+        return new TransactionDTO(
+                "72779690-8d70-43cf-97a8-d3e7b9076337",
+                "PAYMENT",
+                "100.0",
+                "Monthly rent payment",
+                Timestamp.valueOf("2023-04-02 00:00:00"),
+                "2c1a2a48-63f8-4931-bcf5-353f16fdbd7a",
+                "2c1a2a48-63f8-4931-bcf5-353f16fdbd7a"
+        );
+    }
+
     public static CreateManagerDTO getManagerToCreate(){
         return new CreateManagerDTO(
                 "John",
@@ -125,6 +137,30 @@ public class DTOCreator {
                 Timestamp.valueOf("2023-04-02 00:00:00"),
                 Timestamp.valueOf("2023-04-02 00:00:00"),
                 UUID.fromString("08608780-7143-4306-a92f-1937bbcbdebd")
+        );
+    }
+
+    public static CreateProductDTO getProductToCreate(){
+        return new CreateProductDTO(
+                "Incredible Bronze Wallet Bank Product",
+                "ACTIVE",
+                "USD",
+                "0.05",
+                "100",
+                Timestamp.valueOf("2023-04-02 00:00:00"),
+                Timestamp.valueOf("2023-04-02 00:00:00"),
+                UUID.fromString("08608780-7143-4306-a92f-1937bbcbdebd")
+        );
+    }
+
+    public static CreateTransactionDTO getTransactionToCreate(){
+        return new CreateTransactionDTO(
+                "PAYMENT",
+                "100.0",
+                "Monthly rent payment",
+                Timestamp.valueOf("2023-04-02 00:00:00"),
+                UUID.fromString("2c1a2a48-63f8-4931-bcf5-353f16fdbd7a"),
+                UUID.fromString("2c1a2a48-63f8-4931-bcf5-353f16fdbd7a")
         );
     }
 
@@ -202,15 +238,5 @@ public class DTOCreator {
         );
     }
 
-    public static TransactionDTO getTransactionDTO(UUID id){
-        return new TransactionDTO(
-               id.toString(),
-               "PAYMENT",
-               "100.0",
-                "Monthly rent payment",
-                Timestamp.valueOf("2023-04-02 00:00:00"),
-                null,
-                null
-        );
-    }
+
 }

@@ -21,8 +21,7 @@ class TransactionMapperTest {
     @Test
     @DisplayName("Positive test. When we have correct entity then return correct TransactionDto")
     void testToDTO() {
-        UUID id = UUID.randomUUID();
-        Transaction transaction = EntityCreator.getTransaction(id);
+        Transaction transaction = EntityCreator.getTransaction();
         TransactionDTO transactionDTO = transactionMapper.toDTO(transaction);
 
         compareEntityWithDto(transaction, transactionDTO);
@@ -31,8 +30,7 @@ class TransactionMapperTest {
     @Test
     @DisplayName("Positive test. When we have correct TransactionDto then return correct entity")
     void testToEntity() {
-        UUID id = UUID.randomUUID();
-        TransactionDTO transactionDTO = DTOCreator.getTransactionDTO(id);
+        TransactionDTO transactionDTO = DTOCreator.getTransactionDTO();
         Transaction transaction = transactionMapper.toEntity(transactionDTO);
 
         compareEntityWithDto(transaction, transactionDTO);
@@ -43,7 +41,7 @@ class TransactionMapperTest {
     void testTransactionsToTransactionsDTO() {
         UUID id = UUID.randomUUID();
         List<Transaction> transactionList = new ArrayList<>();
-        transactionList.add(EntityCreator.getTransaction(id));
+        transactionList.add(EntityCreator.getTransaction());
 
         List<TransactionDTO> transactionDTOList = transactionMapper.transactionsToTransactionsDTO(transactionList);
         compareManagerListWithListDto(transactionList, transactionDTOList);

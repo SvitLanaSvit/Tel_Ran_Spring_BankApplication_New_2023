@@ -1,9 +1,6 @@
 package com.example.bankapplication.util;
 
-import com.example.bankapplication.dto.CreateAccountDTO;
-import com.example.bankapplication.dto.CreateAgreementDTO;
-import com.example.bankapplication.dto.CreateClientDTO;
-import com.example.bankapplication.dto.CreateManagerDTO;
+import com.example.bankapplication.dto.*;
 import com.example.bankapplication.entity.*;
 import com.example.bankapplication.entity.enums.*;
 import lombok.Builder;
@@ -82,17 +79,15 @@ public class EntityCreator {
         return product;
     }
 
-    public static Transaction getTransaction(UUID id){
+    public static Transaction getTransaction(){
         Transaction transaction = new Transaction();
-        var creditAccount = mock(Account.class);
-        var debitAccount = mock(Account.class);
-        transaction.setId(id);
+        transaction.setId(UUID.fromString("72779690-8d70-43cf-97a8-d3e7b9076337"));
         transaction.setType(TransactionType.PAYMENT);
         transaction.setAmount(100.0);
         transaction.setDescription("Monthly rent payment");
         transaction.setCreatedAt(Timestamp.valueOf("2023-04-02 00:00:00"));
-        transaction.setDebitAccount(debitAccount);
-        transaction.setCreditAccount(creditAccount);
+        transaction.setDebitAccount(getAccount(UUID.randomUUID()));
+        transaction.setCreditAccount(getAccount(UUID.randomUUID()));
         return transaction;
     }
 
@@ -148,5 +143,31 @@ public class EntityCreator {
         client.setUpdatedAt(createClientDTO.getUpdatedAt());
         client.setManager(getManager(createClientDTO.getManagerId()));
         return  client;
+    }
+
+    public static Product getProductAfterDTO(UUID id, CreateProductDTO createProductDTO){
+        Product product = new Product();
+        product.setId(id);
+        product.setName(createProductDTO.getName());
+        product.setStatus(ProductStatus.valueOf(createProductDTO.getStatus()));
+        product.setCurrencyCode(CurrencyCode.valueOf(createProductDTO.getCurrencyCode()));
+        product.setInterestRate(Double.parseDouble(createProductDTO.getInterestRate()));
+        product.setProductLimit(Integer.parseInt(createProductDTO.getProductLimit()));
+        product.setCreatedAt(createProductDTO.getCreatedAt());
+        product.setUpdatedAt(createProductDTO.getUpdatedAt());
+        product.setManager(getManager(createProductDTO.getManagerId()));
+        return product;
+    }
+
+    public static Transaction getTransactionAfterDTO(UUID id, CreateTransactionDTO createTransactionDTO){
+        Transaction transaction = new Transaction();
+        transaction.setId(id);
+        transaction.setType(TransactionType.valueOf(createTransactionDTO.getType()));
+        transaction.setAmount(Double.parseDouble(createTransactionDTO.getAmount()));
+        transaction.setDescription(createTransactionDTO.getDescription());
+        transaction.setCreatedAt(createTransactionDTO.getCreatedAt());
+        transaction.setDebitAccount(getAccount(UUID.randomUUID()));
+        transaction.setCreditAccount(getAccount(UUID.randomUUID()));
+        return transaction;
     }
 }

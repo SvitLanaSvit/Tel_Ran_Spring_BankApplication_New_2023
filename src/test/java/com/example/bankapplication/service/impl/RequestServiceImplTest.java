@@ -1,32 +1,37 @@
 package com.example.bankapplication.service.impl;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(MockitoExtension.class)
+@DisplayName("Test class for RequestServiceImpl")
 class RequestServiceImplTest {
 
     @Test
-    void findAccountsByProductIdAndStatus() {
+    void testFindAccountsByProductIdAndStatus() {
     }
 
     @Test
-    void findAgreementsByManagerId() {
+    void testFindAgreementsByManagerId() {
     }
 
     @Test
-    void findAgreementByClientId() {
+    void testFindAgreementByClientId() {
     }
 
     @Test
-    void findClientsWhereBalanceMoreThan() {
+    void testFindClientsWhereBalanceMoreThan() {
     }
 
     @Test
-    void findAllManagersSortedByProductQuantity() {
+    void testFindAllManagersSortedByProductQuantity() {
     }
 
     @Test
-    void findAllChangedProducts() {
+    void testFindAllChangedProducts() {
     }
 }
