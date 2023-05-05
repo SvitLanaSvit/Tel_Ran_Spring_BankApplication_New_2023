@@ -46,13 +46,13 @@ class ClientControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    CreateClientDTO createClientDTO;
-    ClientDTO clientDTO;
-    UUID uuid;
-    List<ClientDTO> clientDTOList;
-    ClientListDTO clientListDTO;
-    ClientInfoDTO clientInfoDTO;
-    List<ClientInfoDTO> clientInfoDTOList;
+    private CreateClientDTO createClientDTO;
+    private ClientDTO clientDTO;
+    private UUID uuid;
+    private List<ClientDTO> clientDTOList;
+    private ClientListDTO clientListDTO;
+    private ClientInfoDTO clientInfoDTO;
+    private List<ClientInfoDTO> clientInfoDTOList;
 
     @BeforeEach
     void setUp(){

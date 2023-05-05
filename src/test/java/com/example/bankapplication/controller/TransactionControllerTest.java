@@ -39,11 +39,12 @@ class TransactionControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-    TransactionDTO transactionDTO;
-    List<TransactionDTO> transactionDTOList;
-    TransactionListDTO transactionListDTO;
-    UUID uuid;
-    CreateTransactionDTO createTransactionDTO;
+
+    private TransactionDTO transactionDTO;
+    private List<TransactionDTO> transactionDTOList;
+    private TransactionListDTO transactionListDTO;
+    private UUID uuid;
+    private CreateTransactionDTO createTransactionDTO;
 
     @BeforeEach
     void setUp(){

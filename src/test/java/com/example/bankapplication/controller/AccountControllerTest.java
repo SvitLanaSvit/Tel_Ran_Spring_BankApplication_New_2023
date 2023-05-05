@@ -47,13 +47,13 @@ class AccountControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    UUID uuid;
-    CreateAccountDTO createAccountDTO;
-    AccountDTO accountDTO;
-    List<AccountDTO> list;
-    AccountListDTO accountListDTO;
-    AccountIdDTO accountIdDTO;
-    List<AccountIdDTO> accountIdDTOList;
+    private UUID uuid;
+    private CreateAccountDTO createAccountDTO;
+    private AccountDTO accountDTO;
+    private List<AccountDTO> list;
+    private AccountListDTO accountListDTO;
+    private AccountIdDTO accountIdDTO;
+    private List<AccountIdDTO> accountIdDTOList;
 
     @BeforeEach
     void setUp(){

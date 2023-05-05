@@ -42,15 +42,15 @@ class ManagerControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-    CreateManagerDTO createManagerDTO;
-    ManagerDTO managerDTO;
-    UUID uuid;
-    List<ManagerDTO> managerDTOList;
-    ManagerListDTO managerListDTO;
-    ManagerStatus status;
 
-    ManagerInfoDTO managerInfoDTO;
-    List<ManagerInfoDTO> managerInfoDTOList;
+    private CreateManagerDTO createManagerDTO;
+    private ManagerDTO managerDTO;
+    private UUID uuid;
+    private List<ManagerDTO> managerDTOList;
+    private ManagerListDTO managerListDTO;
+    private ManagerStatus status;
+    private ManagerInfoDTO managerInfoDTO;
+    private List<ManagerInfoDTO> managerInfoDTOList;
 
     @BeforeEach
     void setUp(){

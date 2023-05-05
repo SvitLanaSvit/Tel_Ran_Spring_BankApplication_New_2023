@@ -44,11 +44,12 @@ class ProductControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-    ProductDTO productDTO;
-    List<ProductDTO> productDTOList;
-    ProductListDTO productListDTO;
-    UUID uuid;
-    CreateProductDTO createProductDTO;
+
+    private  ProductDTO productDTO;
+    private List<ProductDTO> productDTOList;
+    private ProductListDTO productListDTO;
+    private UUID uuid;
+    private CreateProductDTO createProductDTO;
 
     @BeforeEach
     void setUp(){

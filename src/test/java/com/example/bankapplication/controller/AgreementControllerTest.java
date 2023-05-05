@@ -47,13 +47,13 @@ class AgreementControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    AgreementListDTO agreementListDTO;
-    List<AgreementDTO> agreementDTOList;
-    AgreementDTO agreementDTO;
-    UUID uuid;
-    CreateAgreementDTO createAgreementDTO;
-    AgreementIdDTO agreementIdDTO;
-    List<AgreementIdDTO> agreementIdDTOList;
+    private AgreementListDTO agreementListDTO;
+    private List<AgreementDTO> agreementDTOList;
+    private AgreementDTO agreementDTO;
+    private UUID uuid;
+    private CreateAgreementDTO createAgreementDTO;
+    private AgreementIdDTO agreementIdDTO;
+    private List<AgreementIdDTO> agreementIdDTOList;
 
     @BeforeEach
     void setUp(){
