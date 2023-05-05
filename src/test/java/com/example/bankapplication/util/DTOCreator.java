@@ -1,13 +1,9 @@
 package com.example.bankapplication.util;
 
 import com.example.bankapplication.dto.*;
-import com.example.bankapplication.entity.Manager;
-import com.example.bankapplication.entity.enums.*;
 
 import java.sql.Timestamp;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 public class DTOCreator {
     public static ManagerDTO getManagerDTO(UUID id){
@@ -87,6 +83,12 @@ public class DTOCreator {
                 Timestamp.valueOf("2023-04-02 00:00:00"),
                 "2c1a2a48-63f8-4931-bcf5-353f16fdbd7a",
                 "2c1a2a48-63f8-4931-bcf5-353f16fdbd7a"
+        );
+    }
+
+    public static AccountIdDTO getAccountIdDTO(){
+        return new AccountIdDTO(
+                UUID.fromString("2c1a2a48-63f8-4931-bcf5-353f16fdbd7a")
         );
     }
 

@@ -1,9 +1,7 @@
 package com.example.bankapplication.mapper;
 
-import com.example.bankapplication.dto.AccountDTO;
 import com.example.bankapplication.dto.AgreementDTO;
 import com.example.bankapplication.dto.CreateAgreementDTO;
-import com.example.bankapplication.entity.Account;
 import com.example.bankapplication.entity.Agreement;
 import com.example.bankapplication.util.DTOCreator;
 import com.example.bankapplication.util.EntityCreator;

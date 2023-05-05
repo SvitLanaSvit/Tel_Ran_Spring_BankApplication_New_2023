@@ -1,104 +1,193 @@
 package com.example.bankapplication.controller;
 
-import com.example.bankapplication.entity.Account;
-import com.example.bankapplication.repository.AccountRepository;
+import com.example.bankapplication.dto.AccountDTO;
+import com.example.bankapplication.dto.AccountIdDTO;
+import com.example.bankapplication.dto.AccountListDTO;
+import com.example.bankapplication.dto.CreateAccountDTO;
+import com.example.bankapplication.entity.enums.ProductStatus;
 import com.example.bankapplication.service.AccountService;
-import com.example.bankapplication.util.EntityCreator;
-import jakarta.persistence.EntityManagerFactory;
-import liquibase.integration.spring.SpringLiquibase;
+import com.example.bankapplication.service.RequestService;
+import com.example.bankapplication.util.DTOCreator;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import javax.sql.DataSource;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
-@SpringBootTest
-@AutoConfigureMockMvc
+@ExtendWith(SpringExtension.class)
+@WebMvcTest(controllers = AccountController.class)
 class AccountControllerTest {
-    @MockBean
-    SpringLiquibase springLiquibase;
-
-    @MockBean
-    DataSource dataSource;
-
-    @MockBean
-    EntityManagerFactory entityManagerFactory;
 
     @Autowired
-    private MockMvc mockMvc;
+    private  MockMvc mockMvc;
 
-    @Autowired
+    @MockBean
     private AccountService accountService;
 
     @MockBean
-    private AccountRepository accountRepository;
+    private RequestService requestService;
 
     @Autowired
-    private AccountController accountController;
+    private ObjectMapper objectMapper;
+
+    UUID uuid;
+    CreateAccountDTO createAccountDTO;
+    AccountDTO accountDTO;
+    List<AccountDTO> list;
+    AccountListDTO accountListDTO;
+    AccountIdDTO accountIdDTO;
+    List<AccountIdDTO> accountIdDTOList;
+
+    @BeforeEach
+    void setUp(){
+       uuid = UUID.randomUUID();
+       createAccountDTO = DTOCreator.getAccountToCreate();
+       accountDTO = DTOCreator.getAccountDTO();
+       list = new ArrayList<>(List.of(DTOCreator.getAccountDTO()));
+       accountListDTO = new AccountListDTO(list);
+       accountIdDTO = DTOCreator.getAccountIdDTO();
+       accountIdDTOList = new ArrayList<>(List.of(accountIdDTO));
+    }
 
     @Test
     void testCreateAccount() throws Exception {
-        Account account = EntityCreator.getAccount(UUID.randomUUID());
-        String str = """
-                {
-                     "id": "88fbc41b-b95d-4ec6-a4e5-6484021f64c1",
-                     "name": "MyAccount",
-                     "type": "STUDENT",
-                     "status": "ACTIVE",
-                     "balance": "5000.0",
-                     "currencyCode": "USD",
-                     "createdAt": "null",
-                     "updatedAt": null,
-                     "clientId": "34fe63b8-0958-49f3-b0c4-f9f50744a77f"
-                 }
-                """;
-
-        when(accountRepository.save(any())).thenReturn(account);
-
-        mockMvc.perform(MockMvcRequestBuilders
+        RequestBuilder request = MockMvcRequestBuilders
                 .post("/auth/createAccount")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(str)
-        ).andExpect(status().isOk())
-                .andExpect(jsonPath("$.type", is("STUDENT")));
+                .content(objectMapper.writeValueAsString(createAccountDTO));
 
+        when(accountService.createAccount(any(CreateAccountDTO.class))).thenReturn(accountDTO);
+        System.out.println(createAccountDTO);
+        System.out.println(accountDTO);
 
+        mockMvc.perform(request).andExpect(status().isOk());
+        verify(accountService, times(1)).createAccount(any(CreateAccountDTO.class));
     }
 
     @Test
-    void getAccountById() {
+    void testGetAccountById() throws Exception {
+        RequestBuilder request = MockMvcRequestBuilders
+                .get("/auth/account/{id}", uuid)
+                .contentType(MediaType.APPLICATION_JSON);
+
+        when(accountService.getAccountById(any(UUID.class))).thenReturn(accountDTO);
+
+        var mvcResult = mockMvc.perform(request).andExpect(status().isOk()).andReturn();
+        AccountDTO actualAccount = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), AccountDTO.class);
+        compareDTO(accountDTO, actualAccount);
+        verify(accountService, times(1)).getAccountById(any(UUID.class));
     }
 
     @Test
-    void getAllAccounts() {
+    void testGetAllAccounts() throws Exception {
+        RequestBuilder request = MockMvcRequestBuilders
+                .get("/auth/accounts")
+                .contentType(MediaType.APPLICATION_JSON);
+
+        when(accountService.getAllAccountsStatus()).thenReturn(accountListDTO);
+
+        var mvcResult = mockMvc.perform(request).andExpect(status().isOk()).andReturn();
+        AccountListDTO actualAccountListDTO = objectMapper
+                .readValue(mvcResult.getResponse().getContentAsString(), AccountListDTO.class);
+
+        compareListDTO(accountListDTO, actualAccountListDTO);
+        verify(accountService, times(1)).getAllAccountsStatus();
     }
 
     @Test
-    void delete() {
+    void testDelete() throws Exception {
+        RequestBuilder request = MockMvcRequestBuilders
+                .delete("/auth/deleteAccount/{id}", uuid)
+                .contentType(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(request).andExpect(status().isOk());
+        verify(accountService, times(1)).deleteAccountById(any(UUID.class));
     }
 
     @Test
-    void editAccount() {
+    void testEditAccount() throws Exception {
+        RequestBuilder request = MockMvcRequestBuilders
+                .put("/auth/editAccount/{id}", uuid)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(createAccountDTO));
+
+        when(accountService.editAccountById(any(UUID.class), any(CreateAccountDTO.class))).thenReturn(accountDTO);
+        var mvcResult = mockMvc.perform(request).andExpect(status().isOk()).andReturn();
+        AccountDTO actualAccountDTO = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), AccountDTO.class);
+        compareDTO(accountDTO, actualAccountDTO);
     }
 
     @Test
-    void getAll() {
+    void testGetAll() throws Exception {
+        RequestBuilder request = MockMvcRequestBuilders
+                .get("/auth/accounts/all")
+                .contentType(MediaType.APPLICATION_JSON);
+
+        when(accountService.getAll()).thenReturn(accountListDTO);
+
+        var mvcResult = mockMvc.perform(request).andExpect(status().isOk()).andReturn();
+        AccountListDTO actualAccountListDTO = objectMapper
+                .readValue(mvcResult.getResponse().getContentAsString(), AccountListDTO.class);
+        compareListDTO(accountListDTO, actualAccountListDTO);
     }
 
     @Test
-    void getAccountIdsByProductIdAndStatus() {
+    void testGetAccountIdsByProductIdAndStatus() throws Exception {
+        RequestBuilder request = MockMvcRequestBuilders
+                .get("/auth/findAccounts?productId=2ee47e2a-6cfc-4f1d-b0ac-72e6c3ca5abc&status=ACTIVE")
+                .contentType(MediaType.APPLICATION_JSON);
+
+        when(requestService.findAccountsByProductIdAndStatus(any(UUID.class), any(ProductStatus.class)))
+                .thenReturn(accountIdDTOList);
+
+        var mvcResult = mockMvc.perform(request).andExpect(status().isOk()).andReturn();
+        TypeReference<List<AccountIdDTO>> typeReference = new TypeReference<>() {};
+        var actualAccountIdDTO = objectMapper
+                .readValue(mvcResult.getResponse().getContentAsString(), typeReference);
+        System.out.println(actualAccountIdDTO.get(0).getId());
+        compareListIdDTO(accountIdDTOList, actualAccountIdDTO);
+    }
+
+    private void compareDTO (AccountDTO expectedDTO, AccountDTO accountDTO){
+        assertAll(
+                ()->assertEquals(expectedDTO.getId(), accountDTO.getId()),
+                ()->assertEquals(expectedDTO.getName(), accountDTO.getName()),
+                ()->assertEquals(expectedDTO.getType(), accountDTO.getType()),
+                ()->assertEquals(expectedDTO.getBalance(), accountDTO.getBalance()),
+                ()->assertEquals(expectedDTO.getCurrencyCode(), accountDTO.getCurrencyCode()),
+                ()->assertEquals(expectedDTO.getClientId(), accountDTO.getClientId())
+        );
+    }
+
+    private void compareListDTO(AccountListDTO expectedAccountListDTO, AccountListDTO actualAccountListDTO){
+        assertEquals(expectedAccountListDTO.getAccountDTOList().size(), actualAccountListDTO.getAccountDTOList().size());
+        for(int i = 0; i < expectedAccountListDTO.getAccountDTOList().size(); i++){
+            compareDTO(expectedAccountListDTO.getAccountDTOList().get(i), actualAccountListDTO.getAccountDTOList().get(i));
+        }
+    }
+
+    private void compareListIdDTO(List<AccountIdDTO> expectedListIdDTO, List<AccountIdDTO> actualListIdDTO){
+        assertEquals(expectedListIdDTO.size(), actualListIdDTO.size());
+        for(int i = 0; i < expectedListIdDTO.size(); i++){
+            assertEquals(expectedListIdDTO.get(i).getId(), actualListIdDTO.get(i).getId());
+        }
     }
 }

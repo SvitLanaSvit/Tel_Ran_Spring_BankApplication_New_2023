@@ -1,6 +1,5 @@
 package com.example.bankapplication.repository;
 
-import com.example.bankapplication.entity.Account;
 import com.example.bankapplication.entity.Client;
 import com.example.bankapplication.entity.enums.ClientStatus;
 import com.example.bankapplication.util.EntityCreator;

@@ -1,8 +1,8 @@
 package com.example.bankapplication.service.impl;
 
-import com.example.bankapplication.dto.*;
-import com.example.bankapplication.entity.Account;
-import com.example.bankapplication.entity.Product;
+import com.example.bankapplication.dto.CreateTransactionDTO;
+import com.example.bankapplication.dto.TransactionDTO;
+import com.example.bankapplication.dto.TransactionListDTO;
 import com.example.bankapplication.entity.Transaction;
 import com.example.bankapplication.mapper.TransactionMapper;
 import com.example.bankapplication.mapper.TransactionMapperImpl;
@@ -22,9 +22,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Test class for TransactionServiceImpl")

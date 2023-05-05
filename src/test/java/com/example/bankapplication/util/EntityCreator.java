@@ -3,12 +3,9 @@ package com.example.bankapplication.util;
 import com.example.bankapplication.dto.*;
 import com.example.bankapplication.entity.*;
 import com.example.bankapplication.entity.enums.*;
-import lombok.Builder;
 
 import java.sql.Timestamp;
 import java.util.UUID;
-
-import static org.mockito.Mockito.mock;
 
 public class EntityCreator {
     public static Manager getManager(UUID id){

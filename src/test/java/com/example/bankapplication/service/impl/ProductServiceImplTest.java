@@ -1,6 +1,5 @@
 package com.example.bankapplication.service.impl;
 
-import com.example.bankapplication.dto.CreateAccountDTO;
 import com.example.bankapplication.dto.CreateProductDTO;
 import com.example.bankapplication.dto.ProductDTO;
 import com.example.bankapplication.dto.ProductListDTO;
