@@ -92,6 +92,27 @@ public class DTOCreator {
         );
     }
 
+    public static AgreementIdDTO getAgreementIdDTO(){
+        return new AgreementIdDTO(
+                UUID.fromString("9c149059-3d2a-4741-9073-a05364ecb6cf")
+        );
+    }
+
+    public static ClientInfoDTO getClientInfoDTO(){
+        return new ClientInfoDTO(
+                "06edf03a-d58b-4b26-899f-f4ce69fb6b6f",
+                "ACTIVE",
+                "5658380715",
+                "Myles",
+                "Mertz",
+                "lionel.kassulke@gmail.com",
+                "18485 Ronald Tunnel, Edmundoland, NC 91506-5269",
+                "869-158-2533 x717",
+                "5000,0",
+                "USD"
+        );
+    }
+
     public static CreateManagerDTO getManagerToCreate(){
         return new CreateManagerDTO(
                 "John",

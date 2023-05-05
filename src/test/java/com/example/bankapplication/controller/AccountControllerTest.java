@@ -23,7 +23,6 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -133,6 +132,7 @@ class AccountControllerTest {
         var mvcResult = mockMvc.perform(request).andExpect(status().isOk()).andReturn();
         AccountDTO actualAccountDTO = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), AccountDTO.class);
         compareDTO(accountDTO, actualAccountDTO);
+        verify(accountService, times(1)).editAccountById(any(UUID.class), any(CreateAccountDTO.class));
     }
 
     @Test
@@ -147,6 +147,7 @@ class AccountControllerTest {
         AccountListDTO actualAccountListDTO = objectMapper
                 .readValue(mvcResult.getResponse().getContentAsString(), AccountListDTO.class);
         compareListDTO(accountListDTO, actualAccountListDTO);
+        verify(accountService, times(1)).getAll();
     }
 
     @Test
@@ -164,23 +165,25 @@ class AccountControllerTest {
                 .readValue(mvcResult.getResponse().getContentAsString(), typeReference);
         System.out.println(actualAccountIdDTO.get(0).getId());
         compareListIdDTO(accountIdDTOList, actualAccountIdDTO);
+        verify(requestService, times(1))
+                .findAccountsByProductIdAndStatus(any(UUID.class), any(ProductStatus.class));
     }
 
-    private void compareDTO (AccountDTO expectedDTO, AccountDTO accountDTO){
+    private void compareDTO (AccountDTO expectedDTO, AccountDTO actualDTO){
         assertAll(
-                ()->assertEquals(expectedDTO.getId(), accountDTO.getId()),
-                ()->assertEquals(expectedDTO.getName(), accountDTO.getName()),
-                ()->assertEquals(expectedDTO.getType(), accountDTO.getType()),
-                ()->assertEquals(expectedDTO.getBalance(), accountDTO.getBalance()),
-                ()->assertEquals(expectedDTO.getCurrencyCode(), accountDTO.getCurrencyCode()),
-                ()->assertEquals(expectedDTO.getClientId(), accountDTO.getClientId())
+                ()->assertEquals(expectedDTO.getId(), actualDTO.getId()),
+                ()->assertEquals(expectedDTO.getName(), actualDTO.getName()),
+                ()->assertEquals(expectedDTO.getType(), actualDTO.getType()),
+                ()->assertEquals(expectedDTO.getBalance(), actualDTO.getBalance()),
+                ()->assertEquals(expectedDTO.getCurrencyCode(), actualDTO.getCurrencyCode()),
+                ()->assertEquals(expectedDTO.getClientId(), actualDTO.getClientId())
         );
     }
 
-    private void compareListDTO(AccountListDTO expectedAccountListDTO, AccountListDTO actualAccountListDTO){
-        assertEquals(expectedAccountListDTO.getAccountDTOList().size(), actualAccountListDTO.getAccountDTOList().size());
-        for(int i = 0; i < expectedAccountListDTO.getAccountDTOList().size(); i++){
-            compareDTO(expectedAccountListDTO.getAccountDTOList().get(i), actualAccountListDTO.getAccountDTOList().get(i));
+    private void compareListDTO(AccountListDTO expectedListDTO, AccountListDTO actualListDTO){
+        assertEquals(expectedListDTO.getAccountDTOList().size(), actualListDTO.getAccountDTOList().size());
+        for(int i = 0; i < expectedListDTO.getAccountDTOList().size(); i++){
+            compareDTO(expectedListDTO.getAccountDTOList().get(i), actualListDTO.getAccountDTOList().get(i));
         }
     }
 
