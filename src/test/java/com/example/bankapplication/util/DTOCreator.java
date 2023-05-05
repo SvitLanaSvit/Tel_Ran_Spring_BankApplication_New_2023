@@ -113,6 +113,18 @@ public class DTOCreator {
         );
     }
 
+    public static ManagerInfoDTO getManagerInfoDTO(){
+        return new ManagerInfoDTO(
+                UUID.randomUUID().toString(),
+                "John",
+                "Doe",
+                "ACTIVE",
+                "6006ec9c-41a0-4fa1-b8b9-17b4c13347e6",
+                "Incredible Bronze Wallet Bank Product",
+                "100"
+        );
+    }
+
     public static CreateManagerDTO getManagerToCreate(){
         return new CreateManagerDTO(
                 "John",
