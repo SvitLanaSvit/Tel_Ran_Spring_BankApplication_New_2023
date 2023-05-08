@@ -9,6 +9,7 @@ import com.example.bankapplication.mapper.ProductMapperImpl;
 import com.example.bankapplication.repository.ManagerRepository;
 import com.example.bankapplication.repository.ProductRepository;
 import com.example.bankapplication.service.ProductService;
+import com.example.bankapplication.service.exception.ProductNotFoundException;
 import com.example.bankapplication.util.DTOCreator;
 import com.example.bankapplication.util.EntityCreator;
 import org.junit.jupiter.api.BeforeEach;
@@ -113,6 +114,17 @@ class ProductServiceImplTest {
         productService.deleteProductById(productId);
         verify(productRepository, times(1)).findProductById(any(UUID.class));
         verify(productRepository, times(1)).deleteById(any(UUID.class));
+    }
+
+    @Test
+    @DisplayName("Negative test. Not found product by Id.")
+    public void editProductById_shouldThrowExceptionWhenManagerNotFound() {
+        UUID id = UUID.randomUUID();
+        CreateProductDTO dto = DTOCreator.getProductToCreate();
+
+        when(productRepository.findProductById(id)).thenReturn(Optional.empty());
+
+        assertThrows(ProductNotFoundException.class, () -> productService.editProductById(id, dto));
     }
 
     private void compareListDto(ProductListDTO expectedProductListDTO, ProductListDTO actualProductListDTO){

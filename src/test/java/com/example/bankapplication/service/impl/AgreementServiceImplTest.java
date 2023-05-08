@@ -10,6 +10,7 @@ import com.example.bankapplication.repository.AccountRepository;
 import com.example.bankapplication.repository.AgreementRepository;
 import com.example.bankapplication.repository.ProductRepository;
 import com.example.bankapplication.service.AgreementService;
+import com.example.bankapplication.service.exception.AgreementNotFoundException;
 import com.example.bankapplication.util.DTOCreator;
 import com.example.bankapplication.util.EntityCreator;
 import org.junit.jupiter.api.BeforeEach;
@@ -129,5 +130,16 @@ class AgreementServiceImplTest {
 
         verify(agreementRepository, times(1)).deleteById(agreementId);
         verify(agreementRepository, times(1)).findAgreementById(agreementId);
+    }
+
+    @Test
+    @DisplayName("Negative test. Not found agreement by Id.")
+    public void editAgreementById_shouldThrowExceptionWhenManagerNotFound() {
+        UUID id = UUID.randomUUID();
+        CreateAgreementDTO dto = DTOCreator.getAgreementToCreate();
+
+        when(agreementRepository.findAgreementById(id)).thenReturn(Optional.empty());
+
+        assertThrows(AgreementNotFoundException.class, () -> agreementService.editAgreementById(id, dto));
     }
 }

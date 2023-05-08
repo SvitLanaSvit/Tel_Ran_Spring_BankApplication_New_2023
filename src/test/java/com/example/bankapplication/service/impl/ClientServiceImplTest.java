@@ -10,6 +10,8 @@ import com.example.bankapplication.mapper.ClientMapperImpl;
 import com.example.bankapplication.repository.ClientRepository;
 import com.example.bankapplication.repository.ManagerRepository;
 import com.example.bankapplication.service.ClientService;
+import com.example.bankapplication.service.exception.ClientNotFoundException;
+import com.example.bankapplication.service.exception.TaxCodeExistsException;
 import com.example.bankapplication.util.DTOCreator;
 import com.example.bankapplication.util.EntityCreator;
 import org.junit.jupiter.api.BeforeEach;
@@ -114,6 +116,28 @@ class ClientServiceImplTest {
         verify(managerRepository, times(1)).findManagerById(any(UUID.class));
 
         compareEntityWithDto(expectedClientDTO, actualClientDTO);
+    }
+
+    @Test
+    @DisplayName("Negative test. Not found client by Id.")
+    public void editClientById_shouldThrowExceptionWhenManagerNotFound() {
+        UUID id = UUID.randomUUID();
+        CreateClientDTO dto = DTOCreator.getClientToCreate();
+
+        when(clientRepository.findClientById(id)).thenReturn(Optional.empty());
+
+        assertThrows(ClientNotFoundException.class, () -> clientService.editClientById(id, dto));
+    }
+
+    @Test
+    @DisplayName("Negative test. Not found taxCode by Id.")
+    public void createClientById_shouldThrowTaxCodeExistsException() {
+//        UUID id = UUID.randomUUID();
+//        CreateClientDTO dto = DTOCreator.getClientToCreate();
+//        var taxCode = dto.getTaxCode();
+//        when(clientRepository.findClientByTaxCode(taxCode)).thenReturn(null);
+//
+//        assertThrows(TaxCodeExistsException.class, () -> clientMapper.toDTO(any()));
     }
 
     @Test

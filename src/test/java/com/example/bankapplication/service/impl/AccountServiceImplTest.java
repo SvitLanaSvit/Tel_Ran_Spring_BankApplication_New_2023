@@ -10,6 +10,7 @@ import com.example.bankapplication.mapper.AccountMapperImpl;
 import com.example.bankapplication.repository.AccountRepository;
 import com.example.bankapplication.repository.ClientRepository;
 import com.example.bankapplication.service.AccountService;
+import com.example.bankapplication.service.exception.AccountNotFoundException;
 import com.example.bankapplication.util.DTOCreator;
 import com.example.bankapplication.util.EntityCreator;
 import org.junit.jupiter.api.BeforeEach;
@@ -138,5 +139,16 @@ class AccountServiceImplTest {
 
         AccountListDTO actualListDTO = accountService.getAll();
         assertEquals(actualListDTO.getAccountDTOList(), expectedListDTO.getAccountDTOList());
+    }
+
+    @Test
+    @DisplayName("Negative test. Not found account by Id.")
+    public void editAccountById_shouldThrowExceptionWhenManagerNotFound() {
+        UUID id = UUID.randomUUID();
+        CreateAccountDTO dto = DTOCreator.getAccountToCreate();
+
+        when(accountRepository.findAccountById(id)).thenReturn(Optional.empty());
+
+        assertThrows(AccountNotFoundException.class, () -> accountService.editAccountById(id, dto));
     }
 }

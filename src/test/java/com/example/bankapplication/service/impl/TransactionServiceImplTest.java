@@ -1,5 +1,6 @@
 package com.example.bankapplication.service.impl;
 
+import com.example.bankapplication.dto.CreateProductDTO;
 import com.example.bankapplication.dto.CreateTransactionDTO;
 import com.example.bankapplication.dto.TransactionDTO;
 import com.example.bankapplication.dto.TransactionListDTO;
@@ -8,6 +9,8 @@ import com.example.bankapplication.mapper.TransactionMapper;
 import com.example.bankapplication.mapper.TransactionMapperImpl;
 import com.example.bankapplication.repository.AccountRepository;
 import com.example.bankapplication.repository.TransactionRepository;
+import com.example.bankapplication.service.exception.ProductNotFoundException;
+import com.example.bankapplication.service.exception.TransactionNotFoundException;
 import com.example.bankapplication.util.DTOCreator;
 import com.example.bankapplication.util.EntityCreator;
 import org.junit.jupiter.api.BeforeEach;
@@ -96,6 +99,16 @@ class TransactionServiceImplTest {
         verify(transactionRepository, times(1)).findTransactionById(any(UUID.class));
         verify(transactionRepository, times(1)).deleteById(any(UUID.class));
     }
+
+    @Test
+    @DisplayName("Negative test. Not found transaction by Id.")
+    public void editProductById_shouldThrowExceptionWhenManagerNotFound() {
+        UUID id = UUID.randomUUID();
+        when(transactionRepository.findTransactionById(id)).thenReturn(Optional.empty());
+
+        assertThrows(TransactionNotFoundException.class, () -> transactionService.getTransactionById(id));
+    }
+
 
     private void compareListDto(TransactionListDTO expectedTransactionListDTO, TransactionListDTO actualTransactionListDTO){
         for(int i = 0; i < expectedTransactionListDTO.getTransactionDTOList().size(); i++){
