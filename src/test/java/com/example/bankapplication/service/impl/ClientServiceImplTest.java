@@ -130,14 +130,18 @@ class ClientServiceImplTest {
     }
 
     @Test
-    @DisplayName("Negative test. Not found taxCode by Id.")
+    @DisplayName("Negative test. Not found taxCode.")
     public void createClientById_shouldThrowTaxCodeExistsException() {
-//        UUID id = UUID.randomUUID();
-//        CreateClientDTO dto = DTOCreator.getClientToCreate();
-//        var taxCode = dto.getTaxCode();
-//        when(clientRepository.findClientByTaxCode(taxCode)).thenReturn(null);
-//
-//        assertThrows(TaxCodeExistsException.class, () -> clientMapper.toDTO(any()));
+        UUID clientId = UUID.fromString("06edf03a-d58b-4b26-899f-f4ce69fb6b6f");
+        CreateClientDTO createClientDTO = DTOCreator.getClientToCreate();
+        String existingTaxCode = "1234567890";
+        createClientDTO.setTaxCode(existingTaxCode);
+
+        when(managerRepository.findManagerById(any())).thenReturn(Optional.of(EntityCreator.getManager(UUID.randomUUID())));
+        when(clientRepository.findClientByTaxCode(existingTaxCode))
+                .thenReturn(Optional.of(EntityCreator.getClient(clientId)));
+
+        assertThrows(TaxCodeExistsException.class, () -> clientService.createClient(createClientDTO));
     }
 
     @Test

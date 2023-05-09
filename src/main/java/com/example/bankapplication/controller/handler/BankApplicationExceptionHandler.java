@@ -57,6 +57,13 @@ public class BankApplicationExceptionHandler {
     }
 
     @ExceptionHandler
+    public ResponseEntity<ErrorDTO> handlerTaxCodeExistsException(TaxCodeExistsException ex){
+        log.error(ErrorMessage.TAX_CODE_EXISTS, ex);
+        var error = new ErrorDTO(HttpURLConnection.HTTP_INTERNAL_ERROR, ex.getMessage());
+        return ResponseEntity.status(HttpURLConnection.HTTP_INTERNAL_ERROR).body(error);
+    }
+
+    @ExceptionHandler
     public ResponseEntity<ErrorDTO> handleSQLIntegrityConstraintViolationException(
             SQLIntegrityConstraintViolationException ex){
         log.error(ErrorMessage.TAX_CODE_EXISTS, ex);

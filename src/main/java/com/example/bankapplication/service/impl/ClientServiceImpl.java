@@ -58,14 +58,10 @@ public class ClientServiceImpl implements ClientService {
         client.setManager(manager);
 
         var taxCode = dto.getTaxCode();
-        var clientWithTaxCode = clientRepository.findClientByTaxCode(taxCode);
-
-        if(clientWithTaxCode.isPresent()){
+        clientRepository.findClientByTaxCode(taxCode).ifPresent((elem)->{
             log.info("Client with taxCode {} is exist", dto.getTaxCode());
-            clientMapper.toDTO(clientWithTaxCode.orElseThrow(
-                    () -> new TaxCodeExistsException(ErrorMessage.TAX_CODE_EXISTS)
-            ));
-        }
+            throw new TaxCodeExistsException(ErrorMessage.TAX_CODE_EXISTS);
+        });
 
         var result = clientRepository.save(client);
         return clientMapper.toDTO(result);

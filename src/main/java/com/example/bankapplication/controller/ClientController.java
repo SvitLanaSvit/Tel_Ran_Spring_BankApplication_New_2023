@@ -20,7 +20,7 @@ public class ClientController {
     private final ClientService clientService;
     private final RequestService requestService;
 
-    @PostMapping("createClient")
+    @PostMapping("/createClient")
     @ResponseStatus(HttpStatus.OK)
     public ClientDTO createClient(@RequestBody CreateClientDTO dto){
         return clientService.createClient(dto);
