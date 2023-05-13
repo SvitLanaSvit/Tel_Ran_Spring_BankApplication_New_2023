@@ -4,11 +4,13 @@ import com.example.bankapplication.dto.CreateProductDTO;
 import com.example.bankapplication.dto.CreateTransactionDTO;
 import com.example.bankapplication.dto.TransactionDTO;
 import com.example.bankapplication.dto.TransactionListDTO;
+import com.example.bankapplication.entity.Account;
 import com.example.bankapplication.entity.Transaction;
 import com.example.bankapplication.mapper.TransactionMapper;
 import com.example.bankapplication.mapper.TransactionMapperImpl;
 import com.example.bankapplication.repository.AccountRepository;
 import com.example.bankapplication.repository.TransactionRepository;
+import com.example.bankapplication.service.exception.AccountNotFoundException;
 import com.example.bankapplication.service.exception.ProductNotFoundException;
 import com.example.bankapplication.service.exception.TransactionNotFoundException;
 import com.example.bankapplication.util.DTOCreator;
@@ -41,17 +43,31 @@ class TransactionServiceImplTest {
 
     private TransactionServiceImpl transactionService;
 
+    private UUID uuid;
+    private UUID transactionId;
+    private Transaction transaction;
+    private List<Transaction> transactionList;
+    private TransactionDTO transactionDTO;
+    private List<TransactionDTO> transactionDTOList;
+    private CreateTransactionDTO createTransactionDTO;
+    private Account account;
+
     @BeforeEach
     void setUp(){
         transactionMapper = new TransactionMapperImpl();
         transactionService = new TransactionServiceImpl(transactionMapper, transactionRepository, accountRepository);
+        uuid = UUID.randomUUID();
+        transaction = EntityCreator.getTransaction();
+        transactionList = new ArrayList<>(List.of(transaction));
+        transactionDTO = DTOCreator.getTransactionDTO();
+        transactionDTOList = new ArrayList<>(List.of(transactionDTO));
+        transactionId = UUID.fromString("72779690-8d70-43cf-97a8-d3e7b9076337");
+        createTransactionDTO = DTOCreator.getTransactionToCreate();
+        account = EntityCreator.getAccount(uuid);
     }
 
     @Test
     void testGetAll() {
-        UUID id = UUID.randomUUID();
-        List<Transaction> transactionList = new ArrayList<>(List.of(EntityCreator.getTransaction()));
-        List<TransactionDTO> transactionDTOList = new ArrayList<>(List.of(DTOCreator.getTransactionDTO()));
         TransactionListDTO expectedTransactionlistDTO = new TransactionListDTO(transactionDTOList);
 
         when(transactionRepository.findAll()).thenReturn(transactionList);
@@ -63,26 +79,21 @@ class TransactionServiceImplTest {
 
     @Test
     void testGetTransactionById(){
-        Transaction transaction = EntityCreator.getTransaction();
-        TransactionDTO expectedTransactionDTO = DTOCreator.getTransactionDTO();
+        TransactionDTO expectedTransactionDTO = transactionDTO;
 
-        when(transactionRepository.findTransactionById(any(UUID.class)))
-                .thenReturn(Optional.of(transaction));
-        TransactionDTO actualTransactionDTO = transactionService.getTransactionById(UUID.randomUUID());
+        when(transactionRepository.findTransactionById(any(UUID.class))).thenReturn(Optional.of(transaction));
+        TransactionDTO actualTransactionDTO = transactionService.getTransactionById(uuid);
         verify(transactionRepository, times(1)).findTransactionById(any(UUID.class));
         compareEntityWithDto(expectedTransactionDTO, actualTransactionDTO);
     }
 
     @Test
     void testCreateTransaction(){
-        UUID transactionId = UUID.fromString("72779690-8d70-43cf-97a8-d3e7b9076337");
-        CreateTransactionDTO createTransactionDTO = DTOCreator.getTransactionToCreate();
         Transaction expectedTransaction = EntityCreator.getTransactionAfterDTO(transactionId, createTransactionDTO);
-        TransactionDTO expectedTransactionDTO = DTOCreator.getTransactionDTO();
+        TransactionDTO expectedTransactionDTO = transactionDTO;
 
         when(transactionRepository.save(any(Transaction.class))).thenReturn(expectedTransaction);
-        when(accountRepository.findAccountById(any(UUID.class)))
-                .thenReturn(Optional.of(EntityCreator.getAccount(UUID.randomUUID())));
+        when(accountRepository.findAccountById(any(UUID.class))).thenReturn(Optional.of(account));
 
         TransactionDTO actualTransactionDTO = transactionService.createTransaction(createTransactionDTO);
         assertNotNull(actualTransactionDTO);
@@ -91,9 +102,7 @@ class TransactionServiceImplTest {
 
     @Test
     void testDeleteTransactionById(){
-        UUID transactionId = UUID.randomUUID();
-        when(transactionRepository.findTransactionById(any(UUID.class)))
-                .thenReturn(Optional.of(EntityCreator.getTransaction()));
+        when(transactionRepository.findTransactionById(any(UUID.class))).thenReturn(Optional.of(transaction));
 
         transactionService.deleteTransactionById(transactionId);
         verify(transactionRepository, times(1)).findTransactionById(any(UUID.class));
@@ -103,18 +112,29 @@ class TransactionServiceImplTest {
     @Test
     @DisplayName("Negative test. Not found transaction by Id.")
     public void editProductById_shouldThrowExceptionWhenManagerNotFound() {
-        UUID id = UUID.randomUUID();
-        when(transactionRepository.findTransactionById(id)).thenReturn(Optional.empty());
-
-        assertThrows(TransactionNotFoundException.class, () -> transactionService.getTransactionById(id));
+        when(transactionRepository.findTransactionById(any(UUID.class))).thenReturn(Optional.empty());
+        assertThrows(TransactionNotFoundException.class, () -> transactionService.getTransactionById(transactionId));
     }
 
+    @Test
+    public void testCreateTransactionWithNonExistingDebitAccountId(){
+        when(accountRepository.findAccountById(any())).thenReturn(Optional.empty());
+        assertThrows(AccountNotFoundException.class, () -> transactionService.createTransaction(createTransactionDTO));
+        verify(accountRepository, times(1)).findAccountById(any(UUID.class));
+    }
 
     private void compareListDto(TransactionListDTO expectedTransactionListDTO, TransactionListDTO actualTransactionListDTO){
         for(int i = 0; i < expectedTransactionListDTO.getTransactionDTOList().size(); i++){
             compareEntityWithDto(expectedTransactionListDTO.getTransactionDTOList().get(i),
                     actualTransactionListDTO.getTransactionDTOList().get(i));
         }
+    }
+
+    @Test
+    public void testDeleteNonExistingTransactionById(){
+        when(transactionRepository.findTransactionById(any(UUID.class))).thenReturn(Optional.empty());
+        assertThrows(TransactionNotFoundException.class, () -> transactionService.deleteTransactionById(transactionId));
+        verify(transactionRepository, times(1)).findTransactionById(any(UUID.class));
     }
 
     private void compareEntityWithDto(TransactionDTO expectedTransactionDTO, TransactionDTO actualTransactionDTO){

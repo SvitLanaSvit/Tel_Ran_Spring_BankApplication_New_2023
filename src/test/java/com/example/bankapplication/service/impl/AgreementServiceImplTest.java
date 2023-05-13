@@ -3,14 +3,18 @@ package com.example.bankapplication.service.impl;
 import com.example.bankapplication.dto.AgreementDTO;
 import com.example.bankapplication.dto.AgreementListDTO;
 import com.example.bankapplication.dto.CreateAgreementDTO;
+import com.example.bankapplication.entity.Account;
 import com.example.bankapplication.entity.Agreement;
+import com.example.bankapplication.entity.Product;
 import com.example.bankapplication.mapper.AgreementMapper;
 import com.example.bankapplication.mapper.AgreementMapperImpl;
 import com.example.bankapplication.repository.AccountRepository;
 import com.example.bankapplication.repository.AgreementRepository;
 import com.example.bankapplication.repository.ProductRepository;
 import com.example.bankapplication.service.AgreementService;
+import com.example.bankapplication.service.exception.AccountNotFoundException;
 import com.example.bankapplication.service.exception.AgreementNotFoundException;
+import com.example.bankapplication.service.exception.ProductNotFoundException;
 import com.example.bankapplication.util.DTOCreator;
 import com.example.bankapplication.util.EntityCreator;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,16 +49,32 @@ class AgreementServiceImplTest {
 
     private AgreementService agreementService;
 
+    private UUID uuid;
+    private Agreement agreement;
+    private List<Agreement> agreementList;
+    private AgreementDTO agreementDTO;
+    private List<AgreementDTO> agreementDTOList;
+    private CreateAgreementDTO createAgreementDTO;
+    private Product product;
+    private Account account;
+
     @BeforeEach
     void setUp(){
         agreementMapper = new AgreementMapperImpl();
         agreementService = new AgreementServiceImpl(agreementMapper, agreementRepository, productRepository, accountRepository);
+        uuid = UUID.randomUUID();
+        agreement = EntityCreator.getAgreement(uuid);
+        agreementList = new ArrayList<>(List.of(agreement));
+        agreementDTO = DTOCreator.getAgreementDTO();
+        agreementDTOList = new ArrayList<>(List.of(agreementDTO));
+        createAgreementDTO = DTOCreator.getAgreementToCreate();
+        product = EntityCreator.getProduct(uuid);
+        account = EntityCreator.getAccount(uuid);
+
     }
 
     @Test
     void testGetAll() {
-        List<Agreement> agreementList = new ArrayList<>(List.of(EntityCreator.getAgreement(UUID.randomUUID())));
-        List<AgreementDTO> agreementDTOList = new ArrayList<>(List.of(DTOCreator.getAgreementDTO()));
         AgreementListDTO expectedListDTO = new AgreementListDTO(agreementDTOList);
 
         when(agreementRepository.findAll()).thenReturn(agreementList);
@@ -66,11 +86,10 @@ class AgreementServiceImplTest {
 
     @Test
     void testGetAgreementById() {
-        Agreement agreement = EntityCreator.getAgreement(UUID.randomUUID());
         AgreementDTO expectedAgreementDTO = DTOCreator.getAgreementDTO();
 
         when(agreementRepository.findAgreementById(any(UUID.class))).thenReturn(Optional.of(agreement));
-        var actualAgreementDTO = agreementService.getAgreementById(UUID.randomUUID());
+        var actualAgreementDTO = agreementService.getAgreementById(uuid);
         assertEquals(expectedAgreementDTO.getId(), actualAgreementDTO.getId());
         verify(agreementRepository, times(1)).findAgreementById(any(UUID.class));
     }
@@ -78,15 +97,14 @@ class AgreementServiceImplTest {
     @Test
     void testCreateAgreement() {
         UUID agreementId = UUID.fromString("9c149059-3d2a-4741-9073-a05364ecb6cf");
-        CreateAgreementDTO createAgreementDTO = DTOCreator.getAgreementToCreate();
         Agreement expectedAgreement = EntityCreator.getAgreementAfterDTO(agreementId, createAgreementDTO);
 
         AgreementDTO expectedAgreementDTO = DTOCreator.getAgreementDTO();
         when(agreementRepository.save(any(Agreement.class))).thenReturn(expectedAgreement);
         when(productRepository.findProductById(any(UUID.class)))
-                .thenReturn(Optional.of(EntityCreator.getProduct(UUID.randomUUID())));
+                .thenReturn(Optional.of(product));
         when(accountRepository.findAccountById(any(UUID.class)))
-                .thenReturn(Optional.of(EntityCreator.getAccount(UUID.randomUUID())));
+                .thenReturn(Optional.of(account));
 
         AgreementDTO actualAgreementDTO = agreementService.createAgreement(createAgreementDTO);
         assertNotNull(actualAgreementDTO);
@@ -97,19 +115,17 @@ class AgreementServiceImplTest {
 
     @Test
     void testEditAgreementById() {
-        CreateAgreementDTO createAgreementDTO = DTOCreator.getAgreementToCreate();
-        Agreement agreement = EntityCreator.getAgreement(UUID.randomUUID());
         AgreementDTO expectedAgreementDTO = DTOCreator.getAgreementDTO();
 
         when(agreementRepository.findAgreementById(any(UUID.class)))
                 .thenReturn(Optional.of(agreement));
         when(agreementRepository.save(any(Agreement.class))).thenReturn(agreement);
         when(accountRepository.findAccountById(any(UUID.class)))
-                .thenReturn(Optional.of(EntityCreator.getAccount(UUID.randomUUID())));
+                .thenReturn(Optional.of(account));
         when(productRepository.findProductById(any(UUID.class)))
-                .thenReturn(Optional.of(EntityCreator.getProduct(UUID.randomUUID())));
+                .thenReturn(Optional.of(product));
 
-        AgreementDTO actualAgreementDTO = agreementService.editAgreementById(UUID.randomUUID(), createAgreementDTO);
+        AgreementDTO actualAgreementDTO = agreementService.editAgreementById(uuid, createAgreementDTO);
 
         verify(agreementRepository, times(1)).findAgreementById(any(UUID.class));
         verify(accountRepository,times(1)).findAccountById(any(UUID.class));
@@ -122,24 +138,73 @@ class AgreementServiceImplTest {
 
     @Test
     void testDeleteAgreementById() {
-        UUID agreementId = UUID.randomUUID();
         when(agreementRepository.findAgreementById(any(UUID.class)))
-                .thenReturn(Optional.of(EntityCreator.getAgreement(UUID.randomUUID())));
+                .thenReturn(Optional.of(agreement));
 
-        agreementService.deleteAgreementById(agreementId);
+        agreementService.deleteAgreementById(uuid);
 
-        verify(agreementRepository, times(1)).deleteById(agreementId);
-        verify(agreementRepository, times(1)).findAgreementById(agreementId);
+        verify(agreementRepository, times(1)).deleteById(uuid);
+        verify(agreementRepository, times(1)).findAgreementById(uuid);
     }
 
     @Test
     @DisplayName("Negative test. Not found agreement by Id.")
     public void editAgreementById_shouldThrowExceptionWhenManagerNotFound() {
-        UUID id = UUID.randomUUID();
         CreateAgreementDTO dto = DTOCreator.getAgreementToCreate();
 
-        when(agreementRepository.findAgreementById(id)).thenReturn(Optional.empty());
+        when(agreementRepository.findAgreementById(uuid)).thenReturn(Optional.empty());
+        assertThrows(AgreementNotFoundException.class, () -> agreementService.editAgreementById(uuid, dto));
+    }
 
-        assertThrows(AgreementNotFoundException.class, () -> agreementService.editAgreementById(id, dto));
+    @Test
+    public void testEditAgreementWithNonExistingAccountId(){
+        when(agreementRepository.findAgreementById(any(UUID.class))).thenReturn(Optional.ofNullable(agreement));
+        when(accountRepository.findAccountById(any(UUID.class))).thenReturn(Optional.empty());
+
+        assertThrows(AccountNotFoundException.class, ()->agreementService.editAgreementById(uuid, createAgreementDTO));
+        verify(accountRepository, times(1)).findAccountById(any(UUID.class));
+    }
+
+    @Test
+    public void testEditAgreementWithNonExistingProductId(){
+        when(agreementRepository.findAgreementById(any(UUID.class))).thenReturn(Optional.ofNullable(agreement));
+        when(productRepository.findProductById(any(UUID.class))).thenReturn(Optional.empty());
+        when(accountRepository.findAccountById(any(UUID.class))).thenReturn(Optional.of(account));
+
+        assertThrows(ProductNotFoundException.class, () -> agreementService.editAgreementById(uuid, createAgreementDTO));
+        verify(productRepository, times(1)).findProductById(any(UUID.class));
+    }
+
+    @Test
+    public void testDeleteNonExistingAgreementById(){
+        when(agreementRepository.findAgreementById(any(UUID.class))).thenReturn(Optional.empty());
+
+        assertThrows(AgreementNotFoundException.class, () -> agreementService.deleteAgreementById(uuid));
+        verify(agreementRepository, times(1)).findAgreementById(uuid);
+    }
+
+    @Test
+    public void testGetAgreementByNonExistingId(){
+        when(agreementRepository.findAgreementById(any(UUID.class))).thenReturn(Optional.empty());
+
+        assertThrows(AgreementNotFoundException.class, () -> agreementService.getAgreementById(uuid));
+        verify(agreementRepository, times(1)).findAgreementById(uuid);
+    }
+
+    @Test
+    public void testCreateAgreementWithNullProductId(){
+        when(productRepository.findProductById(any(UUID.class))).thenReturn(Optional.empty());
+
+        assertThrows(ProductNotFoundException.class, () -> agreementService.createAgreement(createAgreementDTO));
+        verify(productRepository,times(1)).findProductById(any(UUID.class));
+    }
+
+    @Test
+    public void testCreateAgreementWithNullAccountId(){
+        when(productRepository.findProductById(any(UUID.class))).thenReturn(Optional.of(product));
+        when(accountRepository.findAccountById(any(UUID.class))).thenReturn(Optional.empty());
+
+        assertThrows(AccountNotFoundException.class, () -> agreementService.createAgreement(createAgreementDTO));
+        verify(productRepository, times(1)).findProductById(any(UUID.class));
     }
 }

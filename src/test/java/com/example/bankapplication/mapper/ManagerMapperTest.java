@@ -5,6 +5,7 @@ import com.example.bankapplication.dto.ManagerDTO;
 import com.example.bankapplication.entity.Manager;
 import com.example.bankapplication.util.DTOCreator;
 import com.example.bankapplication.util.EntityCreator;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -20,51 +21,81 @@ class ManagerMapperTest {
 
     private final ManagerMapper managerMapper = new ManagerMapperImpl();
 
+    private UUID uuid;
+    private Manager manager;
+    private ManagerDTO managerDTO;
+    private List<Manager> managerList;
+    private List<ManagerDTO> managerDTOList;
+    private CreateManagerDTO createManagerDTO;
+
+    @BeforeEach
+    void setUp(){
+        uuid = UUID.randomUUID();
+        manager = EntityCreator.getManager(uuid);
+        managerDTO = DTOCreator.getManagerDTO(uuid);
+        managerList = new ArrayList<>(List.of(manager));
+        managerDTOList = new ArrayList<>(List.of(managerDTO));
+        createManagerDTO = DTOCreator.getManagerToCreateWithCreateDate();
+    }
+
     @Test
     @DisplayName("Positive test. When we have correct entity then return correct ManagerDto")
     void testToDTO() {
-        UUID id = UUID.randomUUID();
-        Manager manager = EntityCreator.getManager(id);
-        System.out.println(manager.getId());
         ManagerDTO managerDTO = managerMapper.toDTO(manager);
         compareEntityWithDto(manager, managerDTO);
     }
 
     @Test
+    void testToDTONull() {
+        ManagerDTO managerDTO = managerMapper.toDTO(null);
+        assertNull(managerDTO);
+    }
+
+    @Test
     @DisplayName("Positive test. When we have correct ManagerDto then return correct entity")
     void testToEntity() {
-        UUID id = UUID.randomUUID();
-        ManagerDTO dto = DTOCreator.getManagerDTO(id);
-        System.out.println(dto.getId());
-        Manager manager = managerMapper.toEntity(dto);
-        compareEntityWithDto(manager, dto);
+        Manager manager = managerMapper.toEntity(managerDTO);
+        compareEntityWithDto(manager, managerDTO);
+    }
+
+    @Test
+    void testToEntityNull() {
+        Manager manager = managerMapper.toEntity(null);
+        assertNull(manager);
     }
 
     @Test
     @DisplayName("Positive test. When we have correct list of Manager then return correct list of ManagerDto")
     void testManagersToManagersDTO() {
-        UUID id = UUID.randomUUID();
-        List<Manager> managerList = new ArrayList<>();
-        managerList.add(EntityCreator.getManager(id));
-
         List<ManagerDTO> managerDTOList = managerMapper.managersToManagersDTO(managerList);
         compareManagerListWithListDto(managerList, managerDTOList);
     }
 
     @Test
+    void testManagersToManagersDTONull() {
+        List<ManagerDTO> managerDTOList = managerMapper.managersToManagersDTO(null);
+        assertNull(managerDTOList);
+    }
+
+    @Test
     @DisplayName("Positive test. Check to init correct current date")
     void testCreateToEntity() {
-        CreateManagerDTO dto = DTOCreator.getManagerToCreateWithCreateDate();
-        Manager manager = managerMapper.createToEntity(dto);
+        Manager manager = managerMapper.createToEntity(createManagerDTO);
 
         Timestamp currentDate = new Timestamp(System.currentTimeMillis());
         SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
         String current = date.format(currentDate);
         String managerDate = date.format(manager.getCreatedAt());
 
-        assertNull(dto.getCreatedAt());
+        assertNull(createManagerDTO.getCreatedAt());
         assertNotNull(manager.getCreatedAt());
         assertEquals(managerDate, current);
+    }
+
+    @Test
+    void testCreateToEntityNull() {
+        Manager manager = managerMapper.createToEntity(null);
+        assertNull(manager);
     }
 
     private void compareEntityWithDto(Manager manager, ManagerDTO managerDTO){

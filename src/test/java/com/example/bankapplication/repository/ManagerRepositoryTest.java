@@ -3,6 +3,7 @@ package com.example.bankapplication.repository;
 import com.example.bankapplication.entity.Manager;
 import com.example.bankapplication.entity.enums.ManagerStatus;
 import com.example.bankapplication.util.EntityCreator;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,11 +25,18 @@ class ManagerRepositoryTest {
     @Mock
     private ManagerRepository managerRepository;
 
+    private Manager manager;
+    private List<Manager> managerList;
+
+    @BeforeEach
+    void setUp(){
+        manager = EntityCreator.getManager(UUID.randomUUID());
+        managerList = new ArrayList<>(List.of(manager));
+    }
+
     @Test
     @DisplayName("Positive test. Find manager by id.")
     void testFindManagerById() {
-        Manager manager = EntityCreator.getManager(UUID.randomUUID());
-
         when(managerRepository.findManagerById(manager.getId())).thenReturn(Optional.of(manager));
         Optional<Manager> foundManager = managerRepository.findManagerById(manager.getId());
 
@@ -40,42 +48,30 @@ class ManagerRepositoryTest {
     @Test
     @DisplayName("Positive test. Find all managers by status.")
     void testGetAllByStatus() {
-        List<Manager> managers = new ArrayList<>(List.of(
-                EntityCreator.getManager(UUID.randomUUID())
-        ));
-
-        when(managerRepository.getAllByStatus(ManagerStatus.ACTIVE)).thenReturn(managers);
+        when(managerRepository.getAllByStatus(ManagerStatus.ACTIVE)).thenReturn(managerList);
         List<Manager> foundManagers = managerRepository.getAllByStatus(ManagerStatus.ACTIVE);
 
-        assertEquals(managers.size(), foundManagers.size());
+        assertEquals(managerList.size(), foundManagers.size());
         verify(managerRepository, times(1)).getAllByStatus(ManagerStatus.ACTIVE);
     }
 
     @Test
     @DisplayName("Positive test. Find all clients by ACTIVE status.")
     void testFindByStatus() {
-        List<Manager> managers = new ArrayList<>(List.of(
-                EntityCreator.getManager(UUID.randomUUID())
-        ));
-
-        when(managerRepository.findByStatus(ManagerStatus.ACTIVE)).thenReturn(managers);
+        when(managerRepository.findByStatus(ManagerStatus.ACTIVE)).thenReturn(managerList);
         List<Manager> foundManagers = managerRepository.findByStatus(ManagerStatus.ACTIVE);
 
-        assertEquals(managers.size(), foundManagers.size());
+        assertEquals(managerList.size(), foundManagers.size());
         verify(managerRepository, times(1)).findByStatus(ManagerStatus.ACTIVE);
     }
 
     @Test
     @DisplayName("Positive test. Find all clients.")
     void testFindAll() {
-        List<Manager> managers = new ArrayList<>(List.of(
-                EntityCreator.getManager(UUID.randomUUID())
-        ));
-
-        when(managerRepository.findAll()).thenReturn(managers);
+        when(managerRepository.findAll()).thenReturn(managerList);
         List<Manager> foundManagers = managerRepository.findAll();
 
-        assertEquals(managers.size(), foundManagers.size());
+        assertEquals(managerList.size(), foundManagers.size());
         verify(managerRepository, times(1)).findAll();
     }
 }

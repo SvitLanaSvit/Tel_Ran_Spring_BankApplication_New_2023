@@ -3,12 +3,14 @@ package com.example.bankapplication.service.impl;
 import com.example.bankapplication.dto.CreateProductDTO;
 import com.example.bankapplication.dto.ProductDTO;
 import com.example.bankapplication.dto.ProductListDTO;
+import com.example.bankapplication.entity.Manager;
 import com.example.bankapplication.entity.Product;
 import com.example.bankapplication.mapper.ProductMapper;
 import com.example.bankapplication.mapper.ProductMapperImpl;
 import com.example.bankapplication.repository.ManagerRepository;
 import com.example.bankapplication.repository.ProductRepository;
 import com.example.bankapplication.service.ProductService;
+import com.example.bankapplication.service.exception.ManagerNotFoundException;
 import com.example.bankapplication.service.exception.ProductNotFoundException;
 import com.example.bankapplication.util.DTOCreator;
 import com.example.bankapplication.util.EntityCreator;
@@ -41,17 +43,31 @@ class ProductServiceImplTest {
 
     private ProductService productService;
 
+    private UUID managerId;
+    private UUID productId;
+    private Product product;
+    private List<Product> productList;
+    private ProductDTO productDTO;
+    private List<ProductDTO> productDTOList;
+    private CreateProductDTO createProductDTO;
+    private Manager manager;
+
     @BeforeEach
     void setUp(){
         productMapper = new ProductMapperImpl();
         productService = new ProductServiceImpl(productMapper, productRepository, managerRepository);
+        managerId = UUID.fromString("08608780-7143-4306-a92f-1937bbcbdebd");
+        productId = UUID.fromString("6006ec9c-41a0-4fa1-b8b9-17b4c13347e6");
+        product = EntityCreator.getProduct(managerId);
+        productList = new ArrayList<>(List.of(product));
+        productDTO = DTOCreator.getProductDTO();
+        productDTOList = new ArrayList<>(List.of(productDTO));
+        createProductDTO = DTOCreator.getProductToCreate();
+        manager = EntityCreator.getManager(managerId);
     }
 
     @Test
     void testGetAll() {
-        List<Product> productList = new ArrayList<>(List.of(EntityCreator
-                .getProduct(UUID.fromString("08608780-7143-4306-a92f-1937bbcbdebd"))));
-        List<ProductDTO> productDTOList = new ArrayList<>(List.of(DTOCreator.getProductDTO()));
         ProductListDTO expectedProductListDTO = new ProductListDTO(productDTOList);
 
         when(productRepository.findAll()).thenReturn(productList);
@@ -63,8 +79,7 @@ class ProductServiceImplTest {
 
     @Test
     void testGetProductById() {
-        Product product = EntityCreator.getProduct(UUID.fromString("08608780-7143-4306-a92f-1937bbcbdebd"));
-        ProductDTO expectedProductDTO = DTOCreator.getProductDTO();
+        ProductDTO expectedProductDTO = productDTO;
 
         when(productRepository.findProductById(any(UUID.class))).thenReturn(Optional.of(product));
         ProductDTO actualProductDTO = productService.getProductById(UUID.randomUUID());
@@ -74,14 +89,11 @@ class ProductServiceImplTest {
 
     @Test
     void testCreate() {
-        UUID productId = UUID.fromString("6006ec9c-41a0-4fa1-b8b9-17b4c13347e6");
-        CreateProductDTO createProductDTO = DTOCreator.getProductToCreate();
         Product expectedProduct = EntityCreator.getProductAfterDTO(productId, createProductDTO);
-        ProductDTO expectedProductDTO = DTOCreator.getProductDTO();
+        ProductDTO expectedProductDTO = productDTO;
 
         when(productRepository.save(any(Product.class))).thenReturn(expectedProduct);
-        when(managerRepository.findManagerById(any(UUID.class)))
-                .thenReturn(Optional.of(EntityCreator.getManager(UUID.fromString("08608780-7143-4306-a92f-1937bbcbdebd"))));
+        when(managerRepository.findManagerById(any(UUID.class))).thenReturn(Optional.of(manager));
 
         ProductDTO actualProductDTO = productService.create(createProductDTO);
         assertNotNull(actualProductDTO);
@@ -90,14 +102,12 @@ class ProductServiceImplTest {
 
     @Test
     void testEditProductById() {
-        Product product = EntityCreator.getProduct(UUID.fromString("08608780-7143-4306-a92f-1937bbcbdebd"));
-        CreateProductDTO createProductDTO = DTOCreator.getProductToCreate();
-        ProductDTO expectedProductDTO = DTOCreator.getProductDTO();
+        ProductDTO expectedProductDTO = productDTO;
 
         when(productRepository.findProductById(any(UUID.class))).thenReturn(Optional.of(product));
         when(productRepository.save(any(Product.class))).thenReturn(product);
         when(managerRepository.findManagerById(any(UUID.class)))
-                .thenReturn(Optional.of(EntityCreator.getManager(UUID.fromString("08608780-7143-4306-a92f-1937bbcbdebd"))));
+                .thenReturn(Optional.of(manager));
 
         ProductDTO actualProductDTO = productService.editProductById(UUID.randomUUID(), createProductDTO);
         verify(productRepository, times(1)).findProductById(any(UUID.class));
@@ -107,9 +117,8 @@ class ProductServiceImplTest {
 
     @Test
     void testDeleteProductById() {
-        UUID productId = UUID.randomUUID();
         when(productRepository.findProductById(any(UUID.class)))
-                .thenReturn(Optional.of(EntityCreator.getProduct(UUID.randomUUID())));
+                .thenReturn(Optional.of(product));
 
         productService.deleteProductById(productId);
         verify(productRepository, times(1)).findProductById(any(UUID.class));
@@ -119,12 +128,37 @@ class ProductServiceImplTest {
     @Test
     @DisplayName("Negative test. Not found product by Id.")
     public void editProductById_shouldThrowExceptionWhenManagerNotFound() {
-        UUID id = UUID.randomUUID();
-        CreateProductDTO dto = DTOCreator.getProductToCreate();
+        when(productRepository.findProductById(any(UUID.class))).thenReturn(Optional.empty());
+        assertThrows(ProductNotFoundException.class, () -> productService.editProductById(productId, createProductDTO));
+    }
 
-        when(productRepository.findProductById(id)).thenReturn(Optional.empty());
+    @Test
+    void testGetProductByNonExistingId(){
+        when(productRepository.findProductById(any(UUID.class))).thenReturn(Optional.empty());
+        assertThrows(ProductNotFoundException.class, () -> productService.getProductById(productId));
+        verify(productRepository, times(1)).findProductById(any(UUID.class));
+    }
 
-        assertThrows(ProductNotFoundException.class, () -> productService.editProductById(id, dto));
+    @Test
+    public void testCreateProductWithNonExistingManagerId(){
+        when(managerRepository.findManagerById(any(UUID.class))).thenReturn(Optional.empty());
+        assertThrows(ManagerNotFoundException.class, () -> productService.create(createProductDTO));
+        verify(managerRepository, times(1)).findManagerById(any(UUID.class));
+    }
+
+    @Test
+    public void testEditProductWithNonExistingManagerId(){
+        when(productRepository.findProductById(any(UUID.class))).thenReturn(Optional.of(product));
+        when(managerRepository.findManagerById(any(UUID.class))).thenReturn(Optional.empty());
+        assertThrows(ManagerNotFoundException.class, () -> productService.editProductById(productId, createProductDTO));
+        verify(managerRepository, times(1)).findManagerById(any(UUID.class));
+    }
+
+    @Test
+    public void testDeleteNonExistingProductById(){
+        when(productRepository.findProductById(any(UUID.class))).thenReturn(Optional.empty());
+        assertThrows(ProductNotFoundException.class, () -> productService.deleteProductById(productId));
+        verify(productRepository, times(1)).findProductById(any(UUID.class));
     }
 
     private void compareListDto(ProductListDTO expectedProductListDTO, ProductListDTO actualProductListDTO){

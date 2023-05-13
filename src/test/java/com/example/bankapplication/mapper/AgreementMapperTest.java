@@ -5,6 +5,7 @@ import com.example.bankapplication.dto.CreateAgreementDTO;
 import com.example.bankapplication.entity.Agreement;
 import com.example.bankapplication.util.DTOCreator;
 import com.example.bankapplication.util.EntityCreator;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -19,49 +20,79 @@ import static org.junit.jupiter.api.Assertions.*;
 class AgreementMapperTest {
 
     private final AgreementMapper agreementMapper = new AgreementMapperImpl();
+    private UUID managerId;
+    private Agreement agreement;
+    private AgreementDTO agreementDTO;
+    private List<Agreement> agreementList;
+    private CreateAgreementDTO createAgreementDTO;
+
+    @BeforeEach
+    void setUp(){
+        managerId = UUID.randomUUID();
+        agreement = EntityCreator.getAgreement(managerId);
+        agreementDTO = DTOCreator.getAgreementDTO();
+        agreementList = new ArrayList<>(List.of(agreement));
+        createAgreementDTO = DTOCreator.getAgreementToCreateWithCreateDate();
+    }
 
     @Test
     @DisplayName("Positive test. When we have correct entity then return correct AgreementDto")
     void testToDTO() {
-        UUID managerId = UUID.randomUUID();
-        Agreement agreement = EntityCreator.getAgreement(managerId);
         AgreementDTO agreementDTO = agreementMapper.toDTO(agreement);
         compareEntityWithDto(agreement, agreementDTO);
     }
 
     @Test
+    void testToDTONull(){
+        AgreementDTO agreementDTO = agreementMapper.toDTO(null);
+        assertNull(agreementDTO);
+    }
+
+    @Test
     @DisplayName("Positive test. When we have correct AgreementDto then return correct entity")
     void testToEntity() {
-        AgreementDTO agreementDTO = DTOCreator.getAgreementDTO();
         Agreement agreement = agreementMapper.toEntity(agreementDTO);
         compareEntityWithDto(agreement, agreementDTO);
     }
 
     @Test
+    void testToEntityNull(){
+        Agreement agreement = agreementMapper.toEntity(null);
+        assertNull(agreement);
+    }
+
+    @Test
     @DisplayName("Positive test. When we have correct list of Agreement then return correct list of AgreementDto")
     void testAgreementsToAgreementsDTO() {
-        UUID managerId = UUID.randomUUID();
-        List<Agreement> agreementList = new ArrayList<>();
-        agreementList.add(EntityCreator.getAgreement(managerId));
-
         List<AgreementDTO> agreementDTOList = agreementMapper.agreementsToAgreementsDTO(agreementList);
         compareManagerListWithListDto(agreementList, agreementDTOList);
     }
 
     @Test
+    void testAgreementsToAgreementsDTONull(){
+        List<AgreementDTO> agreementDTOList = agreementMapper.agreementsToAgreementsDTO(null);
+        assertNull(agreementDTOList);
+    }
+
+    @Test
     @DisplayName("Positive test. Check to init correct current date")
     void testCreateToEntity() {
-        CreateAgreementDTO dto = DTOCreator.getAgreementToCreateWithCreateDate();
-        Agreement agreement = agreementMapper.createToEntity(dto);
+        Agreement agreement = agreementMapper.createToEntity(createAgreementDTO);
 
         Timestamp currentDate = new Timestamp(System.currentTimeMillis());
         SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
         String current = date.format(currentDate);
         String agreementDate = date.format(agreement.getCreatedAt());
 
-        assertNull(dto.getCreatedAt());
+        assertNull(createAgreementDTO.getCreatedAt());
         assertNotNull(agreement.getCreatedAt());
         assertEquals(current, agreementDate);
+    }
+
+    @Test
+    void testCreateToEntityNull(){
+        Agreement agreement = agreementMapper.createToEntity(null);
+        assertNull(agreement);
     }
 
     private void compareEntityWithDto(Agreement agreement, AgreementDTO agreementDTO){

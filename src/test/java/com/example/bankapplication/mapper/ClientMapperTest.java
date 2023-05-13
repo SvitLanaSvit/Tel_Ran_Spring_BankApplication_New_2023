@@ -5,6 +5,7 @@ import com.example.bankapplication.dto.CreateClientDTO;
 import com.example.bankapplication.entity.Client;
 import com.example.bankapplication.util.DTOCreator;
 import com.example.bankapplication.util.EntityCreator;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -19,48 +20,81 @@ import static org.junit.jupiter.api.Assertions.*;
 class ClientMapperTest {
     private final ClientMapper clientMapper = new ClientMapperImpl();
 
+    private UUID managerId;
+    private Client client;
+    private ClientDTO clientDTO;
+    private List<Client> clientList;
+    private List<ClientDTO> clientDTOList;
+    private CreateClientDTO createClientDTO;
+
+    @BeforeEach
+    void setUp(){
+        managerId = UUID.randomUUID();
+        client = EntityCreator.getClient(managerId);
+        clientDTO = DTOCreator.getClientDTO();
+        clientList = new ArrayList<>(List.of(client));
+        clientDTOList = new ArrayList<>(List.of(clientDTO));
+        createClientDTO = DTOCreator.getClientToCreateWithCreateDate();
+    }
+
     @Test
     @DisplayName("Positive test. When we have correct entity then return correct ClientDto")
     void testToDTO() {
-        UUID managerId = UUID.randomUUID();
-        Client client = EntityCreator.getClient(managerId);
         ClientDTO clientDTO = clientMapper.toDTO(client);
         compareEntityWithDto(client, clientDTO);
     }
 
     @Test
+    void testToDTONull() {
+        ClientDTO clientDTO = clientMapper.toDTO(null);
+        assertNull(clientDTO);
+    }
+
+    @Test
     @DisplayName("Positive test. When we have correct ClientDto then return correct entity")
     void testToEntity() {
-        ClientDTO clientDTO = DTOCreator.getClientDTO();
         Client client = clientMapper.toEntity(clientDTO);
         compareEntityWithDto(client, clientDTO);
     }
 
     @Test
+    void testToEntityNull() {
+        Client client = clientMapper.toEntity(null);
+        assertNull(client);
+    }
+
+    @Test
     @DisplayName("Positive test. When we have correct list of Client then return correct list of ClientDto")
     void testClientsToClientsDTO() {
-        UUID managerId = UUID.randomUUID();
-        List<Client> clientList = new ArrayList<>();
-        clientList.add(EntityCreator.getClient(managerId));
-
         List<ClientDTO> clientDTOList = clientMapper.clientsToClientsDTO(clientList);
         compareManagerListWithListDto(clientList, clientDTOList);
     }
 
     @Test
+    void testClientsToClientsDTONull() {
+        List<ClientDTO> clientDTOList = clientMapper.clientsToClientsDTO(null);
+        assertNull(clientDTOList);
+    }
+
+    @Test
     @DisplayName("Positive test. Check to init correct current date")
     void testCreateToEntity() {
-        CreateClientDTO clientDTO = DTOCreator.getClientToCreateWithCreateDate();
-        Client client = clientMapper.createToEntity(clientDTO);
+        Client client = clientMapper.createToEntity(createClientDTO);
 
         Timestamp currentDate = new Timestamp(System.currentTimeMillis());
         SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
         String current = date.format(currentDate);
         String clientDate = date.format(client.getCreatedAt());
 
-        assertNull(clientDTO.getCreatedAt());
+        assertNull(createClientDTO.getCreatedAt());
         assertNotNull(client.getCreatedAt());
         assertEquals(clientDate, current);
+    }
+
+    @Test
+    void testCreateToEntityNull() {
+        Client client = clientMapper.createToEntity(null);
+        assertNull(client);
     }
 
     private void compareEntityWithDto(Client client, ClientDTO clientDTO){

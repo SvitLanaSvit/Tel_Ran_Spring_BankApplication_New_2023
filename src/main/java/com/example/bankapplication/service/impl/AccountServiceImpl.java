@@ -50,10 +50,10 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @Transactional
     public AccountDTO createAccount(CreateAccountDTO dto) {
-        log.info("Creating manager");
-        log.info("UUID : " + dto.getClientId().toString());
+        log.info("Creating ");
+        log.info("UUID : " + dto.getClientId());
         if (dto.getClientId() == null) {
-            throw new IllegalArgumentException("clientId cannot be null");
+            throw new NullPointerException("clientId cannot be null");
         }
         var uuidClient = dto.getClientId();
         var client = clientRepository.findClientById(uuidClient).orElseThrow(

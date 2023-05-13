@@ -5,6 +5,7 @@ import com.example.bankapplication.dto.ProductDTO;
 import com.example.bankapplication.entity.Product;
 import com.example.bankapplication.util.DTOCreator;
 import com.example.bankapplication.util.EntityCreator;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -19,48 +20,82 @@ import static org.junit.jupiter.api.Assertions.*;
 class ProductMapperTest {
 
     private final ProductMapper productMapper = new ProductMapperImpl();
+
+    private UUID uuid;
+    private Product product;
+    private ProductDTO productDTO;
+    private List<Product> productList;
+    private List<ProductDTO> productDTOList;
+    private CreateProductDTO createProductDTO;
+
+    @BeforeEach
+    void setUp(){
+        uuid = UUID.randomUUID();
+        product = EntityCreator.getProduct(uuid);
+        productDTO = DTOCreator.getProductDTO();
+        productList = new ArrayList<>(List.of(product));
+        productDTOList = new ArrayList<>(List.of(productDTO));
+        createProductDTO = DTOCreator.getProductToCreateWithCreateDate();
+
+    }
     @Test
     @DisplayName("Positive test. When we have correct entity then return correct ProductDto")
     void testToDTO() {
-        UUID managerId = UUID.randomUUID();
-        Product product = EntityCreator.getProduct(managerId);
         ProductDTO productDTO = productMapper.toDTO(product);
         compareEntityWithDto(product, productDTO);
     }
 
     @Test
+    void testToDTONull() {
+        ProductDTO productDTO = productMapper.toDTO(null);
+        assertNull(productDTO);
+    }
+
+    @Test
     @DisplayName("Positive test. When we have correct ProductDto then return correct entity")
     void testToEntity() {
-        ProductDTO productDTO = DTOCreator.getProductDTO();
         Product product = productMapper.toEntity(productDTO);
         compareEntityWithDto(product, productDTO);
     }
 
     @Test
+    void testToEntityNull() {
+        Product product = productMapper.toEntity(null);
+        assertNull(product);
+    }
+
+    @Test
     @DisplayName("Positive test. When we have correct list of Product then return correct list of ProductDto")
     void testProductsToProductsDTO() {
-        UUID managerId = UUID.randomUUID();
-        List<Product> productList = new ArrayList<>();
-        productList.add(EntityCreator.getProduct(managerId));
-
         List<ProductDTO> productDTOList = productMapper.productsToProductsDTO(productList);
         compareManagerListWithListDto(productList, productDTOList);
     }
 
     @Test
+    void testProductsToProductsDTONull() {
+        List<ProductDTO> productDTOList = productMapper.productsToProductsDTO(null);
+        assertNull(productDTOList);
+    }
+
+    @Test
     @DisplayName("Positive test. Check to init correct current date")
     void testCreateToEntity() {
-        CreateProductDTO dto = DTOCreator.getProductToCreateWithCreateDate();
-        Product product = productMapper.createToEntity(dto);
+        Product product = productMapper.createToEntity(createProductDTO);
 
         Timestamp currentDate = new Timestamp(System.currentTimeMillis());
         SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
         String current = date.format(currentDate);
         String productDate = date.format(product.getCreatedAt());
 
-        assertNull(dto.getCreatedAt());
+        assertNull(createProductDTO.getCreatedAt());
         assertNotNull(product.getCreatedAt());
         assertEquals(current, productDate);
+    }
+
+    @Test
+    void testCreateToEntityNull() {
+        Product product = productMapper.createToEntity(null);;
+        assertNull(product);
     }
 
     private void compareEntityWithDto(Product product, ProductDTO productDTO){

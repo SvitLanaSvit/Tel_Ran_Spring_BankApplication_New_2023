@@ -1,5 +1,6 @@
 package com.example.bankapplication.mapper;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -11,10 +12,16 @@ import static org.junit.jupiter.api.Assertions.*;
 class UuidMapperTest {
     private final UuidMapper uuidMapper = new UuidMapper();
 
+    private UUID uuid;
+
+    @BeforeEach
+    void setUp(){
+        uuid = UUID.randomUUID();
+    }
+
     @Test
     @DisplayName("Positive test. Convert uuid to String")
     void testToStringValue() {
-        UUID uuid = UUID.randomUUID();
         String uuidString = uuidMapper.toStringValue(uuid);
 
         assertNotNull(uuidString);
@@ -24,7 +31,6 @@ class UuidMapperTest {
     @Test
     @DisplayName("Positive test. When correct String uuid convert to UUID")
     void testToUuid() {
-        UUID uuid = UUID.randomUUID();
         String uuidString = uuid.toString();
         UUID convertedUuid = uuidMapper.toUuid(uuidString);
 

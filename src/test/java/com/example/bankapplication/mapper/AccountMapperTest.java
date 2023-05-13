@@ -5,6 +5,7 @@ import com.example.bankapplication.dto.CreateAccountDTO;
 import com.example.bankapplication.entity.Account;
 import com.example.bankapplication.util.DTOCreator;
 import com.example.bankapplication.util.EntityCreator;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -21,46 +22,73 @@ class AccountMapperTest {
 
     private final AccountMapper accountMapper = new AccountMapperImpl();
 
+    private UUID uuid;
+    private Account account;
+    private AccountDTO accountDTO;
+    private List<Account> accountList;
+    private List<AccountDTO> accountDTOList;
+    private CreateAccountDTO createAccountDTO;
+
+    @BeforeEach
+    void setUp(){
+        uuid = UUID.randomUUID();
+        account = EntityCreator.getAccount(uuid);
+        accountDTO = DTOCreator.getAccountDTO();
+        accountList = new ArrayList<>(List.of(account));
+        accountDTOList = new ArrayList<>(List.of(accountDTO));
+        createAccountDTO = DTOCreator.getAccountToCreateWithCreateDate();
+    }
+
     @Test
     @DisplayName("Positive test. When we have correct entity then return correct AccountDto")
     void testToDTO() {
-        UUID uuid = UUID.randomUUID();
-        Account account = EntityCreator.getAccount(uuid);
         AccountDTO accountDTO = accountMapper.toDTO(account);
         compareEntityWithDto(account, accountDTO);
     }
 
     @Test
+    void testToDTONull() {
+        AccountDTO accountDTO = accountMapper.toDTO(null);
+        assertNull(accountDTO);
+    }
+
+    @Test
     @DisplayName("Positive test. When we have correct AccountDto then return correct entity")
     void testToEntity() {
-        AccountDTO dto = DTOCreator.getAccountDTO();
-        Account account = accountMapper.toEntity(dto);
-        compareEntityWithDto(account, dto);
+        Account account = accountMapper.toEntity(accountDTO);
+        compareEntityWithDto(account, accountDTO);
+    }
+
+    @Test
+    void testToEntityNull() {
+        Account account = accountMapper.toEntity(null);
+        assertNull(account);
     }
 
     @Test
     @DisplayName("Positive test. When we have correct list of Account then return correct list of AccountDto")
     void testAccountsToAccountsDTO() {
-        UUID uuid = UUID.randomUUID();
-        List<Account> accountList = new ArrayList<>();
-        accountList.add(EntityCreator.getAccount(uuid));
-
         List<AccountDTO> accountDTOList = accountMapper.accountsToAccountsDTO(accountList);
         compareManagerListWithListDto(accountList, accountDTOList);
     }
 
     @Test
+    void testAccountsToAccountsDTONull() {
+        List<AccountDTO> accountDTOList = accountMapper.accountsToAccountsDTO(null);
+        assertNull(accountDTOList);
+    }
+
+    @Test
     @DisplayName("Positive test. Check to init correct current date")
     void testCreateToEntity() {
-        CreateAccountDTO dto = DTOCreator.getAccountToCreateWithCreateDate();
-        Account account = accountMapper.createToEntity(dto);
+        Account account = accountMapper.createToEntity(createAccountDTO);
 
         Timestamp currentDate = new Timestamp(System.currentTimeMillis());
         SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
         String current = date.format(currentDate);
         String accountDate = date.format(account.getCreatedAt());
 
-        assertNull(dto.getCreatedAt());
+        assertNull(createAccountDTO.getCreatedAt());
         assertNotNull(account.getCreatedAt());
         assertEquals(accountDate, current);
     }

@@ -5,6 +5,7 @@ import com.example.bankapplication.dto.TransactionDTO;
 import com.example.bankapplication.entity.Transaction;
 import com.example.bankapplication.util.DTOCreator;
 import com.example.bankapplication.util.EntityCreator;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -18,49 +19,78 @@ import static org.junit.jupiter.api.Assertions.*;
 class TransactionMapperTest {
     private final TransactionMapper transactionMapper = new TransactionMapperImpl();
 
+    private Transaction transaction;
+    private List<Transaction> transactionList;
+    private TransactionDTO transactionDTO;
+    private List<TransactionDTO> transactionDTOList;
+    private CreateTransactionDTO createTransactionDTO;
+
+    @BeforeEach
+    void setUp(){
+        transaction = EntityCreator.getTransaction();
+        transactionDTO = DTOCreator.getTransactionDTO();
+        transactionList = new ArrayList<>(List.of(transaction));
+        transactionDTOList = new ArrayList<>(List.of(transactionDTO));
+        createTransactionDTO = DTOCreator.getTransactionToCreateWithCreateDate();
+    }
+
     @Test
     @DisplayName("Positive test. When we have correct entity then return correct TransactionDto")
     void testToDTO() {
-        Transaction transaction = EntityCreator.getTransaction();
         TransactionDTO transactionDTO = transactionMapper.toDTO(transaction);
-
         compareEntityWithDto(transaction, transactionDTO);
+    }
+    @Test
+    void testToDTONull() {
+        TransactionDTO transactionDTO = transactionMapper.toDTO(null);
+        assertNull(transactionDTO);
     }
 
     @Test
     @DisplayName("Positive test. When we have correct TransactionDto then return correct entity")
     void testToEntity() {
-        TransactionDTO transactionDTO = DTOCreator.getTransactionDTO();
         Transaction transaction = transactionMapper.toEntity(transactionDTO);
-
         compareEntityWithDto(transaction, transactionDTO);
+    }
+
+    @Test
+    void testToEntityNull() {
+        Transaction transaction = transactionMapper.toEntity(null);
+        assertNull(transaction);
     }
 
     @Test
     @DisplayName("Positive test. When we have correct list of Transaction then return correct list of TransactionDto")
     void testTransactionsToTransactionsDTO() {
-        UUID id = UUID.randomUUID();
-        List<Transaction> transactionList = new ArrayList<>();
-        transactionList.add(EntityCreator.getTransaction());
-
         List<TransactionDTO> transactionDTOList = transactionMapper.transactionsToTransactionsDTO(transactionList);
         compareManagerListWithListDto(transactionList, transactionDTOList);
     }
 
     @Test
+    void testTransactionsToTransactionsDTONull() {
+        List<TransactionDTO> transactionDTOList = transactionMapper.transactionsToTransactionsDTO(null);
+        assertNull(transactionDTOList);
+    }
+
+    @Test
     @DisplayName("Positive test. Check to init correct current date")
     void testCreateToEntity() {
-        CreateTransactionDTO dto = DTOCreator.getTransactionToCreateWithCreateDate();
-        Transaction transaction = transactionMapper.createToEntity(dto);
+        Transaction transaction = transactionMapper.createToEntity(createTransactionDTO);
 
         Timestamp currentDate = new Timestamp(System.currentTimeMillis());
         SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
         String current = date.format(currentDate);
         String transactionDate = date.format(transaction.getCreatedAt());
 
-        assertNull(dto.getCreatedAt());
+        assertNull(createTransactionDTO.getCreatedAt());
         assertNotNull(transaction.getCreatedAt());
         assertEquals(current, transactionDate);
+    }
+
+    @Test
+    void testCreateToEntityNull() {
+        Transaction transaction = transactionMapper.createToEntity(null);
+        assertNull(transaction);
     }
 
     private void compareEntityWithDto(Transaction transaction, TransactionDTO transactionDTO){

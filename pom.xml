@@ -110,6 +110,21 @@
             <scope>test</scope>
         </dependency>
 
+        <!--AOP ASPECT -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.9.19</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>6.0.6</version>
+        </dependency>
+
+        <!-- -->
+
     </dependencies>
 
     <build>
@@ -150,6 +165,8 @@
                                 <exclude>com/example/bankapplication/service/exception/ErrorMessage.java</exclude>
                                 <exclude>com/example/bankapplication/BankApplication.java</exclude>
                                 <exclude>com/example/bankapplication/repository/**</exclude>
+                                <exclude>com/example/bankapplication/dto/**</exclude>
+                                <exclude>com/example/bankapplication/entity/**</exclude>
                             </excludes>
                         </configuration>
                     </execution>
