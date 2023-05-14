@@ -94,3 +94,6 @@ ___
 | updated_at    | timestamp     | timestamp of last update                    | 
 | product_id    | binary(16)    | product's id FK references products(id)     |
 | account_id    | binary(16)    | client's FK references accounts(id)         | 
+
+### Sequence Diagram Account
+![PhotoBase](https://github.com/SvitLanaSvit/Tel_Ran_BankApplication_New_2023/blob/main/Diagramms/jpg/Sequence%20Diagram%20Account.jpg)
