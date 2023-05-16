@@ -6,6 +6,11 @@ There is a prototype of the BackEnd Bank's Core Services data.
 Data consist of clients, accounts, products, accounts, transactions and managers
 ___
 
+### Class Diagram BankApplication
+![PhotoDependencyClasses](https://github.com/SvitLanaSvit/Tel_Ran_BankApplication_New_2023/blob/main/Diagramms/jpg/Diagramm_classes.jpg)
+
+### Sequence Diagram Account
+![PhotoBase](https://github.com/SvitLanaSvit/Tel_Ran_BankApplication_New_2023/blob/main/Diagramms/jpg/Sequence%20Diagram%20Account.jpg)
 
 ___
 ## Database structure
@@ -94,6 +99,3 @@ ___
 | updated_at    | timestamp     | timestamp of last update                    | 
 | product_id    | binary(16)    | product's id FK references products(id)     |
 | account_id    | binary(16)    | client's FK references accounts(id)         | 
-
-### Sequence Diagram Account
-![PhotoBase](https://github.com/SvitLanaSvit/Tel_Ran_BankApplication_New_2023/blob/main/Diagramms/jpg/Sequence%20Diagram%20Account.jpg)
