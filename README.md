@@ -1,6 +1,4 @@
 # Bank Project [Backend]
-![PhotoBase](https://raw.githubusercontent.com/SvitLanaSvit/Tel_Ran_BankApplication_New_2023/main/photoBase.jpg)
-
 
 There is a prototype of the BackEnd Bank's Core Services data.
 Data consist of clients, accounts, products, accounts, transactions and managers
@@ -12,8 +10,11 @@ ___
 ### Sequence Diagram Account
 ![PhotoBase](https://github.com/SvitLanaSvit/Tel_Ran_BankApplication_New_2023/blob/main/Diagramms/jpg/Sequence%20Diagram%20Account.jpg)
 
+### Database Diagram
+![PhotoBase](https://raw.githubusercontent.com/SvitLanaSvit/Tel_Ran_BankApplication_New_2023/main/photoBase.jpg)
+
 ___
-## Database structure
+## Database Structure
 
 ### Table manager (Bank's managers table)
 
