@@ -21,6 +21,61 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.util.UUID;
 
+/**
+ * The `AccountServiceImpl` class is an implementation of the `AccountService` interface.
+ * It provides methods for performing various operations related to accounts.
+ *
+ * @Service: This annotation is used to indicate that this class is a service component in the Spring framework.
+ *
+ * @RequiredArgsConstructor: This annotation is from the Lombok library and generates a constructor with required arguments
+ * for the final fields. It allows us to inject dependencies using constructor injection.
+ *
+ * @Slf4j: This annotation is from the Lombok library and generates a logger field for logging.
+ *
+ * @Transactional: This annotation is used in Spring to define transactional boundaries for methods or classes.
+ * When applied to a method or class, it indicates that a transaction should be created for the annotated method
+ * or all methods within the annotated class.
+ * Transactional boundaries ensure that a group of operations are executed as a single atomic unit.
+ * If an exception occurs during the execution of the annotated method or any method within the annotated class,
+ * the transaction will be rolled back, and any changes made within the transaction will be undone.
+ * By using the `@Transactional` annotation, we can manage transactions declaratively without having
+ * to write explicit transaction management code. Spring takes care of creating, committing,
+ * or rolling back transactions based on the annotated method's execution.
+ * It is important to note that the `@Transactional` annotation should be applied to methods that modify data
+ * or perform multiple database operations to ensure data integrity and consistency.
+ *
+ * AccountRepository accountRepository: This field is used to access the account data in the database.
+ *
+ * AccountMapper accountMapper: This field is used to map account entities to DTOs and vice versa.
+ *
+ * ClientRepository clientRepository: This field is used to access client data in the database.
+ *
+ * getAccountById(UUID id): This method retrieves an account by its unique identifier (`id`).
+ * It throws an `AccountNotFoundException` if no account with the specified `id` is found.
+ *
+ * getAllAccountsStatus(): This method retrieves all active accounts.
+ *
+ * createAccount(CreateAccountDTO dto): This method creates a new account based on the provided DTO.
+ * It throws a `ClientNotFoundException` if the client specified in the DTO is not found.
+ *
+ * deleteAccountById(UUID id): This method deletes an account by its unique identifier (`id`).
+ * It throws an `AccountNotFoundException` if no account with the specified `id` is found.
+ *
+ * editAccountById(UUID id, CreateAccountDTO dto): This method updates an account with the specified `id`
+ * using the information provided in the DTO. It throws an `AccountNotFoundException` if no account with the specified `id` is found,
+ * and a `ClientNotFoundException` if the client specified in the DTO is not found.
+ *
+ * getAll(): This method retrieves all accounts.
+ *
+ * The `AccountServiceImpl` class implements the `AccountService` interface,
+ * which defines the contract for performing operations on accounts.
+ * By implementing this interface, the class provides the necessary business logic for account-related operations.
+ *
+ * With the `AccountServiceImpl` class, we can retrieve, create, update, and delete accounts,
+ * as well as get all accounts and all active accounts.
+ * It uses the `AccountRepository` and `ClientRepository` interfaces for data access,
+ * and the `AccountMapper` interface for entity-DTO mapping.
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j

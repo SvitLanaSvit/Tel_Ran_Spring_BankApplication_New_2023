@@ -11,6 +11,34 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The `ManagerFindRepository` class is a repository class that provides a method for retrieving manager information
+ * sorted by product quantity. It uses a SQL query to fetch the data from the database.
+ *
+ * @Repository: This annotation is used to indicate that this class is a repository component in the Spring framework.
+ *
+ * @RequiredArgsConstructor: This annotation is from the Lombok library and generates a constructor with required arguments
+ * for the final fields. It allows us to initialize the jdbcTemplate field through constructor injection.
+ *
+ * @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE): This annotation is from the Lombok library
+ * and sets the access level of fields to private and makes them final.
+ * It eliminates the need to write boilerplate code for field declarations and constructors.
+ *
+ * private static final String SQL_REQUEST: This constant variable holds the SQL query used to fetch manager information.
+ * The query retrieves the manager ID, first name, last name, status, product ID, product name, and product limit
+ * from the managers and products tables, respectively, and orders the results by product limit.
+ *
+ * NamedParameterJdbcTemplate jdbcTemplate: This field is used to execute SQL queries with named parameters.
+ * It is initialized through constructor injection and made final.
+ *
+ * findAllManagersSortedByProductQuantity():
+ * This method queries the database to retrieve manager information sorted by product quantity.
+ * It uses a SQL query to fetch the data and maps it to ManagerInfoDTO objects.
+ * The results are returned as a list.
+ *
+ * The ManagerFindRepository class provides a method to fetch manager information from the database
+ * sorted by product quantity. It uses the NamedParameterJdbcTemplate to execute the SQL query.
+ */
 @Repository
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)

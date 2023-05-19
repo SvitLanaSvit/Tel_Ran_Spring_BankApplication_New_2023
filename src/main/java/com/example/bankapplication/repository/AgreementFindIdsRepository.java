@@ -12,6 +12,39 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * The `AgreementFindIdsRepository` class is a repository class that provides methods for querying agreement IDs based
+ * on a manager ID and client ID. It uses SQL queries to fetch the agreement IDs from the database.
+ *
+ * `@Repository`: This annotation is used to indicate that this class is a repository component in the Spring framework.
+ *
+ * `@RequiredArgsConstructor`: This annotation is from the Lombok library and generates a constructor with required arguments
+ *   for the final fields. It allows us to initialize the `jdbcTemplate` field through constructor injection.
+ *
+ * `@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)`: This annotation is from the Lombok library
+ *   and sets the access level of fields to private and makes them final.
+ *   It eliminates the need to write boilerplate code for field declarations and constructors.
+ *
+ * `private static final String SQL_REQUEST_MANAGER_ID`: This constant variable holds the SQL query used to fetch agreement IDs
+ *   associated with a manager ID.
+ *
+ * `private static final String SQL_REQUEST_CLIENT_ID`: This constant variable holds the SQL query used to fetch agreement IDs
+ *   associated with a client ID.
+ *
+ * `NamedParameterJdbcTemplate jdbcTemplate`: This field is used to execute SQL queries with named parameters.
+ *   It is initialized through constructor injection and made final.
+ *
+ * `findAgreementsByManagerId(UUID managerId)`: This method queries the database to find agreement IDs associated with a manager.
+ *   It uses the SQL query `SQL_REQUEST_MANAGER_ID` with a named parameter to retrieve the data.
+ *   The results are mapped to `AgreementIdDTO` objects and returned as a list.
+ *
+ * `findAgreementByClientId(UUID clientId)`: This method queries the database to find agreement IDs associated with a client.
+ *   It uses the SQL query `SQL_REQUEST_CLIENT_ID` with a named parameter to retrieve the data.
+ *   The results are mapped to `AgreementIdDTO` objects and returned as a list.
+ *
+ * The `AgreementFindIdsRepository` class provides methods to fetch agreement IDs from the database based on a manager ID and client ID.
+ * It uses the `NamedParameterJdbcTemplate` to execute SQL queries.
+ */
 @Repository
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)

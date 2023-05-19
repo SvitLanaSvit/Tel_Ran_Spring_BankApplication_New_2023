@@ -1,9 +1,6 @@
 package com.example.bankapplication.service.impl;
 
-import com.example.bankapplication.dto.CreateProductDTO;
-import com.example.bankapplication.dto.CreateTransactionDTO;
-import com.example.bankapplication.dto.TransactionDTO;
-import com.example.bankapplication.dto.TransactionListDTO;
+import com.example.bankapplication.dto.*;
 import com.example.bankapplication.entity.Account;
 import com.example.bankapplication.entity.Transaction;
 import com.example.bankapplication.mapper.TransactionMapper;
@@ -111,30 +108,30 @@ class TransactionServiceImplTest {
 
     @Test
     @DisplayName("Negative test. Not found transaction by Id.")
-    public void editProductById_shouldThrowExceptionWhenManagerNotFound() {
+    void editProductById_shouldThrowExceptionWhenManagerNotFound() {
         when(transactionRepository.findTransactionById(any(UUID.class))).thenReturn(Optional.empty());
         assertThrows(TransactionNotFoundException.class, () -> transactionService.getTransactionById(transactionId));
     }
 
     @Test
-    public void testCreateTransactionWithNonExistingDebitAccountId(){
+    void testCreateTransactionWithNonExistingDebitAccountId(){
         when(accountRepository.findAccountById(any())).thenReturn(Optional.empty());
         assertThrows(AccountNotFoundException.class, () -> transactionService.createTransaction(createTransactionDTO));
         verify(accountRepository, times(1)).findAccountById(any(UUID.class));
     }
 
-    private void compareListDto(TransactionListDTO expectedTransactionListDTO, TransactionListDTO actualTransactionListDTO){
+    @Test
+    void testDeleteNonExistingTransactionById(){
+        when(transactionRepository.findTransactionById(any(UUID.class))).thenReturn(Optional.empty());
+        assertThrows(TransactionNotFoundException.class, () -> transactionService.deleteTransactionById(transactionId));
+        verify(transactionRepository, times(1)).findTransactionById(any(UUID.class));
+    }
+
+    void compareListDto(TransactionListDTO expectedTransactionListDTO, TransactionListDTO actualTransactionListDTO){
         for(int i = 0; i < expectedTransactionListDTO.getTransactionDTOList().size(); i++){
             compareEntityWithDto(expectedTransactionListDTO.getTransactionDTOList().get(i),
                     actualTransactionListDTO.getTransactionDTOList().get(i));
         }
-    }
-
-    @Test
-    public void testDeleteNonExistingTransactionById(){
-        when(transactionRepository.findTransactionById(any(UUID.class))).thenReturn(Optional.empty());
-        assertThrows(TransactionNotFoundException.class, () -> transactionService.deleteTransactionById(transactionId));
-        verify(transactionRepository, times(1)).findTransactionById(any(UUID.class));
     }
 
     private void compareEntityWithDto(TransactionDTO expectedTransactionDTO, TransactionDTO actualTransactionDTO){

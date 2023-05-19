@@ -11,6 +11,21 @@ import java.net.HttpURLConnection;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 
+/**
+ * The @Slf4j annotation is used for automatic generation of a logger field in the class,
+ * allowing logging statements to be written using the logger object.
+ *
+ * The @ControllerAdvice annotation marks this class as an exception handler that can be applied globally
+ * across multiple controllers.
+ *
+ * The @ExceptionHandler annotation is used to define exception handling methods that are invoked
+ * when specific exceptions occur, allowing customized error handling and response generation.
+ *
+ * The ResponseEntity<ErrorDTO> is a generic class provided by Spring Framework that represents
+ * the HTTP response containing a body of type ErrorDTO. It allows you to customize
+ * the response status code, headers, and body.
+ */
+
 @Slf4j
 @ControllerAdvice
 public class BankApplicationExceptionHandler {

@@ -13,6 +13,31 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * The AccountFindIdsRepository class is a repository class that provides methods for querying account IDs based
+ * on a product ID and status. It uses a SQL query to fetch the account IDs from the database.
+ *
+ * @Repository: This annotation is used to indicate that this class is a repository component in the Spring framework.
+ *
+ * @RequiredArgsConstructor: This annotation is from the Lombok library and generates a constructor with required arguments
+ * for the final fields. It allows us to initialize the jdbcTemplate field through constructor injection.
+ *
+ * @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE): This annotation is from the Lombok library
+ * and sets the access level of fields to private and makes them final.
+ * It eliminates the need to write boilerplate code for field declarations and constructors.
+ *
+ * private static final String SQL_REQUEST: This constant variable holds the SQL query used to fetch account IDs.
+ *
+ * NamedParameterJdbcTemplate jdbcTemplate: This field is used to execute SQL queries with named parameters.
+ * It is initialized through constructor injection and made final.
+ *
+ * findAccountsByProductIdAndStatus(UUID productId, ProductStatus status):
+ * This method queries the database to find account IDs based on the given product ID and status.
+ * It uses a SQL query with named parameters to retrieve the data.
+ * The results are mapped to AccountIdDTO objects and returned as a list.
+ * The AccountFindIdsRepository class provides methods to fetch account IDs from the database based on a product ID and status.
+ * It uses the NamedParameterJdbcTemplate to execute SQL queries.
+ */
 @Repository
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)

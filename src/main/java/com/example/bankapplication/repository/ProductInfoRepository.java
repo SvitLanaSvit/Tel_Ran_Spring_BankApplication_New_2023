@@ -11,6 +11,32 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The `ProductInfoRepository` class is a repository class that provides methods for retrieving product information
+ * from the database. It uses a SQL query to fetch product details for changed products.
+ *
+ * @Repository: This annotation is used to indicate that this class is a repository component in the Spring framework.
+ *
+ * @RequiredArgsConstructor: This annotation is from the Lombok library and generates a constructor with required arguments
+ * for the final fields. It allows us to initialize the jdbcTemplate field through constructor injection.
+ *
+ * @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE): This annotation is from the Lombok library
+ * and sets the access level of fields to private and makes them final.
+ * It eliminates the need to write boilerplate code for field declarations and constructors.
+ *
+ * private static final String SQL_REQUEST_BY_UPDATE: This constant variable holds the SQL query used to fetch product details
+ * for changed products.
+ *
+ * NamedParameterJdbcTemplate jdbcTemplate: This field is used to execute SQL queries with named parameters.
+ * It is initialized through constructor injection and made final.
+ *
+ * findAllChangedProducts(): This method queries the database to find product details for changed products.
+ * It uses a SQL query to retrieve the data.
+ * The results are mapped to ProductDTO objects and returned as a list.
+ *
+ * The ProductInfoRepository class provides methods to retrieve product information from the database,
+ * specifically for changed products. It uses the NamedParameterJdbcTemplate to execute SQL queries.
+ */
 @Repository
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
