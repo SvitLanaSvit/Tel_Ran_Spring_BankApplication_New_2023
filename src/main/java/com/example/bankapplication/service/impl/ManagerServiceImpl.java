@@ -2,7 +2,9 @@ package com.example.bankapplication.service.impl;
 
 import com.example.bankapplication.dto.CreateManagerDTO;
 import com.example.bankapplication.dto.ManagerDTO;
+import com.example.bankapplication.dto.ManagerInfoDTO;
 import com.example.bankapplication.dto.ManagerListDTO;
+import com.example.bankapplication.entity.Manager;
 import com.example.bankapplication.entity.enums.ManagerStatus;
 import com.example.bankapplication.mapper.ManagerMapper;
 import com.example.bankapplication.repository.ManagerRepository;
@@ -15,6 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -142,6 +146,21 @@ public class ManagerServiceImpl implements ManagerService {
     public ManagerListDTO getAll() {
         log.info("Get all managers");
         return new ManagerListDTO(managerMapper.managersToManagersDTO(managerRepository.findAll()));
+    }
+
+    @Override
+    public List<ManagerInfoDTO> findAllManagersSortedByProductQuantity() {
+        log.info("Sorted managers by product`s quantity");
+        List<Manager> managerList = managerRepository.findAllManagersSortedByProductQuantity();
+        List<ManagerInfoDTO> managerInfoDTOList = new ArrayList<>();
+        if(managerList.isEmpty())
+            throw new NullPointerException("The list of managers is empty.");
+
+        for (var manager : managerList) {
+            managerInfoDTOList.add(managerMapper.toInfoDTO(manager));
+        }
+
+        return managerInfoDTOList;
     }
 
 }

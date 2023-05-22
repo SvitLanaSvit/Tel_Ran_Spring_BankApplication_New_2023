@@ -1,11 +1,13 @@
 package com.example.bankapplication.service.impl;
 
 import com.example.bankapplication.dto.AccountDTO;
+import com.example.bankapplication.dto.AccountIdDTO;
 import com.example.bankapplication.dto.AccountListDTO;
 import com.example.bankapplication.dto.CreateAccountDTO;
 import com.example.bankapplication.entity.enums.AccountStatus;
 import com.example.bankapplication.entity.enums.AccountType;
 import com.example.bankapplication.entity.enums.CurrencyCode;
+import com.example.bankapplication.entity.enums.ProductStatus;
 import com.example.bankapplication.mapper.AccountMapper;
 import com.example.bankapplication.repository.AccountRepository;
 import com.example.bankapplication.repository.ClientRepository;
@@ -19,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -66,6 +69,12 @@ import java.util.UUID;
  * and a `ClientNotFoundException` if the client specified in the DTO is not found.
  *
  * getAll(): This method retrieves all accounts.
+ *
+ * findAccountsByProductIdAndStatus(UUID id, ProductStatus status):
+ * The method retrieves a list of AccountIdDTO objects.
+ * It then invokes the findAccountByProductIdByStatus method of the accountRepository object,
+ * passing in the id and status as arguments.
+ * The returned result from findAccountByProductIdByStatus is returned by the findAccountsByProductIdAndStatus method.
  *
  * The `AccountServiceImpl` class implements the `AccountService` interface,
  * which defines the contract for performing operations on accounts.
@@ -135,17 +144,13 @@ public class AccountServiceImpl implements AccountService {
                 () -> new AccountNotFoundException(ErrorMessage.ACCOUNT_NOT_FOUND)
         );
 
-        var clientUUID = dto.getClientId();
-        var client = clientRepository.findClientById(clientUUID).orElseThrow(
-                () -> new ClientNotFoundException(ErrorMessage.CLIENT_NOT_FOUND)
-        );
         account.setName(dto.getName());
         account.setType(AccountType.valueOf(dto.getType()));
         account.setStatus(AccountStatus.valueOf(dto.getStatus()));
         account.setBalance(Double.parseDouble(dto.getBalance()));
         account.setCurrencyCode(CurrencyCode.valueOf(dto.getCurrencyCode()));
         account.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
-        account.setClient(client);
+        account.setClient(account.getClient());
 
         var result = accountRepository.save(account);
         return accountMapper.toDTO(result);
@@ -155,5 +160,15 @@ public class AccountServiceImpl implements AccountService {
     public AccountListDTO getAll() {
         log.info("Get all accounts");
         return new AccountListDTO(accountMapper.accountsToAccountsDTO(accountRepository.findAll()));
+    }
+
+    @Override
+    public List<AccountIdDTO> findAccountsByProductIdAndStatus(UUID id, ProductStatus status) {
+        log.info("Get list of account id by product id {} and product status {}", id, status);
+        List<AccountIdDTO> accountIdDTOList = accountRepository.findAccountByProductIdByStatus(id, status);
+        if(accountIdDTOList.isEmpty()){
+            throw new NullPointerException("The list of Id from account find by product id and status is EMPTY!");
+        }
+        return accountIdDTOList;
     }
 }

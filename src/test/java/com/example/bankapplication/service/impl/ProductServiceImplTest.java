@@ -51,6 +51,7 @@ class ProductServiceImplTest {
     private List<ProductDTO> productDTOList;
     private CreateProductDTO createProductDTO;
     private Manager manager;
+    private ProductListDTO productListDTO;
 
     @BeforeEach
     void setUp(){
@@ -64,6 +65,7 @@ class ProductServiceImplTest {
         productDTOList = new ArrayList<>(List.of(productDTO));
         createProductDTO = DTOCreator.getProductToCreate();
         manager = EntityCreator.getManager(managerId);
+        productListDTO = new ProductListDTO(productDTOList);
     }
 
     @Test
@@ -159,6 +161,20 @@ class ProductServiceImplTest {
         when(productRepository.findProductById(any(UUID.class))).thenReturn(Optional.empty());
         assertThrows(ProductNotFoundException.class, () -> productService.deleteProductById(productId));
         verify(productRepository, times(1)).findProductById(any(UUID.class));
+    }
+
+    @Test
+    void testFindAllChangedProducts() {
+        when(productRepository.findAllChangedProducts()).thenReturn(productList);
+
+        ProductListDTO actualProductDTOList = productService
+                .findAllChangedProducts();
+        assertEquals(productDTOList.size(), actualProductDTOList.getProductDTOList().size());
+        for(int i = 0; i < productDTOList.size(); i++)
+        {
+            compareEntityWithDto(productDTOList.get(i), actualProductDTOList.getProductDTOList().get(i));
+        }
+        verify(productRepository, times(1)).findAllChangedProducts();
     }
 
     private void compareListDto(ProductListDTO expectedProductListDTO, ProductListDTO actualProductListDTO){

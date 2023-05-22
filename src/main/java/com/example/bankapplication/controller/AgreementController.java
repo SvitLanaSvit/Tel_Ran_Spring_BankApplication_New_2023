@@ -81,9 +81,21 @@ public class AgreementController {
         return requestService.findAgreementsByManagerId(managerId);
     }
 
+    @GetMapping("findAgreementsJPA/ManagerId")
+    @ResponseStatus(HttpStatus.OK)
+    public Collection<AgreementIdDTO> getAgreementsByManagerIdJPA(@RequestParam UUID managerId){
+        return agreementService.findAgreementsByManagerId(managerId);
+    }
+
     @GetMapping("findAgreements/ClientId")
     @ResponseStatus(HttpStatus.OK)
     public Collection<AgreementIdDTO> getAgreementsByClientId(@RequestParam UUID clientId){
         return requestService.findAgreementByClientId(clientId);
+    }
+
+    @GetMapping("findAgreementsJPA/ClientId")
+    @ResponseStatus(HttpStatus.OK)
+    public Collection<AgreementIdDTO> getAgreementsByClientIdJPA(@RequestParam UUID clientId){
+        return agreementService.findAgreementByClientId(clientId);
     }
 }

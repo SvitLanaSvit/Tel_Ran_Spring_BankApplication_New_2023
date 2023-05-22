@@ -4,6 +4,7 @@ import com.example.bankapplication.dto.CreateProductDTO;
 import com.example.bankapplication.dto.ProductDTO;
 import com.example.bankapplication.dto.ProductListDTO;
 
+import java.util.Collection;
 import java.util.UUID;
 
 public interface ProductService {
@@ -12,4 +13,6 @@ public interface ProductService {
     ProductDTO create(CreateProductDTO dto);
     ProductDTO editProductById(UUID id, CreateProductDTO dto);
     void deleteProductById(UUID id);
+
+    ProductListDTO findAllChangedProducts();
 }

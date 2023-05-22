@@ -12,7 +12,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -154,6 +153,22 @@ class AgreementControllerTest {
     }
 
     @Test
+    void testGetAgreementsByManagerIdJPA() throws Exception {
+        RequestBuilder request = MockMvcRequestBuilders
+                .get("/auth/findAgreementsJPA/ManagerId?managerId=0eb587d1-5ccd-4a9f-9556-aa0be1fab212")
+                .contentType(MediaType.APPLICATION_JSON);
+
+        when(agreementService.findAgreementsByManagerId(any(UUID.class))).thenReturn(agreementIdDTOList);
+
+        var mvcResult = mockMvc.perform(request).andExpect(status().isOk()).andReturn();
+        TypeReference<List<AgreementIdDTO>> reference = new TypeReference<>() {};
+        List<AgreementIdDTO> actualAgreementIdDTOList = objectMapper
+                .readValue(mvcResult.getResponse().getContentAsString(), reference);
+        compareListIdDTO(agreementIdDTOList, actualAgreementIdDTOList);
+        verify(agreementService, times(1)).findAgreementsByManagerId(any(UUID.class));
+    }
+
+    @Test
     void testGetAgreementsByClientId() throws Exception {
         RequestBuilder request = MockMvcRequestBuilders
                 .get("/auth/findAgreements/ClientId?clientId=34fe63b8-0958-49f3-b0c4-f9f50744a77f")
@@ -166,6 +181,21 @@ class AgreementControllerTest {
                 .readValue(mvcResult.getResponse().getContentAsString(), reference);
         compareListIdDTO(agreementIdDTOList, actualAgreementIdDTOList);
         verify(requestService, times(1)).findAgreementByClientId(any(UUID.class));
+    }
+
+    @Test
+    void testGetAgreementsByClientIdJPA() throws Exception {
+        RequestBuilder request = MockMvcRequestBuilders
+                .get("/auth/findAgreementsJPA/ClientId?clientId=34fe63b8-0958-49f3-b0c4-f9f50744a77f")
+                .contentType(MediaType.APPLICATION_JSON);
+
+        when(agreementService.findAgreementByClientId(any(UUID.class))).thenReturn(agreementIdDTOList);
+        TypeReference<List<AgreementIdDTO>> reference = new TypeReference<>() {};
+        var mvcResult = mockMvc.perform(request).andExpect(status().isOk()).andReturn();
+        List<AgreementIdDTO> actualAgreementIdDTOList = objectMapper
+                .readValue(mvcResult.getResponse().getContentAsString(), reference);
+        compareListIdDTO(agreementIdDTOList, actualAgreementIdDTOList);
+        verify(agreementService, times(1)).findAgreementByClientId(any(UUID.class));
     }
 
     private void compareDTO (AgreementDTO expectedDTO, AgreementDTO actualDTO){

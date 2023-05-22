@@ -1,6 +1,7 @@
 package com.example.bankapplication.mapper;
 
 import com.example.bankapplication.dto.ClientDTO;
+import com.example.bankapplication.dto.ClientInfoDTO;
 import com.example.bankapplication.dto.CreateClientDTO;
 import com.example.bankapplication.entity.Client;
 import com.example.bankapplication.util.DTOCreator;
@@ -95,6 +96,28 @@ class ClientMapperTest {
     void testCreateToEntityNull() {
         Client client = clientMapper.createToEntity(null);
         assertNull(client);
+    }
+
+    @Test
+    void testToClientDTO(){
+        client.setAccounts(List.of(EntityCreator.getAccount(managerId)));
+        ClientInfoDTO clientInfoDTO = clientMapper.toClientDTO(client);
+        assertEquals(client.getId().toString(), clientInfoDTO.getId());
+        assertEquals(client.getStatus().toString(), clientInfoDTO.getStatus());
+        assertEquals(client.getTaxCode(), clientInfoDTO.getTaxCode());
+        assertEquals(client.getFirstName(), clientInfoDTO.getFirstName());
+        assertEquals(client.getLastName(), clientInfoDTO.getLastName());
+        assertEquals(client.getEmail(), clientInfoDTO.getEmail());
+        assertEquals(client.getAddress(), clientInfoDTO.getAddress());
+        assertEquals(client.getPhone(), clientInfoDTO.getPhone());
+        assertEquals(Double.toString(client.getAccounts().get(0).getBalance()), clientInfoDTO.getBalance());
+        assertEquals(client.getAccounts().get(0).getCurrencyCode().toString(), clientInfoDTO.getCurrencyCode());
+    }
+
+    @Test
+    void testToClientDTONull(){
+        ClientInfoDTO clientInfoDTO = clientMapper.toClientDTO(null);
+        assertNull(clientInfoDTO);
     }
 
     private void compareEntityWithDto(Client client, ClientDTO clientDTO){

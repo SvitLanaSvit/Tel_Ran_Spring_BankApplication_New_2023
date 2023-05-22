@@ -25,7 +25,7 @@ import lombok.experimental.FieldDefaults;
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ClientInfoDTO {
-    String UUID;
+    String id;
     String status;
     String taxCode;
     String firstName;

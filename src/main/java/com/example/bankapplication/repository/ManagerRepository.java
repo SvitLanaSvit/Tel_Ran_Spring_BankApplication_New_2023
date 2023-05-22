@@ -1,8 +1,10 @@
 package com.example.bankapplication.repository;
 
+import com.example.bankapplication.dto.ManagerInfoDTO;
 import com.example.bankapplication.entity.Manager;
 import com.example.bankapplication.entity.enums.ManagerStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
@@ -42,4 +44,7 @@ public interface ManagerRepository extends JpaRepository<Manager, UUID> {
     List<Manager> getAllByStatus(ManagerStatus managerStatus);
     List<Manager> findByStatus(ManagerStatus status);
     List<Manager> findAll();
+
+    @Query("SELECT m FROM Manager m LEFT JOIN FETCH m.products p ORDER BY p.productLimit")
+    List<Manager> findAllManagersSortedByProductQuantity();
 }

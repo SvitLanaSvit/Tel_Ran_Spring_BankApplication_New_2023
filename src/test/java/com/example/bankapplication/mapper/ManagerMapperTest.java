@@ -2,6 +2,7 @@ package com.example.bankapplication.mapper;
 
 import com.example.bankapplication.dto.CreateManagerDTO;
 import com.example.bankapplication.dto.ManagerDTO;
+import com.example.bankapplication.dto.ManagerInfoDTO;
 import com.example.bankapplication.entity.Manager;
 import com.example.bankapplication.util.DTOCreator;
 import com.example.bankapplication.util.EntityCreator;
@@ -96,6 +97,24 @@ class ManagerMapperTest {
     void testCreateToEntityNull() {
         Manager manager = managerMapper.createToEntity(null);
         assertNull(manager);
+    }
+
+    @Test
+    void testToInfoDTO(){
+        manager.setProducts(List.of(EntityCreator.getProduct(uuid)));
+        ManagerInfoDTO managerInfoDTO = managerMapper.toInfoDTO(manager);
+        assertEquals(manager.getId().toString(), managerInfoDTO.getId());
+        assertEquals(manager.getFirstName(), managerInfoDTO.getFirstName());
+        assertEquals(manager.getLastName(), managerInfoDTO.getLastName());
+        assertEquals(manager.getProducts().get(0).getId().toString(), managerInfoDTO.getProductId());
+        assertEquals(manager.getProducts().get(0).getName(), managerInfoDTO.getName());
+        assertEquals(Integer.toString(manager.getProducts().get(0).getProductLimit()), managerInfoDTO.getProductLimit());
+    }
+
+    @Test
+    void testToInfoDTONull() {
+        ManagerInfoDTO managerInfoDTO = managerMapper.toInfoDTO(null);
+        assertNull(managerInfoDTO);
     }
 
     private void compareEntityWithDto(Manager manager, ManagerDTO managerDTO){

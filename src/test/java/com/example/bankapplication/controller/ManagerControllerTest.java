@@ -207,7 +207,7 @@ class ManagerControllerTest {
 
     private void compareInfoDTO(ManagerInfoDTO expectedDTO, ManagerInfoDTO actualInfoDTO){
         assertAll(
-                () -> assertEquals(expectedDTO.getManagerId(), actualInfoDTO.getManagerId()),
+                () -> assertEquals(expectedDTO.getId(), actualInfoDTO.getId()),
                 () -> assertEquals(expectedDTO.getFirstName(), actualInfoDTO.getFirstName()),
                 () -> assertEquals(expectedDTO.getLastName(), actualInfoDTO.getLastName()),
                 () -> assertEquals(expectedDTO.getStatus(), actualInfoDTO.getStatus()),

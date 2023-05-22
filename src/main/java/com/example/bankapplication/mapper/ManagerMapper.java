@@ -2,6 +2,7 @@ package com.example.bankapplication.mapper;
 
 import com.example.bankapplication.dto.CreateManagerDTO;
 import com.example.bankapplication.dto.ManagerDTO;
+import com.example.bankapplication.dto.ManagerInfoDTO;
 import com.example.bankapplication.entity.Manager;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -43,4 +44,9 @@ public interface ManagerMapper {
     List<ManagerDTO> managersToManagersDTO(List<Manager> managers);
     @Mapping(target = "createdAt", expression = "java(new Timestamp(System.currentTimeMillis()))")
     Manager createToEntity(CreateManagerDTO managerDTO);
+
+    @Mapping(target = "productId", expression = "java(manager.getProducts().isEmpty() ? null : String.valueOf(manager.getProducts().get(0).getId()))")
+    @Mapping(target = "name", expression = "java(manager.getProducts().isEmpty() ? null : String.valueOf(manager.getProducts().get(0).getName()))")
+    @Mapping(target = "productLimit", expression = "java(manager.getProducts().isEmpty() ? null : String.valueOf(manager.getProducts().get(0).getProductLimit()))")
+    ManagerInfoDTO toInfoDTO(Manager manager);
 }

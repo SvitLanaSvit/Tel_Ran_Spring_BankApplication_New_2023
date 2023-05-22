@@ -1,8 +1,9 @@
 package com.example.bankapplication.mapper;
 
 import com.example.bankapplication.dto.ClientDTO;
+import com.example.bankapplication.dto.ClientInfoDTO;
 import com.example.bankapplication.dto.CreateClientDTO;
-import com.example.bankapplication.entity.Client;
+import com.example.bankapplication.entity.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -50,4 +51,8 @@ public interface ClientMapper {
     List<ClientDTO> clientsToClientsDTO(List<Client> clients);
     @Mapping(target = "createdAt", expression = "java(new Timestamp(System.currentTimeMillis()))")
     Client createToEntity(CreateClientDTO dto);
+
+    @Mapping(target = "balance", expression = "java(client.getAccounts().isEmpty() ? null : String.valueOf(client.getAccounts().get(0).getBalance()))")
+    @Mapping(target = "currencyCode", expression = "java(client.getAccounts().isEmpty() ? null : String.valueOf(client.getAccounts().get(0).getCurrencyCode()))")
+    ClientInfoDTO toClientDTO (Client client);
 }

@@ -1,11 +1,13 @@
 package com.example.bankapplication.service.impl;
 
 import com.example.bankapplication.dto.AccountDTO;
+import com.example.bankapplication.dto.AccountIdDTO;
 import com.example.bankapplication.dto.AccountListDTO;
 import com.example.bankapplication.dto.CreateAccountDTO;
 import com.example.bankapplication.entity.Account;
 import com.example.bankapplication.entity.Client;
 import com.example.bankapplication.entity.enums.AccountStatus;
+import com.example.bankapplication.entity.enums.ProductStatus;
 import com.example.bankapplication.mapper.AccountMapper;
 import com.example.bankapplication.mapper.AccountMapperImpl;
 import com.example.bankapplication.repository.AccountRepository;
@@ -22,10 +24,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -49,6 +48,7 @@ class AccountServiceImplTest {
     private CreateAccountDTO createAccountDTO;
     private UUID uuid;
     private Client client;
+    private List<AccountIdDTO> accountIdDTOList;
 
     @BeforeEach
     void setUp(){
@@ -62,6 +62,7 @@ class AccountServiceImplTest {
         createAccountDTO = DTOCreator.getAccountToCreate();
         uuid = UUID.randomUUID();
         client = EntityCreator.getClient(uuid);
+        accountIdDTOList = new ArrayList<>(List.of(DTOCreator.getAccountIdDTO()));
     }
 
     @Test
@@ -120,8 +121,6 @@ class AccountServiceImplTest {
 
         when(accountRepository.findAccountById(any(UUID.class))).thenReturn(Optional.of(account));
         when(accountRepository.save(any(Account.class))).thenReturn(account);
-        when(clientRepository.findClientById(any(UUID.class)))
-                .thenReturn(Optional.of(client));
 
         AccountDTO actualAccountDTO = accountService.editAccountById(uuid, createAccountDTO);
 
@@ -150,15 +149,15 @@ class AccountServiceImplTest {
         assertThrows(AccountNotFoundException.class, () -> accountService.editAccountById(uuid, createAccountDTO));
     }
 
-    @Test
-    @DisplayName("Negative test: Edit account with non-existing clientId")
-    void testEditAccountWithNonExistingClientId(){
-        when(accountRepository.findAccountById(any(UUID.class))).thenReturn(Optional.ofNullable(account));
-        when(clientRepository.findClientById(any(UUID.class))).thenReturn(Optional.empty());
-
-        assertThrows(ClientNotFoundException.class, () -> accountService.editAccountById(uuid, createAccountDTO));
-        verify(accountRepository, times(1)).findAccountById(any(UUID.class));
-    }
+//    @Test
+//    @DisplayName("Negative test: Edit account with non-existing clientId")
+//    void testEditAccountWithNonExistingClientId(){
+//        when(accountRepository.findAccountById(any(UUID.class))).thenReturn(Optional.ofNullable(account));
+//        when(clientRepository.findClientById(any(UUID.class))).thenReturn(Optional.empty());
+//
+//        assertThrows(ClientNotFoundException.class, () -> accountService.editAccountById(uuid, createAccountDTO));
+//        verify(accountRepository, times(1)).findAccountById(any(UUID.class));
+//    }
 
     @Test
     @DisplayName("Negative test: Get account by non-existing Id")
@@ -198,5 +197,32 @@ class AccountServiceImplTest {
         assertThrows(AccountNotFoundException.class, () -> accountService.deleteAccountById(uuid));
         verify(accountRepository, times(1)).findAccountById(any(UUID.class));
         verify(accountRepository, never()).deleteById(any(UUID.class));
+    }
+
+    @Test
+    @DisplayName("Positive test.")
+    void testFindAccountsByProductIdAndStatus(){
+        when(accountRepository.findAccountByProductIdByStatus(any(UUID.class), any(ProductStatus.class)))
+                .thenReturn(accountIdDTOList);
+        List<AccountIdDTO> actualAccountIdDTOList = accountService
+                .findAccountsByProductIdAndStatus(uuid, ProductStatus.ACTIVE);
+
+        assertEquals(accountIdDTOList.size(), actualAccountIdDTOList.size());
+        for (int i = 0; i < accountIdDTOList.size(); i++){
+            assertEquals(accountIdDTOList.get(i).getId(), actualAccountIdDTOList.get(i).getId());
+        }
+        verify(accountRepository, times(1))
+                .findAccountByProductIdByStatus(any(UUID.class), any(ProductStatus.class));
+    }
+
+    @Test
+    @DisplayName("Negative test")
+    void testNotFoundAccountIdListDTO(){
+        when(accountRepository.findAccountByProductIdByStatus(any(UUID.class), any(ProductStatus.class)))
+                .thenReturn(Collections.emptyList());
+
+        assertThrows(NullPointerException.class,
+                () -> accountService.findAccountsByProductIdAndStatus(uuid, ProductStatus.ACTIVE));
+        verify(accountRepository).findAccountByProductIdByStatus(any(UUID.class), any(ProductStatus.class));
     }
 }

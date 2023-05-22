@@ -25,7 +25,7 @@ import lombok.experimental.FieldDefaults;
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ManagerInfoDTO {
-    String managerId;
+    String id;
     String firstName;
     String lastName;
     String status;

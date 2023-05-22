@@ -169,6 +169,25 @@ class AccountControllerTest {
                 .findAccountsByProductIdAndStatus(any(UUID.class), any(ProductStatus.class));
     }
 
+    @Test
+    void testGetAccountIdsByProductIdAndStatusQuery() throws Exception {
+        RequestBuilder request = MockMvcRequestBuilders
+                .get("/auth/findAccountsJPA?id=2ee47e2a-6cfc-4f1d-b0ac-72e6c3ca5abc&status=ACTIVE")
+                .contentType(MediaType.APPLICATION_JSON);
+
+        when(accountService.findAccountsByProductIdAndStatus(any(UUID.class), any(ProductStatus.class)))
+                .thenReturn(accountIdDTOList);
+
+        var mvcResult = mockMvc.perform(request).andExpect(status().isOk()).andReturn();
+        TypeReference<List<AccountIdDTO>> typeReference = new TypeReference<>() {};
+        var actualAccountIdDTO = objectMapper
+                .readValue(mvcResult.getResponse().getContentAsString(), typeReference);
+        System.out.println(actualAccountIdDTO.get(0).getId());
+        compareListIdDTO(accountIdDTOList, actualAccountIdDTO);
+        verify(accountService, times(1))
+                .findAccountsByProductIdAndStatus(any(UUID.class), any(ProductStatus.class));
+    }
+
     private void compareDTO (AccountDTO expectedDTO, AccountDTO actualDTO){
         assertAll(
                 ()->assertEquals(expectedDTO.getId(), actualDTO.getId()),

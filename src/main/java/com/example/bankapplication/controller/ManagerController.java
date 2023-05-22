@@ -91,4 +91,10 @@ public class ManagerController {
     public Collection<ManagerInfoDTO> getAllManagersSortedByProductQuantity(){
         return requestService.findAllManagersSortedByProductQuantity();
     }
+
+    @GetMapping("managersJPA/productsQuantity")
+    @ResponseStatus(HttpStatus.OK)
+    public Collection<ManagerInfoDTO> getAllManagersSortedByProductQuantityJPA(){
+        return managerService.findAllManagersSortedByProductQuantity();
+    }
 }

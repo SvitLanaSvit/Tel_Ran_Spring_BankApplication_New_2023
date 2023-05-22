@@ -1,8 +1,6 @@
 package com.example.bankapplication.service.impl;
 
-import com.example.bankapplication.dto.AgreementDTO;
-import com.example.bankapplication.dto.AgreementListDTO;
-import com.example.bankapplication.dto.CreateAgreementDTO;
+import com.example.bankapplication.dto.*;
 import com.example.bankapplication.entity.enums.AgreementStatus;
 import com.example.bankapplication.mapper.AgreementMapper;
 import com.example.bankapplication.repository.AccountRepository;
@@ -19,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -166,5 +165,23 @@ public class AgreementServiceImpl implements AgreementService {
         if(agreement.isPresent())
             agreementRepository.deleteById(id);
         else throw new AgreementNotFoundException(ErrorMessage.AGREEMENT_NOT_FOUND);
+    }
+
+    @Override
+    public List<AgreementIdDTO> findAgreementsByManagerId(UUID managerId) {
+        log.info("Find agreement`s ids by manager id {}", managerId);
+        List<AgreementIdDTO> agreementIdDTOList =  agreementRepository.findAgreementsByManagerId(managerId);
+        if(agreementIdDTOList.isEmpty())
+            throw new NullPointerException("The list of Id from agreement find by manager id is EMPTY!");
+        return agreementIdDTOList;
+    }
+
+    @Override
+    public List<AgreementIdDTO> findAgreementByClientId(UUID clientId) {
+        log.info("Find agreement`s ids by client id {}", clientId);
+        List<AgreementIdDTO> agreementIdDTOList = agreementRepository.findAgreementsByClientId(clientId);
+        if(agreementIdDTOList.isEmpty())
+            throw new NullPointerException("The list of Id from agreement find by client id is EMPTY!");
+        return agreementIdDTOList;
     }
 }

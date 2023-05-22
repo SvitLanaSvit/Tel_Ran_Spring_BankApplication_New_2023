@@ -84,4 +84,11 @@ public class AccountController {
             @RequestParam UUID productId, @RequestParam ProductStatus status) {
        return requestService.findAccountsByProductIdAndStatus(productId,status);
     }
+
+    @GetMapping("findAccountsJPA")
+    @ResponseStatus(HttpStatus.OK)
+    public Collection<AccountIdDTO> getAccountIdsByProductIdAndStatusQuery(
+            @RequestParam UUID id, @RequestParam ProductStatus status){
+        return accountService.findAccountsByProductIdAndStatus(id, status);
+    }
 }

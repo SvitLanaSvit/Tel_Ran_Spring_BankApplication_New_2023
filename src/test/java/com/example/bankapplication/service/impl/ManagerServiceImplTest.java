@@ -158,7 +158,7 @@ class ManagerServiceImplTest {
     }
 
     @Test
-    public void testDeleteNonExistingManagerById(){
+    void testDeleteNonExistingManagerById(){
         when(managerRepository.findManagerById(any(UUID.class))).thenReturn(Optional.empty());
         assertThrows(ManagerNotFoundException.class, () -> managerService.deleteById(uuid));
         verify(managerRepository, times(1)).findManagerById(any(UUID.class));

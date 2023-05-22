@@ -1,6 +1,7 @@
 package com.example.bankapplication.service.impl;
 
 import com.example.bankapplication.dto.ClientDTO;
+import com.example.bankapplication.dto.ClientInfoDTO;
 import com.example.bankapplication.dto.ClientListDTO;
 import com.example.bankapplication.dto.CreateClientDTO;
 import com.example.bankapplication.entity.Client;
@@ -23,10 +24,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -53,6 +51,7 @@ class ClientServiceImplTest {
     private CreateClientDTO createClientDTO;
     private UUID clientId;
     private Manager manager;
+    private ClientInfoDTO clientInfoDTO;
 
     @BeforeEach
     void setUp(){
@@ -67,6 +66,7 @@ class ClientServiceImplTest {
         createClientDTO = DTOCreator.getClientToCreate();
         clientId = UUID.fromString("06edf03a-d58b-4b26-899f-f4ce69fb6b6f");
         manager = EntityCreator.getManager(UUID.fromString("08608780-7143-4306-a92f-1937bbcbdebd"));
+        clientInfoDTO = DTOCreator.getClientInfoDTO();
     }
 
     @Test
@@ -129,14 +129,14 @@ class ClientServiceImplTest {
 
     @Test
     @DisplayName("Negative test. Not found client by Id.")
-    public void editClientById_shouldThrowExceptionWhenManagerNotFound() {
+    void editClientById_shouldThrowExceptionWhenManagerNotFound() {
         when(clientRepository.findClientById(any(UUID.class))).thenReturn(Optional.empty());
         assertThrows(ClientNotFoundException.class, () -> clientService.editClientById(uuid, createClientDTO));
     }
 
     @Test
     @DisplayName("Negative test. Not found taxCode.")
-    public void createClientById_shouldThrowTaxCodeExistsException() {
+    void createClientById_shouldThrowTaxCodeExistsException() {
         String existingTaxCode = "1234567890";
         createClientDTO.setTaxCode(existingTaxCode);
 
@@ -167,7 +167,7 @@ class ClientServiceImplTest {
     }
 
     @Test
-    public void testCreateClientWithNoExistingManagerId(){
+    void testCreateClientWithNoExistingManagerId(){
         when(managerRepository.findManagerById(any(UUID.class))).thenReturn(Optional.empty());
 
         assertThrows(ManagerNotFoundException.class, () -> clientService.createClient(createClientDTO));
@@ -175,7 +175,7 @@ class ClientServiceImplTest {
     }
 
     @Test
-    public void testDeleteNonExistingClientById(){
+    void testDeleteNonExistingClientById(){
         when(clientRepository.findClientById(any(UUID.class))).thenReturn(Optional.empty());
 
         assertThrows(ClientNotFoundException.class, () -> clientService.deleteClientById(clientId));
@@ -183,13 +183,14 @@ class ClientServiceImplTest {
     }
 
     @Test
-    public void testEditClientWithNonExistingManagerId(){
+    void testEditClientWithNonExistingManagerId(){
         when(clientRepository.findClientById(any())).thenReturn(Optional.ofNullable(client));
         when(managerRepository.findManagerById(any(UUID.class))).thenReturn(Optional.empty());
 
         assertThrows(ManagerNotFoundException.class, () -> clientService.editClientById(clientId, createClientDTO));
         verify(managerRepository, times(1)).findManagerById(any(UUID.class));
     }
+
     private void compareEntityWithDto(ClientDTO expectedClientDTO, ClientDTO actualClientDTO){
         assertAll(
                 () -> assertEquals(expectedClientDTO.getId(), actualClientDTO.getId()),

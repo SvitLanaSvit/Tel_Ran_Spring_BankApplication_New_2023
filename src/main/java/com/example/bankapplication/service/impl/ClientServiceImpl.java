@@ -1,8 +1,10 @@
 package com.example.bankapplication.service.impl;
 
 import com.example.bankapplication.dto.ClientDTO;
+import com.example.bankapplication.dto.ClientInfoDTO;
 import com.example.bankapplication.dto.ClientListDTO;
 import com.example.bankapplication.dto.CreateClientDTO;
+import com.example.bankapplication.entity.Client;
 import com.example.bankapplication.entity.enums.ClientStatus;
 import com.example.bankapplication.mapper.ClientMapper;
 import com.example.bankapplication.repository.ClientRepository;
@@ -18,6 +20,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -163,5 +167,23 @@ public class ClientServiceImpl implements ClientService {
     public ClientListDTO getAll() {
         log.info("Get all clients");
         return new ClientListDTO(clientMapper.clientsToClientsDTO(clientRepository.findAll()));
+    }
+
+    @Override
+    @Transactional
+    public List<ClientInfoDTO> findClientsWhereBalanceMoreThan(Double balance) {
+        log.info("Find clients with balance more than {}", balance);
+
+        List<Client> clientList = clientRepository.findClientWhereBalanceMoreThan(balance);
+        List<ClientInfoDTO> clientInfoDTOList = new ArrayList<>();
+
+        if(clientList.isEmpty())
+            throw new NullPointerException("The list of clients is empty.");
+
+        for (var client : clientList) {
+            clientInfoDTOList.add(clientMapper.toClientDTO(client));
+        }
+
+        return clientInfoDTOList;
     }
 }

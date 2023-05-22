@@ -1,8 +1,12 @@
 package com.example.bankapplication.repository;
 
+import com.example.bankapplication.dto.AccountIdDTO;
 import com.example.bankapplication.entity.Account;
 import com.example.bankapplication.entity.enums.AccountStatus;
+import com.example.bankapplication.entity.enums.ProductStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +27,12 @@ import java.util.UUID;
  * 3. `List<Account> findAll()`: This method retrieves all `Account` entities from the repository.
  * It returns a list of all `Account` entities in the database.
  *
+ * @Query annotation allows you to write custom SQL queries in your Spring Data JPA repository methods.
+ * 4. The findAccountByProductIdByStatus method uses the @Query annotation to define a custom SQL query.
+ * It selects new instances of AccountIdDTO using the id field from the Account entity.
+ * The query includes several LEFT JOIN statements to join the Account, Client, Manager, and Product entities.
+ * It filters the results based on the id and status parameters.
+ *
  * The `JpaRepository` interface provides additional methods for common data access operations,
  * such as saving entities, deleting entities, and performing pagination and sorting.
  *
@@ -38,4 +48,11 @@ public interface AccountRepository extends JpaRepository<Account, UUID> {
     Optional<Account> findAccountById(UUID id);
     List<Account> getAllByStatus(AccountStatus status);
     List<Account> findAll();
+
+    @Query("SELECT new com.example.bankapplication.dto.AccountIdDTO(a.id) FROM Account a " +
+            "LEFT JOIN Client c " +
+            "LEFT JOIN Manager m " +
+            "LEFT JOIN Product p " +
+            "WHERE p.id = :id AND p.status = :status")
+    List<AccountIdDTO> findAccountByProductIdByStatus(@Param("id") UUID id, @Param("status") ProductStatus status);
 }

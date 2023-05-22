@@ -3,6 +3,7 @@ package com.example.bankapplication.service.impl;
 import com.example.bankapplication.dto.CreateProductDTO;
 import com.example.bankapplication.dto.ProductDTO;
 import com.example.bankapplication.dto.ProductListDTO;
+import com.example.bankapplication.entity.Product;
 import com.example.bankapplication.entity.enums.CurrencyCode;
 import com.example.bankapplication.entity.enums.ProductStatus;
 import com.example.bankapplication.mapper.ProductMapper;
@@ -18,6 +19,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -149,5 +152,11 @@ public class ProductServiceImpl implements ProductService {
         else{
             throw new ProductNotFoundException(ErrorMessage.PRODUCT_NOT_FOUND);
         }
+    }
+
+    @Override
+    public ProductListDTO findAllChangedProducts() {
+        log.info("Find changed products");
+        return new ProductListDTO(productMapper.productsToProductsDTO(productRepository.findAllChangedProducts()));
     }
 }

@@ -1,7 +1,9 @@
 package com.example.bankapplication.repository;
 
+import com.example.bankapplication.dto.ProductDTO;
 import com.example.bankapplication.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,4 +32,6 @@ import java.util.UUID;
 public interface ProductRepository extends JpaRepository<Product, UUID> {
     List<Product> findAll();
     Optional<Product> findProductById(UUID id);
+    @Query("SELECT p FROM Product p WHERE p.updatedAt is not null")
+    List<Product> findAllChangedProducts();
 }

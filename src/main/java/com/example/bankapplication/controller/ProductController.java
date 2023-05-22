@@ -79,4 +79,10 @@ public class ProductController {
     public Collection<ProductDTO> getAllChangedProducts(){
         return requestService.findAllChangedProducts();
     }
+
+    @GetMapping("changedProductsJPA")
+    @ResponseStatus(HttpStatus.OK)
+    public ProductListDTO getAllChangedProductsJPA(){
+        return productService.findAllChangedProducts();
+    }
 }

@@ -1,8 +1,11 @@
 package com.example.bankapplication.repository;
 
+import com.example.bankapplication.dto.ClientInfoDTO;
 import com.example.bankapplication.entity.Client;
 import com.example.bankapplication.entity.enums.ClientStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -42,4 +45,7 @@ public interface ClientRepository extends JpaRepository<Client, UUID> {
     Optional<Client> findClientByTaxCode(String taxCode);
     List<Client> getAllByStatus(ClientStatus status);
     List<Client> findAll();
+
+    @Query("SELECT distinct c FROM Client c LEFT JOIN FETCH c.accounts a WHERE a.balance > :balance")
+    List<Client> findClientWhereBalanceMoreThan(@Param("balance") Double balance);
 }

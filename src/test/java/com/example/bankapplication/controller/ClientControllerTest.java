@@ -195,7 +195,7 @@ class ClientControllerTest {
 
     private void compareInfoDTO(ClientInfoDTO expectedDTO, ClientInfoDTO actualInfoDTO){
         assertAll(
-                () -> assertEquals(expectedDTO.getUUID(), actualInfoDTO.getUUID()),
+                () -> assertEquals(expectedDTO.getId(), actualInfoDTO.getId()),
                 () -> assertEquals(expectedDTO.getStatus(), actualInfoDTO.getStatus()),
                 () -> assertEquals(expectedDTO.getTaxCode(), actualInfoDTO.getTaxCode()),
                 () -> assertEquals(expectedDTO.getFirstName(), actualInfoDTO.getFirstName()),

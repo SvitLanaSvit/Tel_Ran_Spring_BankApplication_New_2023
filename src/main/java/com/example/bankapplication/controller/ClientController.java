@@ -86,4 +86,10 @@ public class ClientController {
     public Collection<ClientInfoDTO> getAllClientsWhereBalanceMoreThan(@RequestParam Double balance){
         return requestService.findClientsWhereBalanceMoreThan(balance);
     }
+
+    @GetMapping("clientsJPA/balanceMore")
+    @ResponseStatus(HttpStatus.OK)
+    public Collection<ClientInfoDTO> getAllClientsWhereBalanceMoreThanJPA(@RequestParam Double balance){
+        return clientService.findClientsWhereBalanceMoreThan(balance);
+    }
 }

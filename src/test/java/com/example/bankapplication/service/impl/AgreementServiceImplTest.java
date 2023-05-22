@@ -1,11 +1,13 @@
 package com.example.bankapplication.service.impl;
 
 import com.example.bankapplication.dto.AgreementDTO;
+import com.example.bankapplication.dto.AgreementIdDTO;
 import com.example.bankapplication.dto.AgreementListDTO;
 import com.example.bankapplication.dto.CreateAgreementDTO;
 import com.example.bankapplication.entity.Account;
 import com.example.bankapplication.entity.Agreement;
 import com.example.bankapplication.entity.Product;
+import com.example.bankapplication.entity.enums.ProductStatus;
 import com.example.bankapplication.mapper.AgreementMapper;
 import com.example.bankapplication.mapper.AgreementMapperImpl;
 import com.example.bankapplication.repository.AccountRepository;
@@ -24,10 +26,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -57,6 +56,7 @@ class AgreementServiceImplTest {
     private CreateAgreementDTO createAgreementDTO;
     private Product product;
     private Account account;
+    private List<AgreementIdDTO> agreementIdDTOList;
 
     @BeforeEach
     void setUp(){
@@ -70,10 +70,11 @@ class AgreementServiceImplTest {
         createAgreementDTO = DTOCreator.getAgreementToCreate();
         product = EntityCreator.getProduct(uuid);
         account = EntityCreator.getAccount(uuid);
-
+        agreementIdDTOList = new ArrayList<>(List.of(DTOCreator.getAgreementIdDTO()));
     }
 
     @Test
+    @DisplayName("Positive test.")
     void testGetAll() {
         AgreementListDTO expectedListDTO = new AgreementListDTO(agreementDTOList);
 
@@ -85,6 +86,7 @@ class AgreementServiceImplTest {
     }
 
     @Test
+    @DisplayName("Positive test.")
     void testGetAgreementById() {
         AgreementDTO expectedAgreementDTO = DTOCreator.getAgreementDTO();
 
@@ -95,6 +97,7 @@ class AgreementServiceImplTest {
     }
 
     @Test
+    @DisplayName("Positive test.")
     void testCreateAgreement() {
         UUID agreementId = UUID.fromString("9c149059-3d2a-4741-9073-a05364ecb6cf");
         Agreement expectedAgreement = EntityCreator.getAgreementAfterDTO(agreementId, createAgreementDTO);
@@ -114,6 +117,7 @@ class AgreementServiceImplTest {
     }
 
     @Test
+    @DisplayName("Positive test.")
     void testEditAgreementById() {
         AgreementDTO expectedAgreementDTO = DTOCreator.getAgreementDTO();
 
@@ -137,6 +141,7 @@ class AgreementServiceImplTest {
     }
 
     @Test
+    @DisplayName("Positive test.")
     void testDeleteAgreementById() {
         when(agreementRepository.findAgreementById(any(UUID.class)))
                 .thenReturn(Optional.of(agreement));
@@ -148,7 +153,7 @@ class AgreementServiceImplTest {
     }
 
     @Test
-    @DisplayName("Negative test. Not found agreement by Id.")
+    @DisplayName("Negative test. Not found manager`s Id.")
     public void editAgreementById_shouldThrowExceptionWhenManagerNotFound() {
         CreateAgreementDTO dto = DTOCreator.getAgreementToCreate();
 
@@ -157,6 +162,7 @@ class AgreementServiceImplTest {
     }
 
     @Test
+    @DisplayName("Negative test. Not found account`s Id.")
     public void testEditAgreementWithNonExistingAccountId(){
         when(agreementRepository.findAgreementById(any(UUID.class))).thenReturn(Optional.ofNullable(agreement));
         when(accountRepository.findAccountById(any(UUID.class))).thenReturn(Optional.empty());
@@ -166,6 +172,7 @@ class AgreementServiceImplTest {
     }
 
     @Test
+    @DisplayName("Negative test. Not found product`s Id.")
     public void testEditAgreementWithNonExistingProductId(){
         when(agreementRepository.findAgreementById(any(UUID.class))).thenReturn(Optional.ofNullable(agreement));
         when(productRepository.findProductById(any(UUID.class))).thenReturn(Optional.empty());
@@ -176,6 +183,7 @@ class AgreementServiceImplTest {
     }
 
     @Test
+    @DisplayName("Negative test. Not found agreement`s Id.")
     public void testDeleteNonExistingAgreementById(){
         when(agreementRepository.findAgreementById(any(UUID.class))).thenReturn(Optional.empty());
 
@@ -184,6 +192,7 @@ class AgreementServiceImplTest {
     }
 
     @Test
+    @DisplayName("Negative test. Not found agreement`s Id.")
     public void testGetAgreementByNonExistingId(){
         when(agreementRepository.findAgreementById(any(UUID.class))).thenReturn(Optional.empty());
 
@@ -192,6 +201,7 @@ class AgreementServiceImplTest {
     }
 
     @Test
+    @DisplayName("Negative test. Not found product`s Id.")
     public void testCreateAgreementWithNullProductId(){
         when(productRepository.findProductById(any(UUID.class))).thenReturn(Optional.empty());
 
@@ -200,11 +210,62 @@ class AgreementServiceImplTest {
     }
 
     @Test
+    @DisplayName("Negative test. Not found account`s Id.")
     public void testCreateAgreementWithNullAccountId(){
         when(productRepository.findProductById(any(UUID.class))).thenReturn(Optional.of(product));
         when(accountRepository.findAccountById(any(UUID.class))).thenReturn(Optional.empty());
 
         assertThrows(AccountNotFoundException.class, () -> agreementService.createAgreement(createAgreementDTO));
         verify(productRepository, times(1)).findProductById(any(UUID.class));
+    }
+
+    @Test
+    @DisplayName("Positive test")
+    void testFindAgreementsByManagerId() {
+        when(agreementRepository.findAgreementsByManagerId(any(UUID.class))).thenReturn(agreementIdDTOList);
+
+        List<AgreementIdDTO> actualAgreementIdDTOList = agreementService
+                .findAgreementsByManagerId(uuid).stream().toList();
+        compareAgreementIdDTOList(agreementIdDTOList, actualAgreementIdDTOList);
+        verify(agreementRepository, times(1)).findAgreementsByManagerId(any(UUID.class));
+    }
+
+    @Test
+    @DisplayName("Negative test")
+    void testEmptyAgreementIdListDTOFindByManagerId(){
+        when(agreementRepository.findAgreementsByManagerId(any(UUID.class))).thenReturn(Collections.emptyList());
+
+        assertThrows(NullPointerException.class,
+                () -> agreementService.findAgreementsByManagerId(uuid));
+        verify(agreementRepository).findAgreementsByManagerId(any(UUID.class));
+    }
+
+    @Test
+    @DisplayName("Positive test")
+    void testFindAgreementByClientId() {
+        when(agreementRepository.findAgreementsByClientId(any(UUID.class)))
+                .thenReturn(agreementIdDTOList);
+
+        List<AgreementIdDTO> actualAgreementIdDTOList = agreementService
+                .findAgreementByClientId(uuid).stream().toList();
+        compareAgreementIdDTOList(agreementIdDTOList, actualAgreementIdDTOList);
+        verify(agreementRepository, times(1)).findAgreementsByClientId(any(UUID.class));
+    }
+
+    @Test
+    @DisplayName("Negative test")
+    void testEmptyAgreementIdListDTOFindByClientId(){
+        when(agreementRepository.findAgreementsByClientId(any(UUID.class))).thenReturn(Collections.emptyList());
+
+        assertThrows(NullPointerException.class,
+                () -> agreementService.findAgreementByClientId(uuid));
+        verify(agreementRepository).findAgreementsByClientId(any(UUID.class));
+    }
+
+    private void compareAgreementIdDTOList(List<AgreementIdDTO> expextedList, List<AgreementIdDTO> actualList){
+        assertEquals(expextedList.size(), actualList.size());
+        for(int i = 0; i < expextedList.size(); i++){
+            assertEquals(expextedList.get(i).getId(), actualList.get(i).getId());
+        }
     }
 }
