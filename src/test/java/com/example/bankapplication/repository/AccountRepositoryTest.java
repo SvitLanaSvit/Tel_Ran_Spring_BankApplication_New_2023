@@ -34,12 +34,12 @@ class AccountRepositoryTest {
     private Client client;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         client = mock(Client.class);
         accounts = new ArrayList<>(List.of(
                 new Account(
-                        UUID.randomUUID(),"account1",AccountType.STUDENT,AccountStatus.ACTIVE,50,
-                        CurrencyCode.USD,null,null,client)
+                        UUID.randomUUID(), "account1", AccountType.STUDENT, AccountStatus.ACTIVE, 50,
+                        CurrencyCode.USD, null, null, client)
         ));
     }
 

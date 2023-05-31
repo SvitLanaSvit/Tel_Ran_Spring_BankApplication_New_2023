@@ -29,12 +29,9 @@ import java.util.UUID;
  * It provides methods for performing various operations related to clients.
  *
  * @Service: This annotation is used to indicate that this class is a service component in the Spring framework.
- *
  * @RequiredArgsConstructor: This annotation is from the Lombok library and generates a constructor with required arguments
  * for the final fields. It allows us to inject dependencies using constructor injection.
- *
  * @Slf4j: This annotation is from the Lombok library and generates a logger field for logging.
- *
  * @Transactional: This annotation is used in Spring to define transactional boundaries for methods or classes.
  * When applied to a method or class, it indicates that a transaction should be created for the annotated method
  * or all methods within the annotated class.
@@ -46,35 +43,35 @@ import java.util.UUID;
  * or rolling back transactions based on the annotated method's execution.
  * It is important to note that the `@Transactional` annotation should be applied to methods that modify data
  * or perform multiple database operations to ensure data integrity and consistency.
- *
+ * <p>
  * ClientRepository clientRepository: This field is used to access the client data in the database.
- *
+ * <p>
  * ClientMapper clientMapper: This field is used to map client entities to DTOs and vice versa.
- *
+ * <p>
  * ManagerRepository managerRepository: This field is used to access manager data in the database.
- *
+ * <p>
  * getClientById(UUID id): This method retrieves a client by their unique identifier (`id`).
  * It throws a `ClientNotFoundException` if no client with the specified `id` is found.
- *
+ * <p>
  * getClientsStatus(): This method retrieves all clients with the status "ACTIVE".
- *
+ * <p>
  * createClient(CreateClientDTO dto): This method creates a new client based on the provided DTO.
  * It throws a `ManagerNotFoundException` if the manager specified in the DTO is not found,
  * and a `TaxCodeExistsException` if a client with the same tax code already exists.
- *
+ * <p>
  * deleteClientById(UUID id): This method deletes a client by their unique identifier (`id`).
  * It throws a `ClientNotFoundException` if no client with the specified `id` is found.
- *
+ * <p>
  * editClientById(UUID id, CreateClientDTO dto): This method updates a client with the specified `id`
  * using the information provided in the DTO. It throws a `ClientNotFoundException` if no client with the specified `id` is found,
  * and a `ManagerNotFoundException` if the manager specified in the DTO is not found.
- *
+ * <p>
  * getAll(): This method retrieves all clients.
- *
+ * <p>
  * The `ClientServiceImpl` class implements the `ClientService` interface,
  * which defines the contract for performing operations on clients.
  * By implementing this interface, the class provides the necessary business logic for client-related operations.
- *
+ * <p>
  * With the `ClientServiceImpl` class, we can retrieve, create, update, and delete clients,
  * as well as get all clients. It uses the `ClientRepository` and `ManagerRepository` interfaces for data access,
  * and the `ClientMapper` interface for entity-DTO mapping.
@@ -117,7 +114,7 @@ public class ClientServiceImpl implements ClientService {
         client.setManager(manager);
 
         var taxCode = dto.getTaxCode();
-        clientRepository.findClientByTaxCode(taxCode).ifPresent((elem)->{
+        clientRepository.findClientByTaxCode(taxCode).ifPresent((elem) -> {
             log.info("Client with taxCode {} is exist", dto.getTaxCode());
             throw new TaxCodeExistsException(ErrorMessage.TAX_CODE_EXISTS);
         });
@@ -131,7 +128,7 @@ public class ClientServiceImpl implements ClientService {
     public void deleteClientById(UUID id) {
         log.info("Deleting client {}", id);
         var client = clientRepository.findClientById(id);
-        if(client.isPresent())
+        if (client.isPresent())
             clientRepository.deleteById(id);
         else throw new ClientNotFoundException(ErrorMessage.CLIENT_NOT_FOUND);
     }
@@ -177,7 +174,7 @@ public class ClientServiceImpl implements ClientService {
         List<Client> clientList = clientRepository.findClientWhereBalanceMoreThan(balance);
         List<ClientInfoDTO> clientInfoDTOList = new ArrayList<>();
 
-        if(clientList.isEmpty())
+        if (clientList.isEmpty())
             throw new NullPointerException("The list of clients is empty.");
 
         for (var client : clientList) {

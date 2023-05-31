@@ -36,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class AccountControllerTest {
 
     @Autowired
-    private  MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @MockBean
     private AccountService accountService;
@@ -56,14 +56,14 @@ class AccountControllerTest {
     private List<AccountIdDTO> accountIdDTOList;
 
     @BeforeEach
-    void setUp(){
-       uuid = UUID.randomUUID();
-       createAccountDTO = DTOCreator.getAccountToCreate();
-       accountDTO = DTOCreator.getAccountDTO();
-       list = new ArrayList<>(List.of(DTOCreator.getAccountDTO()));
-       accountListDTO = new AccountListDTO(list);
-       accountIdDTO = DTOCreator.getAccountIdDTO();
-       accountIdDTOList = new ArrayList<>(List.of(accountIdDTO));
+    void setUp() {
+        uuid = UUID.randomUUID();
+        createAccountDTO = DTOCreator.getAccountToCreate();
+        accountDTO = DTOCreator.getAccountDTO();
+        list = new ArrayList<>(List.of(DTOCreator.getAccountDTO()));
+        accountListDTO = new AccountListDTO(list);
+        accountIdDTO = DTOCreator.getAccountIdDTO();
+        accountIdDTOList = new ArrayList<>(List.of(accountIdDTO));
     }
 
     @Test
@@ -160,7 +160,8 @@ class AccountControllerTest {
                 .thenReturn(accountIdDTOList);
 
         var mvcResult = mockMvc.perform(request).andExpect(status().isOk()).andReturn();
-        TypeReference<List<AccountIdDTO>> typeReference = new TypeReference<>() {};
+        TypeReference<List<AccountIdDTO>> typeReference = new TypeReference<>() {
+        };
         var actualAccountIdDTO = objectMapper
                 .readValue(mvcResult.getResponse().getContentAsString(), typeReference);
         System.out.println(actualAccountIdDTO.get(0).getId());
@@ -179,7 +180,8 @@ class AccountControllerTest {
                 .thenReturn(accountIdDTOList);
 
         var mvcResult = mockMvc.perform(request).andExpect(status().isOk()).andReturn();
-        TypeReference<List<AccountIdDTO>> typeReference = new TypeReference<>() {};
+        TypeReference<List<AccountIdDTO>> typeReference = new TypeReference<>() {
+        };
         var actualAccountIdDTO = objectMapper
                 .readValue(mvcResult.getResponse().getContentAsString(), typeReference);
         System.out.println(actualAccountIdDTO.get(0).getId());
@@ -188,27 +190,27 @@ class AccountControllerTest {
                 .findAccountsByProductIdAndStatus(any(UUID.class), any(ProductStatus.class));
     }
 
-    private void compareDTO (AccountDTO expectedDTO, AccountDTO actualDTO){
+    private void compareDTO(AccountDTO expectedDTO, AccountDTO actualDTO) {
         assertAll(
-                ()->assertEquals(expectedDTO.getId(), actualDTO.getId()),
-                ()->assertEquals(expectedDTO.getName(), actualDTO.getName()),
-                ()->assertEquals(expectedDTO.getType(), actualDTO.getType()),
-                ()->assertEquals(expectedDTO.getBalance(), actualDTO.getBalance()),
-                ()->assertEquals(expectedDTO.getCurrencyCode(), actualDTO.getCurrencyCode()),
-                ()->assertEquals(expectedDTO.getClientId(), actualDTO.getClientId())
+                () -> assertEquals(expectedDTO.getId(), actualDTO.getId()),
+                () -> assertEquals(expectedDTO.getName(), actualDTO.getName()),
+                () -> assertEquals(expectedDTO.getType(), actualDTO.getType()),
+                () -> assertEquals(expectedDTO.getBalance(), actualDTO.getBalance()),
+                () -> assertEquals(expectedDTO.getCurrencyCode(), actualDTO.getCurrencyCode()),
+                () -> assertEquals(expectedDTO.getClientId(), actualDTO.getClientId())
         );
     }
 
-    private void compareListDTO(AccountListDTO expectedListDTO, AccountListDTO actualListDTO){
+    private void compareListDTO(AccountListDTO expectedListDTO, AccountListDTO actualListDTO) {
         assertEquals(expectedListDTO.getAccountDTOList().size(), actualListDTO.getAccountDTOList().size());
-        for(int i = 0; i < expectedListDTO.getAccountDTOList().size(); i++){
+        for (int i = 0; i < expectedListDTO.getAccountDTOList().size(); i++) {
             compareDTO(expectedListDTO.getAccountDTOList().get(i), actualListDTO.getAccountDTOList().get(i));
         }
     }
 
-    private void compareListIdDTO(List<AccountIdDTO> expectedListIdDTO, List<AccountIdDTO> actualListIdDTO){
+    private void compareListIdDTO(List<AccountIdDTO> expectedListIdDTO, List<AccountIdDTO> actualListIdDTO) {
         assertEquals(expectedListIdDTO.size(), actualListIdDTO.size());
-        for(int i = 0; i < expectedListIdDTO.size(); i++){
+        for (int i = 0; i < expectedListIdDTO.size(); i++) {
             assertEquals(expectedListIdDTO.get(i).getId(), actualListIdDTO.get(i).getId());
         }
     }

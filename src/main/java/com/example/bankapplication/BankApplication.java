@@ -13,11 +13,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * the application based on its dependencies and classpath.
  * @ComponentScan tells Spring to scan and discover components, configurations, and services within
  * the specified package and its sub-packages.
- *
+ * <p>
  * main(String[] args): The main method is the entry point of the application.
  * It calls the `run` method of `SpringApplication` class to start the Spring Boot application.
  * It passes the `BankApplication` class and the command line arguments `args` to the `run` method.
- *
+ * <p>
  * By running this class, the Spring Boot application will start, and the configured components, services,
  * and configurations will be initialized and ready for use.
  */

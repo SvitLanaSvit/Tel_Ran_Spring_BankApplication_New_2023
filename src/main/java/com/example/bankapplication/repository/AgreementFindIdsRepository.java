@@ -15,33 +15,33 @@ import java.util.UUID;
 /**
  * The `AgreementFindIdsRepository` class is a repository class that provides methods for querying agreement IDs based
  * on a manager ID and client ID. It uses SQL queries to fetch the agreement IDs from the database.
- *
+ * <p>
  * `@Repository`: This annotation is used to indicate that this class is a repository component in the Spring framework.
- *
+ * <p>
  * `@RequiredArgsConstructor`: This annotation is from the Lombok library and generates a constructor with required arguments
- *   for the final fields. It allows us to initialize the `jdbcTemplate` field through constructor injection.
- *
+ * for the final fields. It allows us to initialize the `jdbcTemplate` field through constructor injection.
+ * <p>
  * `@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)`: This annotation is from the Lombok library
- *   and sets the access level of fields to private and makes them final.
- *   It eliminates the need to write boilerplate code for field declarations and constructors.
- *
+ * and sets the access level of fields to private and makes them final.
+ * It eliminates the need to write boilerplate code for field declarations and constructors.
+ * <p>
  * `private static final String SQL_REQUEST_MANAGER_ID`: This constant variable holds the SQL query used to fetch agreement IDs
- *   associated with a manager ID.
- *
+ * associated with a manager ID.
+ * <p>
  * `private static final String SQL_REQUEST_CLIENT_ID`: This constant variable holds the SQL query used to fetch agreement IDs
- *   associated with a client ID.
- *
+ * associated with a client ID.
+ * <p>
  * `NamedParameterJdbcTemplate jdbcTemplate`: This field is used to execute SQL queries with named parameters.
- *   It is initialized through constructor injection and made final.
- *
+ * It is initialized through constructor injection and made final.
+ * <p>
  * `findAgreementsByManagerId(UUID managerId)`: This method queries the database to find agreement IDs associated with a manager.
- *   It uses the SQL query `SQL_REQUEST_MANAGER_ID` with a named parameter to retrieve the data.
- *   The results are mapped to `AgreementIdDTO` objects and returned as a list.
- *
+ * It uses the SQL query `SQL_REQUEST_MANAGER_ID` with a named parameter to retrieve the data.
+ * The results are mapped to `AgreementIdDTO` objects and returned as a list.
+ * <p>
  * `findAgreementByClientId(UUID clientId)`: This method queries the database to find agreement IDs associated with a client.
- *   It uses the SQL query `SQL_REQUEST_CLIENT_ID` with a named parameter to retrieve the data.
- *   The results are mapped to `AgreementIdDTO` objects and returned as a list.
- *
+ * It uses the SQL query `SQL_REQUEST_CLIENT_ID` with a named parameter to retrieve the data.
+ * The results are mapped to `AgreementIdDTO` objects and returned as a list.
+ * <p>
  * The `AgreementFindIdsRepository` class provides methods to fetch agreement IDs from the database based on a manager ID and client ID.
  * It uses the `NamedParameterJdbcTemplate` to execute SQL queries.
  */
@@ -61,15 +61,15 @@ public class AgreementFindIdsRepository {
 
     NamedParameterJdbcTemplate jdbcTemplate;
 
-    public List<AgreementIdDTO> findAgreementsByManagerId(UUID managerId){
+    public List<AgreementIdDTO> findAgreementsByManagerId(UUID managerId) {
         Map<String, Object> map = new HashMap<>();
         map.put("managerId", managerId.toString());
-        return jdbcTemplate.queryForStream(SQL_REQUEST_MANAGER_ID, map,(rs, rowNum)-> new AgreementIdDTO(
+        return jdbcTemplate.queryForStream(SQL_REQUEST_MANAGER_ID, map, (rs, rowNum) -> new AgreementIdDTO(
                 UUID.fromString(rs.getString("id"))
         )).toList();
     }
 
-    public List<AgreementIdDTO> findAgreementByClientId(UUID clientId){
+    public List<AgreementIdDTO> findAgreementByClientId(UUID clientId) {
         Map<String, Object> map = new HashMap<>();
         map.put("clientId", clientId.toString());
         return jdbcTemplate.queryForStream(SQL_REQUEST_CLIENT_ID, map, (rs, rowNum) -> new AgreementIdDTO(

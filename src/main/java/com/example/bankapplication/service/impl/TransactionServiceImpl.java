@@ -23,12 +23,9 @@ import java.util.UUID;
  * It provides methods for performing various operations related to transactions.
  *
  * @Service: This annotation is used to indicate that this class is a service component in the Spring framework.
- *
  * @RequiredArgsConstructor: This annotation is from the Lombok library and generates a constructor with required arguments
  * for the final fields. It allows us to inject dependencies using constructor injection.
- *
  * @Slf4j: This annotation is from the Lombok library and generates a logger field for logging.
- *
  * @Transactional: This annotation is used in Spring to define transactional boundaries for methods or classes.
  * When applied to a method or class, it indicates that a transaction should be created for the annotated method
  * or all methods within the annotated class.
@@ -40,32 +37,32 @@ import java.util.UUID;
  * or rolling back transactions based on the annotated method's execution.
  * It is important to note that the `@Transactional` annotation should be applied to methods that modify data
  * or perform multiple database operations to ensure data integrity and consistency.
- *
+ * <p>
  * TransactionMapper transactionMapper: This field is used to map transaction entities to DTOs and vice versa.
- *
+ * <p>
  * TransactionRepository transactionRepository: This field is used to access and manipulate transaction data in the database.
- *
+ * <p>
  * AccountRepository accountRepository: This field is used to access and manipulate account data in the database.
- *
+ * <p>
  * getAll(): This method retrieves all transactions from the database and returns them as a `TransactionListDTO` object.
- *
+ * <p>
  * getTransactionById(UUID id): This method retrieves a transaction by its ID from the database and returns it as a `TransactionDTO` object.
  * If the transaction is not found, it throws a `TransactionNotFoundException`.
- *
+ * <p>
  * createTransaction(CreateTransactionDTO dto): This method creates a new transaction based on the provided information.
  * It retrieves the debit and credit accounts from the database using the account repository,
  * maps the DTO to an entity, sets the accounts in the transaction, saves the transaction to the database, and returns the created transaction as a `TransactionDTO` object.
- *
+ * <p>
  * deleteTransactionById(UUID id): This method deletes a transaction by its ID from the database.
  * If the transaction is not found, it throws a `TransactionNotFoundException`.
- *
+ * <p>
  * getAccount(UUID id): This is a helper method that retrieves an account by its ID from the database using the account repository.
  * If the account is not found, it throws an `AccountNotFoundException`.
- *
+ * <p>
  * The `TransactionServiceImpl` class implements the `TransactionService` interface,
  * which defines the contract for performing operations on transactions.
  * By implementing this interface, the class provides the necessary business logic for transaction-related operations.
- *
+ * <p>
  * With the `TransactionServiceImpl` class, we can retrieve all transactions, retrieve a transaction by ID,
  * create a new transaction, and delete a transaction by ID.
  * It uses the transaction repository to access and manipulate transaction data,
@@ -113,9 +110,9 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionMapper.toDTO(result);
     }
 
-    private Account getAccount(UUID id){
+    private Account getAccount(UUID id) {
         return accountRepository.findAccountById(id).orElseThrow(
-                ()-> new AccountNotFoundException(ErrorMessage.ACCOUNT_NOT_FOUND)
+                () -> new AccountNotFoundException(ErrorMessage.ACCOUNT_NOT_FOUND)
         );
     }
 
@@ -124,7 +121,7 @@ public class TransactionServiceImpl implements TransactionService {
     public void deleteTransactionById(UUID id) {
         log.info("Deleting transaction {}", id);
         var transaction = transactionRepository.findTransactionById(id);
-        if(transaction.isPresent())
+        if (transaction.isPresent())
             transactionRepository.deleteById(id);
         else throw new TransactionNotFoundException(ErrorMessage.TRANSACTION_NOT_FOUND);
     }

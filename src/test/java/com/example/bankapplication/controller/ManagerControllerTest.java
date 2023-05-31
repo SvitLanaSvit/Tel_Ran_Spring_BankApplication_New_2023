@@ -53,7 +53,7 @@ class ManagerControllerTest {
     private List<ManagerInfoDTO> managerInfoDTOList;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         uuid = UUID.randomUUID();
         createManagerDTO = DTOCreator.getManagerToCreate();
         managerDTO = DTOCreator.getManagerDTO(UUID.randomUUID());
@@ -136,7 +136,7 @@ class ManagerControllerTest {
     }
 
     @Test
-    void testEditManager() throws  Exception{
+    void testEditManager() throws Exception {
         RequestBuilder request = MockMvcRequestBuilders
                 .put("/auth/editManager/{id}", uuid)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -175,37 +175,38 @@ class ManagerControllerTest {
         when(requestService.findAllManagersSortedByProductQuantity()).thenReturn(managerInfoDTOList);
 
         var mvcResult = mockMvc.perform(requst).andExpect(status().isOk()).andReturn();
-        TypeReference<List<ManagerInfoDTO>> reference = new TypeReference<>() {};
+        TypeReference<List<ManagerInfoDTO>> reference = new TypeReference<>() {
+        };
         List<ManagerInfoDTO> actualManagerInfoDTOList = objectMapper
                 .readValue(mvcResult.getResponse().getContentAsString(), reference);
         compareListInfoDTO(managerInfoDTOList, actualManagerInfoDTOList);
         verify(requestService, times(1)).findAllManagersSortedByProductQuantity();
     }
 
-    private void compareDTO (ManagerDTO expectedDTO, ManagerDTO actualDTO){
+    private void compareDTO(ManagerDTO expectedDTO, ManagerDTO actualDTO) {
         assertAll(
-                ()->assertEquals(expectedDTO.getId(), actualDTO.getId()),
-                ()->assertEquals(expectedDTO.getFirstName(), actualDTO.getFirstName()),
-                ()->assertEquals(expectedDTO.getLastName(), actualDTO.getLastName()),
-                ()->assertEquals(expectedDTO.getStatus(), actualDTO.getStatus())
+                () -> assertEquals(expectedDTO.getId(), actualDTO.getId()),
+                () -> assertEquals(expectedDTO.getFirstName(), actualDTO.getFirstName()),
+                () -> assertEquals(expectedDTO.getLastName(), actualDTO.getLastName()),
+                () -> assertEquals(expectedDTO.getStatus(), actualDTO.getStatus())
         );
     }
 
-    private void compareListDTO(ManagerListDTO expectedListDTO, ManagerListDTO actualListDTO){
+    private void compareListDTO(ManagerListDTO expectedListDTO, ManagerListDTO actualListDTO) {
         assertEquals(expectedListDTO.getManagerDTOList().size(), actualListDTO.getManagerDTOList().size());
-        for(int i = 0; i < expectedListDTO.getManagerDTOList().size(); i++){
+        for (int i = 0; i < expectedListDTO.getManagerDTOList().size(); i++) {
             compareDTO(expectedListDTO.getManagerDTOList().get(i), actualListDTO.getManagerDTOList().get(i));
         }
     }
 
-    private void compareListInfoDTO(List<ManagerInfoDTO> expectedListIdDTO, List<ManagerInfoDTO> actualListIdDTO){
+    private void compareListInfoDTO(List<ManagerInfoDTO> expectedListIdDTO, List<ManagerInfoDTO> actualListIdDTO) {
         assertEquals(expectedListIdDTO.size(), actualListIdDTO.size());
-        for(int i = 0; i < expectedListIdDTO.size(); i++){
+        for (int i = 0; i < expectedListIdDTO.size(); i++) {
             compareInfoDTO(expectedListIdDTO.get(i), actualListIdDTO.get(i));
         }
     }
 
-    private void compareInfoDTO(ManagerInfoDTO expectedDTO, ManagerInfoDTO actualInfoDTO){
+    private void compareInfoDTO(ManagerInfoDTO expectedDTO, ManagerInfoDTO actualInfoDTO) {
         assertAll(
                 () -> assertEquals(expectedDTO.getId(), actualInfoDTO.getId()),
                 () -> assertEquals(expectedDTO.getFirstName(), actualInfoDTO.getFirstName()),

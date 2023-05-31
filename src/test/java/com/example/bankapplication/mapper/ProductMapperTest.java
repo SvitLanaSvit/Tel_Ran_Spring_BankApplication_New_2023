@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 @DisplayName("Test class for ManagerMapper")
 class ProductMapperTest {
 
@@ -29,7 +30,7 @@ class ProductMapperTest {
     private CreateProductDTO createProductDTO;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         uuid = UUID.randomUUID();
         product = EntityCreator.getProduct(uuid);
         productDTO = DTOCreator.getProductDTO();
@@ -38,6 +39,7 @@ class ProductMapperTest {
         createProductDTO = DTOCreator.getProductToCreateWithCreateDate();
 
     }
+
     @Test
     @DisplayName("Positive test. When we have correct entity then return correct ProductDto")
     void testToDTO() {
@@ -94,11 +96,12 @@ class ProductMapperTest {
 
     @Test
     void testCreateToEntityNull() {
-        Product product = productMapper.createToEntity(null);;
+        Product product = productMapper.createToEntity(null);
+        ;
         assertNull(product);
     }
 
-    private void compareEntityWithDto(Product product, ProductDTO productDTO){
+    private void compareEntityWithDto(Product product, ProductDTO productDTO) {
         assertAll(
                 () -> assertEquals(product.getId().toString(), productDTO.getId()),
                 () -> assertEquals(product.getName(), productDTO.getName()),
@@ -111,9 +114,9 @@ class ProductMapperTest {
         );
     }
 
-    private void compareManagerListWithListDto(List<Product> productList, List<ProductDTO> productDTOList){
+    private void compareManagerListWithListDto(List<Product> productList, List<ProductDTO> productDTOList) {
         assertEquals(productList.size(), productDTOList.size());
-        for(int i = 0; i < productList.size(); i++){
+        for (int i = 0; i < productList.size(); i++) {
             compareEntityWithDto(productList.get(i), productDTOList.get(i));
         }
     }

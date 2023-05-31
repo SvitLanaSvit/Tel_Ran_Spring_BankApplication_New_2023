@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 @DisplayName("Test class for AgreementMapper")
 class AgreementMapperTest {
 
@@ -27,7 +28,7 @@ class AgreementMapperTest {
     private CreateAgreementDTO createAgreementDTO;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         managerId = UUID.randomUUID();
         agreement = EntityCreator.getAgreement(managerId);
         agreementDTO = DTOCreator.getAgreementDTO();
@@ -43,7 +44,7 @@ class AgreementMapperTest {
     }
 
     @Test
-    void testToDTONull(){
+    void testToDTONull() {
         AgreementDTO agreementDTO = agreementMapper.toDTO(null);
         assertNull(agreementDTO);
     }
@@ -56,7 +57,7 @@ class AgreementMapperTest {
     }
 
     @Test
-    void testToEntityNull(){
+    void testToEntityNull() {
         Agreement agreement = agreementMapper.toEntity(null);
         assertNull(agreement);
     }
@@ -69,7 +70,7 @@ class AgreementMapperTest {
     }
 
     @Test
-    void testAgreementsToAgreementsDTONull(){
+    void testAgreementsToAgreementsDTONull() {
         List<AgreementDTO> agreementDTOList = agreementMapper.agreementsToAgreementsDTO(null);
         assertNull(agreementDTOList);
     }
@@ -90,12 +91,12 @@ class AgreementMapperTest {
     }
 
     @Test
-    void testCreateToEntityNull(){
+    void testCreateToEntityNull() {
         Agreement agreement = agreementMapper.createToEntity(null);
         assertNull(agreement);
     }
 
-    private void compareEntityWithDto(Agreement agreement, AgreementDTO agreementDTO){
+    private void compareEntityWithDto(Agreement agreement, AgreementDTO agreementDTO) {
         assertAll(
                 () -> assertEquals(agreement.getId().toString(), agreementDTO.getId()),
                 () -> assertEquals(Double.toString(agreement.getInterestRate()), agreementDTO.getInterestRate()),
@@ -106,9 +107,9 @@ class AgreementMapperTest {
         );
     }
 
-    private void compareManagerListWithListDto(List<Agreement> agreementList, List<AgreementDTO> agreementDTOList){
+    private void compareManagerListWithListDto(List<Agreement> agreementList, List<AgreementDTO> agreementDTOList) {
         assertEquals(agreementList.size(), agreementDTOList.size());
-        for(int i = 0; i < agreementList.size(); i++){
+        for (int i = 0; i < agreementList.size(); i++) {
             compareEntityWithDto(agreementList.get(i), agreementDTOList.get(i));
         }
     }

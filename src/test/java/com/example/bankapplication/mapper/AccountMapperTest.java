@@ -30,7 +30,7 @@ class AccountMapperTest {
     private CreateAccountDTO createAccountDTO;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         uuid = UUID.randomUUID();
         account = EntityCreator.getAccount(uuid);
         accountDTO = DTOCreator.getAccountDTO();
@@ -93,19 +93,19 @@ class AccountMapperTest {
         assertEquals(accountDate, current);
     }
 
-    private void compareEntityWithDto(Account account, AccountDTO accountDTO){
+    private void compareEntityWithDto(Account account, AccountDTO accountDTO) {
         assertAll(
-                ()->assertEquals(account.getId().toString(), accountDTO.getId()),
-                ()->assertEquals(account.getName(), accountDTO.getName()),
-                ()->assertEquals(account.getType().toString(), accountDTO.getType()),
-                ()->assertEquals(account.getStatus().toString(), accountDTO.getStatus()),
-                ()->assertEquals(Double.toString(account.getBalance()), accountDTO.getBalance())
+                () -> assertEquals(account.getId().toString(), accountDTO.getId()),
+                () -> assertEquals(account.getName(), accountDTO.getName()),
+                () -> assertEquals(account.getType().toString(), accountDTO.getType()),
+                () -> assertEquals(account.getStatus().toString(), accountDTO.getStatus()),
+                () -> assertEquals(Double.toString(account.getBalance()), accountDTO.getBalance())
         );
     }
 
-    private void compareManagerListWithListDto(List<Account> accountList, List<AccountDTO> accountDTOList){
+    private void compareManagerListWithListDto(List<Account> accountList, List<AccountDTO> accountDTOList) {
         assertEquals(accountList.size(), accountDTOList.size());
-        for (int i = 0; i < accountList.size(); i++){
+        for (int i = 0; i < accountList.size(); i++) {
             compareEntityWithDto(accountList.get(i), accountDTOList.get(i));
         }
     }

@@ -31,18 +31,18 @@ class ManagerServiceImplTest {
 
     @Mock
     private ManagerRepository managerRepository;
-    private ManagerMapper managerMapper ;
+    private ManagerMapper managerMapper;
     private ManagerServiceImpl managerService;
 
     private UUID uuid;
     private Manager manager;
-    private  List<Manager> managerList;
+    private List<Manager> managerList;
     private ManagerDTO managerDTO;
     private List<ManagerDTO> managerDTOList;
     private CreateManagerDTO createManagerDTO;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         managerMapper = new ManagerMapperImpl();
         managerService = new ManagerServiceImpl(managerRepository, managerMapper);
         uuid = UUID.randomUUID();
@@ -139,7 +139,7 @@ class ManagerServiceImplTest {
 
     @Test
     @DisplayName("Positive test. Get all managers.")
-    void testGetAll(){
+    void testGetAll() {
         ManagerListDTO listDTO = new ManagerListDTO(managerDTOList);
 
         when(managerRepository.findAll()).thenReturn(managerList);
@@ -151,20 +151,20 @@ class ManagerServiceImplTest {
     }
 
     @Test
-    void testGetManagerByNonExistingId(){
+    void testGetManagerByNonExistingId() {
         when(managerRepository.findManagerById(any(UUID.class))).thenReturn(Optional.empty());
         assertThrows(ManagerNotFoundException.class, () -> managerService.getManagerById(uuid));
         verify(managerRepository, times(1)).findManagerById(any(UUID.class));
     }
 
     @Test
-    void testDeleteNonExistingManagerById(){
+    void testDeleteNonExistingManagerById() {
         when(managerRepository.findManagerById(any(UUID.class))).thenReturn(Optional.empty());
         assertThrows(ManagerNotFoundException.class, () -> managerService.deleteById(uuid));
         verify(managerRepository, times(1)).findManagerById(any(UUID.class));
     }
 
-    private void compareEntityWithDto(ManagerDTO expectedManagerDTO, ManagerDTO actualManagerDTO){
+    private void compareEntityWithDto(ManagerDTO expectedManagerDTO, ManagerDTO actualManagerDTO) {
         assertAll(
                 () -> assertEquals(expectedManagerDTO.getId(), actualManagerDTO.getId()),
                 () -> assertEquals(expectedManagerDTO.getFirstName(), actualManagerDTO.getFirstName()),

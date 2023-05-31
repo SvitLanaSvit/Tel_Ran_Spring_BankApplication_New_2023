@@ -12,31 +12,31 @@ import java.util.List;
 /**
  * The `AccountMapper` interface a mapper interface using the MapStruct library. It provides mapping methods
  * to convert between `Account` entities and `AccountDTO` data transfer objects.
- *
+ * <p>
  * `@Mapper(componentModel = "spring", imports=Timestamp.class)`:This annotation is from the MapStruct library
  * and specifies that this interface should be treated as a mapper component.
  * The `componentModel="spring"` attribute indicates that Spring should manage the lifecycle of the mapper bean.
  * The `imports=Timestamp.class` attribute specifies that the `Timestamp` class should be imported for usage
  * in mapping expressions.
- *
+ * <p>
  * `@Mapping(source = "account.client.id", target = "clientId")`:
  * This annotation is used on the `toDTO` method to specify a mapping between the `clientId` property
  * of the `Account` entity and the `clientId` property of the `AccountDTO`.It maps the value from `account.client.id`
  * to `clientId` during the conversion.
- *
+ * <p>
  * `AccountDTO toDTO(Account account)`:
  * This method maps an `Account` entity to an `AccountDTO`.
  * It uses the `@Mapping` annotation to define the mapping between properties.
- *
+ * <p>
  * `Account toEntity(AccountDTO accountDTO)`:This method maps an `AccountDTO` to an `Account` entity.
- *
+ * <p>
  * `List<AccountDTO> accountsToAccountsDTO(List<Account> accounts)`:
  * This method maps a list of `Account` entities to a list of `AccountDTO` objects.
- *
+ * <p>
  * `@Mapping(target = "createdAt", expression = "java(new Timestamp(System.currentTimeMillis()))")`:
  * This annotation is used on the `createToEntity` method to set the `createdAt` property of the `Account` entity.
  * It uses a mapping expression to create a new `Timestamp` object representing the current system time.
- *
+ * <p>
  * `Account createToEntity(CreateAccountDTO dto)`:
  * This method maps a `CreateAccountDTO` to an `Account` entity,including setting the `createdAt` property using
  * the mapping expression defined by the `@Mapping` annotation.
@@ -49,8 +49,11 @@ public interface AccountMapper {
     */
     @Mapping(source = "account.client.id", target = "clientId")
     AccountDTO toDTO(Account account);
+
     Account toEntity(AccountDTO accountDTO);
+
     List<AccountDTO> accountsToAccountsDTO(List<Account> accounts);
+
     @Mapping(target = "createdAt", expression = "java(new Timestamp(System.currentTimeMillis()))")
     Account createToEntity(CreateAccountDTO dto);
 }

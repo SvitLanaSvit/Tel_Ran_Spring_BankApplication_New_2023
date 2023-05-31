@@ -51,7 +51,7 @@ class AccountServiceImplTest {
     private List<AccountIdDTO> accountIdDTOList;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         accountMapper = new AccountMapperImpl();
         accountService = new AccountServiceImpl(accountRepository, accountMapper, clientRepository);
         account = EntityCreator.getAccount(UUID.randomUUID());
@@ -161,7 +161,7 @@ class AccountServiceImplTest {
 
     @Test
     @DisplayName("Negative test: Get account by non-existing Id")
-    void testGetAccountByNonExistingId(){
+    void testGetAccountByNonExistingId() {
         when(accountRepository.findById(uuid)).thenReturn(Optional.empty());
 
         assertThrows(AccountNotFoundException.class, () -> accountService.getAccountById(uuid));
@@ -170,7 +170,7 @@ class AccountServiceImplTest {
 
     @Test
     @DisplayName("Negative test: Create account with null clientId")
-    void testCreateAccountWithNullClientId(){
+    void testCreateAccountWithNullClientId() {
         CreateAccountDTO accountDTOWithNullClientId = DTOCreator.getAccountToCreate();
         accountDTOWithNullClientId.setClientId(null);
 
@@ -181,7 +181,7 @@ class AccountServiceImplTest {
 
     @Test
     @DisplayName("Negative test: Create account with non-existing clientId")
-    void testCreateAccountWithNonExistingClientId(){
+    void testCreateAccountWithNonExistingClientId() {
         when(clientRepository.findClientById(any(UUID.class))).thenReturn(Optional.empty());
 
         assertThrows(ClientNotFoundException.class, () -> accountService.createAccount(createAccountDTO));
@@ -191,7 +191,7 @@ class AccountServiceImplTest {
 
     @Test
     @DisplayName("Negative test: Delete non-existing account by Id")
-    void testDeleteNonExistingAccountById(){
+    void testDeleteNonExistingAccountById() {
         when(accountRepository.findAccountById(any(UUID.class))).thenReturn(Optional.empty());
 
         assertThrows(AccountNotFoundException.class, () -> accountService.deleteAccountById(uuid));
@@ -201,14 +201,14 @@ class AccountServiceImplTest {
 
     @Test
     @DisplayName("Positive test.")
-    void testFindAccountsByProductIdAndStatus(){
+    void testFindAccountsByProductIdAndStatus() {
         when(accountRepository.findAccountByProductIdByStatus(any(UUID.class), any(ProductStatus.class)))
                 .thenReturn(accountIdDTOList);
         List<AccountIdDTO> actualAccountIdDTOList = accountService
                 .findAccountsByProductIdAndStatus(uuid, ProductStatus.ACTIVE);
 
         assertEquals(accountIdDTOList.size(), actualAccountIdDTOList.size());
-        for (int i = 0; i < accountIdDTOList.size(); i++){
+        for (int i = 0; i < accountIdDTOList.size(); i++) {
             assertEquals(accountIdDTOList.get(i).getId(), actualAccountIdDTOList.get(i).getId());
         }
         verify(accountRepository, times(1))
@@ -217,7 +217,7 @@ class AccountServiceImplTest {
 
     @Test
     @DisplayName("Negative test")
-    void testNotFoundAccountIdListDTO(){
+    void testNotFoundAccountIdListDTO() {
         when(accountRepository.findAccountByProductIdByStatus(any(UUID.class), any(ProductStatus.class)))
                 .thenReturn(Collections.emptyList());
 

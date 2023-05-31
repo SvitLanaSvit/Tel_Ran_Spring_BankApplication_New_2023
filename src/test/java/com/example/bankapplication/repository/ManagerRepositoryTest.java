@@ -29,7 +29,7 @@ class ManagerRepositoryTest {
     private List<Manager> managerList;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         manager = EntityCreator.getManager(UUID.randomUUID());
         managerList = new ArrayList<>(List.of(manager));
     }

@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 import java.util.UUID;
 
 public class DTOCreator {
-    public static ManagerDTO getManagerDTO(UUID id){
+    public static ManagerDTO getManagerDTO(UUID id) {
         return new ManagerDTO(
                 id.toString(),
                 "John",
@@ -17,10 +17,10 @@ public class DTOCreator {
         );
     }
 
-    public static AccountDTO getAccountDTO(){
+    public static AccountDTO getAccountDTO() {
         return new AccountDTO(
                 "2c1a2a48-63f8-4931-bcf5-353f16fdbd7a",
-               "MyAccount",
+                "MyAccount",
                 "STUDENT",
                 "ACTIVE",
                 "50.0",
@@ -31,8 +31,8 @@ public class DTOCreator {
         );
     }
 
-    public static AgreementDTO getAgreementDTO(){
-        return  new AgreementDTO(
+    public static AgreementDTO getAgreementDTO() {
+        return new AgreementDTO(
                 "9c149059-3d2a-4741-9073-a05364ecb6cf",
                 "0.004",
                 "ACTIVE",
@@ -44,10 +44,10 @@ public class DTOCreator {
         );
     }
 
-    public static ClientDTO getClientDTO(){
+    public static ClientDTO getClientDTO() {
         return new ClientDTO(
                 "06edf03a-d58b-4b26-899f-f4ce69fb6b6f",
-               "ACTIVE",
+                "ACTIVE",
                 "5658380715",
                 "Myles",
                 "Mertz",
@@ -60,10 +60,10 @@ public class DTOCreator {
         );
     }
 
-    public static ProductDTO getProductDTO(){
+    public static ProductDTO getProductDTO() {
         return new ProductDTO(
                 "6006ec9c-41a0-4fa1-b8b9-17b4c13347e6",
-               "Incredible Bronze Wallet Bank Product",
+                "Incredible Bronze Wallet Bank Product",
                 "ACTIVE",
                 "USD",
                 "0.05",
@@ -74,7 +74,7 @@ public class DTOCreator {
         );
     }
 
-    public static TransactionDTO getTransactionDTO(){
+    public static TransactionDTO getTransactionDTO() {
         return new TransactionDTO(
                 "72779690-8d70-43cf-97a8-d3e7b9076337",
                 "PAYMENT",
@@ -86,19 +86,19 @@ public class DTOCreator {
         );
     }
 
-    public static AccountIdDTO getAccountIdDTO(){
+    public static AccountIdDTO getAccountIdDTO() {
         return new AccountIdDTO(
                 UUID.fromString("2c1a2a48-63f8-4931-bcf5-353f16fdbd7a")
         );
     }
 
-    public static AgreementIdDTO getAgreementIdDTO(){
+    public static AgreementIdDTO getAgreementIdDTO() {
         return new AgreementIdDTO(
                 UUID.fromString("9c149059-3d2a-4741-9073-a05364ecb6cf")
         );
     }
 
-    public static ClientInfoDTO getClientInfoDTO(){
+    public static ClientInfoDTO getClientInfoDTO() {
         return new ClientInfoDTO(
                 "06edf03a-d58b-4b26-899f-f4ce69fb6b6f",
                 "ACTIVE",
@@ -113,7 +113,7 @@ public class DTOCreator {
         );
     }
 
-    public static ManagerInfoDTO getManagerInfoDTO(){
+    public static ManagerInfoDTO getManagerInfoDTO() {
         return new ManagerInfoDTO(
                 UUID.randomUUID().toString(),
                 "John",
@@ -125,7 +125,7 @@ public class DTOCreator {
         );
     }
 
-    public static CreateManagerDTO getManagerToCreate(){
+    public static CreateManagerDTO getManagerToCreate() {
         return new CreateManagerDTO(
                 "John",
                 "Doe",
@@ -135,7 +135,7 @@ public class DTOCreator {
         );
     }
 
-    public static CreateAccountDTO getAccountToCreate(){
+    public static CreateAccountDTO getAccountToCreate() {
         return new CreateAccountDTO(
                 "MyAccount",
                 "STUDENT",
@@ -148,7 +148,7 @@ public class DTOCreator {
         );
     }
 
-    public static CreateAgreementDTO getAgreementToCreate(){
+    public static CreateAgreementDTO getAgreementToCreate() {
         return new CreateAgreementDTO(
                 "0.004",
                 "ACTIVE",
@@ -160,8 +160,8 @@ public class DTOCreator {
         );
     }
 
-    public static CreateClientDTO getClientToCreate(){
-        return  new CreateClientDTO(
+    public static CreateClientDTO getClientToCreate() {
+        return new CreateClientDTO(
                 "ACTIVE",
                 "5658380715",
                 "Myles",
@@ -175,7 +175,7 @@ public class DTOCreator {
         );
     }
 
-    public static CreateProductDTO getProductToCreate(){
+    public static CreateProductDTO getProductToCreate() {
         return new CreateProductDTO(
                 "Incredible Bronze Wallet Bank Product",
                 "ACTIVE",
@@ -188,7 +188,7 @@ public class DTOCreator {
         );
     }
 
-    public static CreateTransactionDTO getTransactionToCreate(){
+    public static CreateTransactionDTO getTransactionToCreate() {
         return new CreateTransactionDTO(
                 "PAYMENT",
                 "100.0",
@@ -199,7 +199,7 @@ public class DTOCreator {
         );
     }
 
-    public static CreateManagerDTO getManagerToCreateWithCreateDate(){
+    public static CreateManagerDTO getManagerToCreateWithCreateDate() {
         return new CreateManagerDTO(
                 "John",
                 "Doe",
@@ -209,7 +209,7 @@ public class DTOCreator {
         );
     }
 
-    public static CreateAccountDTO getAccountToCreateWithCreateDate(){
+    public static CreateAccountDTO getAccountToCreateWithCreateDate() {
         return new CreateAccountDTO(
                 "MyAccount",
                 "STUDENT",
@@ -222,7 +222,7 @@ public class DTOCreator {
         );
     }
 
-    public static CreateAgreementDTO getAgreementToCreateWithCreateDate(){
+    public static CreateAgreementDTO getAgreementToCreateWithCreateDate() {
         return new CreateAgreementDTO(
                 "0.004",
                 "ACTIVE",
@@ -234,7 +234,7 @@ public class DTOCreator {
         );
     }
 
-    public static CreateClientDTO getClientToCreateWithCreateDate(){
+    public static CreateClientDTO getClientToCreateWithCreateDate() {
         return new CreateClientDTO(
                 "ACTIVE",
                 "5658380715",
@@ -249,7 +249,7 @@ public class DTOCreator {
         );
     }
 
-    public static CreateProductDTO getProductToCreateWithCreateDate(){
+    public static CreateProductDTO getProductToCreateWithCreateDate() {
         return new CreateProductDTO(
                 "Incredible Bronze Wallet Bank Product",
                 "ACTIVE",
@@ -262,7 +262,7 @@ public class DTOCreator {
         );
     }
 
-    public static CreateTransactionDTO getTransactionToCreateWithCreateDate(){
+    public static CreateTransactionDTO getTransactionToCreateWithCreateDate() {
         return new CreateTransactionDTO(
                 "PAYMENT",
                 "100.0",

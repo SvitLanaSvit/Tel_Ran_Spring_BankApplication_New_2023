@@ -47,7 +47,7 @@ class TransactionControllerTest {
     private CreateTransactionDTO createTransactionDTO;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         transactionDTO = DTOCreator.getTransactionDTO();
         transactionDTOList = new ArrayList<>(List.of(transactionDTO));
         transactionListDTO = new TransactionListDTO(transactionDTOList);
@@ -86,7 +86,7 @@ class TransactionControllerTest {
     }
 
     @Test
-    void testCreateTransaction() throws Exception{
+    void testCreateTransaction() throws Exception {
         RequestBuilder request = MockMvcRequestBuilders
                 .post("/auth/createTransaction")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -111,20 +111,20 @@ class TransactionControllerTest {
         verify(transactionService, times(1)).deleteTransactionById(any(UUID.class));
     }
 
-    private void compareDTO (TransactionDTO expectedDTO, TransactionDTO actualDTO){
+    private void compareDTO(TransactionDTO expectedDTO, TransactionDTO actualDTO) {
         assertAll(
-                ()->assertEquals(expectedDTO.getId(), actualDTO.getId()),
-                ()->assertEquals(expectedDTO.getType(), actualDTO.getType()),
-                ()->assertEquals(expectedDTO.getAmount(), actualDTO.getAmount()),
-                ()->assertEquals(expectedDTO.getDescription(), actualDTO.getDescription()),
-                ()->assertEquals(expectedDTO.getDebitAccountId(), actualDTO.getDebitAccountId()),
-                ()->assertEquals(expectedDTO.getCreditAccountId(), actualDTO.getCreditAccountId())
+                () -> assertEquals(expectedDTO.getId(), actualDTO.getId()),
+                () -> assertEquals(expectedDTO.getType(), actualDTO.getType()),
+                () -> assertEquals(expectedDTO.getAmount(), actualDTO.getAmount()),
+                () -> assertEquals(expectedDTO.getDescription(), actualDTO.getDescription()),
+                () -> assertEquals(expectedDTO.getDebitAccountId(), actualDTO.getDebitAccountId()),
+                () -> assertEquals(expectedDTO.getCreditAccountId(), actualDTO.getCreditAccountId())
         );
     }
 
-    private void compareListDTO(TransactionListDTO expectedListDTO, TransactionListDTO actualListDTO){
+    private void compareListDTO(TransactionListDTO expectedListDTO, TransactionListDTO actualListDTO) {
         assertEquals(expectedListDTO.getTransactionDTOList().size(), actualListDTO.getTransactionDTOList().size());
-        for(int i = 0; i < expectedListDTO.getTransactionDTOList().size(); i++){
+        for (int i = 0; i < expectedListDTO.getTransactionDTOList().size(); i++) {
             compareDTO(expectedListDTO.getTransactionDTOList().get(i), actualListDTO.getTransactionDTOList().get(i));
         }
     }

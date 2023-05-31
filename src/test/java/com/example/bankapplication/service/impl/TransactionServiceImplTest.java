@@ -50,7 +50,7 @@ class TransactionServiceImplTest {
     private Account account;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         transactionMapper = new TransactionMapperImpl();
         transactionService = new TransactionServiceImpl(transactionMapper, transactionRepository, accountRepository);
         uuid = UUID.randomUUID();
@@ -75,7 +75,7 @@ class TransactionServiceImplTest {
     }
 
     @Test
-    void testGetTransactionById(){
+    void testGetTransactionById() {
         TransactionDTO expectedTransactionDTO = transactionDTO;
 
         when(transactionRepository.findTransactionById(any(UUID.class))).thenReturn(Optional.of(transaction));
@@ -85,7 +85,7 @@ class TransactionServiceImplTest {
     }
 
     @Test
-    void testCreateTransaction(){
+    void testCreateTransaction() {
         Transaction expectedTransaction = EntityCreator.getTransactionAfterDTO(transactionId, createTransactionDTO);
         TransactionDTO expectedTransactionDTO = transactionDTO;
 
@@ -98,7 +98,7 @@ class TransactionServiceImplTest {
     }
 
     @Test
-    void testDeleteTransactionById(){
+    void testDeleteTransactionById() {
         when(transactionRepository.findTransactionById(any(UUID.class))).thenReturn(Optional.of(transaction));
 
         transactionService.deleteTransactionById(transactionId);
@@ -114,27 +114,27 @@ class TransactionServiceImplTest {
     }
 
     @Test
-    void testCreateTransactionWithNonExistingDebitAccountId(){
+    void testCreateTransactionWithNonExistingDebitAccountId() {
         when(accountRepository.findAccountById(any())).thenReturn(Optional.empty());
         assertThrows(AccountNotFoundException.class, () -> transactionService.createTransaction(createTransactionDTO));
         verify(accountRepository, times(1)).findAccountById(any(UUID.class));
     }
 
     @Test
-    void testDeleteNonExistingTransactionById(){
+    void testDeleteNonExistingTransactionById() {
         when(transactionRepository.findTransactionById(any(UUID.class))).thenReturn(Optional.empty());
         assertThrows(TransactionNotFoundException.class, () -> transactionService.deleteTransactionById(transactionId));
         verify(transactionRepository, times(1)).findTransactionById(any(UUID.class));
     }
 
-    void compareListDto(TransactionListDTO expectedTransactionListDTO, TransactionListDTO actualTransactionListDTO){
-        for(int i = 0; i < expectedTransactionListDTO.getTransactionDTOList().size(); i++){
+    void compareListDto(TransactionListDTO expectedTransactionListDTO, TransactionListDTO actualTransactionListDTO) {
+        for (int i = 0; i < expectedTransactionListDTO.getTransactionDTOList().size(); i++) {
             compareEntityWithDto(expectedTransactionListDTO.getTransactionDTOList().get(i),
                     actualTransactionListDTO.getTransactionDTOList().get(i));
         }
     }
 
-    private void compareEntityWithDto(TransactionDTO expectedTransactionDTO, TransactionDTO actualTransactionDTO){
+    private void compareEntityWithDto(TransactionDTO expectedTransactionDTO, TransactionDTO actualTransactionDTO) {
         assertAll(
                 () -> assertEquals(expectedTransactionDTO.getId(), actualTransactionDTO.getId()),
                 () -> assertEquals(expectedTransactionDTO.getType(), actualTransactionDTO.getType()),

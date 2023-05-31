@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 import java.util.UUID;
 
 public class EntityCreator {
-    public static Manager getManager(UUID id){
+    public static Manager getManager(UUID id) {
         Manager manager = new Manager();
         manager.setId(id);
         manager.setFirstName("John");
@@ -19,7 +19,7 @@ public class EntityCreator {
         return manager;
     }
 
-    public static Account getAccount(UUID managerId){
+    public static Account getAccount(UUID managerId) {
         Account account = new Account();
         account.setId(UUID.fromString("2c1a2a48-63f8-4931-bcf5-353f16fdbd7a"));
         account.setName("MyAccount");
@@ -33,7 +33,7 @@ public class EntityCreator {
         return account;
     }
 
-    public static Agreement getAgreement(UUID managerId){
+    public static Agreement getAgreement(UUID managerId) {
         Agreement agreement = new Agreement();
         agreement.setId(UUID.fromString("9c149059-3d2a-4741-9073-a05364ecb6cf"));
         agreement.setInterestRate(0.004);
@@ -46,7 +46,7 @@ public class EntityCreator {
         return agreement;
     }
 
-    public static Client getClient(UUID managerId){
+    public static Client getClient(UUID managerId) {
         Client client = new Client();
         client.setId(UUID.fromString("06edf03a-d58b-4b26-899f-f4ce69fb6b6f"));
         client.setStatus(ClientStatus.ACTIVE);
@@ -62,7 +62,7 @@ public class EntityCreator {
         return client;
     }
 
-    public static Product getProduct(UUID managerId){
+    public static Product getProduct(UUID managerId) {
         Product product = new Product();
         product.setId(UUID.fromString("6006ec9c-41a0-4fa1-b8b9-17b4c13347e6"));
         product.setName("Incredible Bronze Wallet Bank Product");
@@ -76,7 +76,7 @@ public class EntityCreator {
         return product;
     }
 
-    public static Transaction getTransaction(){
+    public static Transaction getTransaction() {
         Transaction transaction = new Transaction();
         transaction.setId(UUID.fromString("72779690-8d70-43cf-97a8-d3e7b9076337"));
         transaction.setType(TransactionType.PAYMENT);
@@ -88,7 +88,7 @@ public class EntityCreator {
         return transaction;
     }
 
-    public static Manager getManagerAfterDTO(UUID id, CreateManagerDTO dto){
+    public static Manager getManagerAfterDTO(UUID id, CreateManagerDTO dto) {
         Manager manager = new Manager();
         manager.setId(id);
         manager.setFirstName(dto.getFirstName());
@@ -99,7 +99,7 @@ public class EntityCreator {
         return manager;
     }
 
-    public static Account getAccountAfterDTO(UUID id, CreateAccountDTO dto){
+    public static Account getAccountAfterDTO(UUID id, CreateAccountDTO dto) {
         Account account = new Account();
         account.setId(id);
         account.setName(dto.getName());
@@ -113,7 +113,7 @@ public class EntityCreator {
         return account;
     }
 
-    public static Agreement getAgreementAfterDTO(UUID id, CreateAgreementDTO agreementDTO){
+    public static Agreement getAgreementAfterDTO(UUID id, CreateAgreementDTO agreementDTO) {
         Agreement agreement = new Agreement();
         agreement.setId(id);
         agreement.setInterestRate(Double.parseDouble(agreementDTO.getInterestRate()));
@@ -126,7 +126,7 @@ public class EntityCreator {
         return agreement;
     }
 
-    public static Client getClientAfterDTO(UUID id, CreateClientDTO createClientDTO){
+    public static Client getClientAfterDTO(UUID id, CreateClientDTO createClientDTO) {
         Client client = new Client();
         client.setId(id);
         client.setStatus(ClientStatus.valueOf(createClientDTO.getStatus()));
@@ -139,10 +139,10 @@ public class EntityCreator {
         client.setCreatedAt(createClientDTO.getCreatedAt());
         client.setUpdatedAt(createClientDTO.getUpdatedAt());
         client.setManager(getManager(createClientDTO.getManagerId()));
-        return  client;
+        return client;
     }
 
-    public static Product getProductAfterDTO(UUID id, CreateProductDTO createProductDTO){
+    public static Product getProductAfterDTO(UUID id, CreateProductDTO createProductDTO) {
         Product product = new Product();
         product.setId(id);
         product.setName(createProductDTO.getName());
@@ -156,7 +156,7 @@ public class EntityCreator {
         return product;
     }
 
-    public static Transaction getTransactionAfterDTO(UUID id, CreateTransactionDTO createTransactionDTO){
+    public static Transaction getTransactionAfterDTO(UUID id, CreateTransactionDTO createTransactionDTO) {
         Transaction transaction = new Transaction();
         transaction.setId(id);
         transaction.setType(TransactionType.valueOf(createTransactionDTO.getType()));

@@ -55,7 +55,7 @@ class ClientControllerTest {
     private List<ClientInfoDTO> clientInfoDTOList;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         createClientDTO = DTOCreator.getClientToCreate();
         clientDTO = DTOCreator.getClientDTO();
         uuid = UUID.randomUUID();
@@ -66,7 +66,7 @@ class ClientControllerTest {
     }
 
     @Test
-    void testCreateClient() throws Exception{
+    void testCreateClient() throws Exception {
         RequestBuilder request = MockMvcRequestBuilders
                 .post("/auth/createClient")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -158,42 +158,43 @@ class ClientControllerTest {
         when(requestService.findClientsWhereBalanceMoreThan(any(Double.class))).thenReturn(clientInfoDTOList);
 
         var mvcResult = mockMvc.perform(request).andExpect(status().isOk()).andReturn();
-        TypeReference<List<ClientInfoDTO>> reference = new TypeReference<>() {};
+        TypeReference<List<ClientInfoDTO>> reference = new TypeReference<>() {
+        };
         List<ClientInfoDTO> actualClientInfoDTOList = objectMapper
                 .readValue(mvcResult.getResponse().getContentAsString(), reference);
         compareListInfoDTO(clientInfoDTOList, actualClientInfoDTOList);
         verify(requestService, times(1)).findClientsWhereBalanceMoreThan(any(Double.class));
     }
 
-    private void compareDTO (ClientDTO expectedDTO, ClientDTO actualDTO){
+    private void compareDTO(ClientDTO expectedDTO, ClientDTO actualDTO) {
         assertAll(
-                ()->assertEquals(expectedDTO.getId(), actualDTO.getId()),
-                ()->assertEquals(expectedDTO.getStatus(), actualDTO.getStatus()),
-                ()->assertEquals(expectedDTO.getTaxCode(), actualDTO.getTaxCode()),
-                ()->assertEquals(expectedDTO.getFirstName(), actualDTO.getFirstName()),
-                ()->assertEquals(expectedDTO.getLastName(), actualDTO.getLastName()),
-                ()->assertEquals(expectedDTO.getEmail(), actualDTO.getEmail()),
-                ()->assertEquals(expectedDTO.getAddress(), actualDTO.getAddress()),
-                ()->assertEquals(expectedDTO.getPhone(), actualDTO.getPhone()),
-                ()->assertEquals(expectedDTO.getManagerId(), actualDTO.getManagerId())
+                () -> assertEquals(expectedDTO.getId(), actualDTO.getId()),
+                () -> assertEquals(expectedDTO.getStatus(), actualDTO.getStatus()),
+                () -> assertEquals(expectedDTO.getTaxCode(), actualDTO.getTaxCode()),
+                () -> assertEquals(expectedDTO.getFirstName(), actualDTO.getFirstName()),
+                () -> assertEquals(expectedDTO.getLastName(), actualDTO.getLastName()),
+                () -> assertEquals(expectedDTO.getEmail(), actualDTO.getEmail()),
+                () -> assertEquals(expectedDTO.getAddress(), actualDTO.getAddress()),
+                () -> assertEquals(expectedDTO.getPhone(), actualDTO.getPhone()),
+                () -> assertEquals(expectedDTO.getManagerId(), actualDTO.getManagerId())
         );
     }
 
-    private void compareListDTO(ClientListDTO expectedListDTO, ClientListDTO actualListDTO){
+    private void compareListDTO(ClientListDTO expectedListDTO, ClientListDTO actualListDTO) {
         assertEquals(expectedListDTO.getClientDTOList().size(), actualListDTO.getClientDTOList().size());
-        for(int i = 0; i < expectedListDTO.getClientDTOList().size(); i++){
+        for (int i = 0; i < expectedListDTO.getClientDTOList().size(); i++) {
             compareDTO(expectedListDTO.getClientDTOList().get(i), actualListDTO.getClientDTOList().get(i));
         }
     }
 
-    private void compareListInfoDTO(List<ClientInfoDTO> expectedListIdDTO, List<ClientInfoDTO> actualListIdDTO){
+    private void compareListInfoDTO(List<ClientInfoDTO> expectedListIdDTO, List<ClientInfoDTO> actualListIdDTO) {
         assertEquals(expectedListIdDTO.size(), actualListIdDTO.size());
-        for(int i = 0; i < expectedListIdDTO.size(); i++){
+        for (int i = 0; i < expectedListIdDTO.size(); i++) {
             compareInfoDTO(expectedListIdDTO.get(i), actualListIdDTO.get(i));
         }
     }
 
-    private void compareInfoDTO(ClientInfoDTO expectedDTO, ClientInfoDTO actualInfoDTO){
+    private void compareInfoDTO(ClientInfoDTO expectedDTO, ClientInfoDTO actualInfoDTO) {
         assertAll(
                 () -> assertEquals(expectedDTO.getId(), actualInfoDTO.getId()),
                 () -> assertEquals(expectedDTO.getStatus(), actualInfoDTO.getStatus()),

@@ -45,14 +45,14 @@ class ProductControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private  ProductDTO productDTO;
+    private ProductDTO productDTO;
     private List<ProductDTO> productDTOList;
     private ProductListDTO productListDTO;
     private UUID uuid;
     private CreateProductDTO createProductDTO;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         productDTO = DTOCreator.getProductDTO();
         productDTOList = new ArrayList<>(List.of(productDTO));
         productListDTO = new ProductListDTO(productDTOList);
@@ -90,7 +90,7 @@ class ProductControllerTest {
     }
 
     @Test
-    void testCreateProduct() throws Exception{
+    void testCreateProduct() throws Exception {
         RequestBuilder request = MockMvcRequestBuilders
                 .post("/auth/createProduct")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -100,13 +100,13 @@ class ProductControllerTest {
 
         var mvcResult = mockMvc.perform(request).andExpect(status().isOk()).andReturn();
         ProductDTO actualProductDTO = objectMapper
-                .readValue(mvcResult.getResponse().getContentAsString(),ProductDTO.class);
+                .readValue(mvcResult.getResponse().getContentAsString(), ProductDTO.class);
         compareDTO(productDTO, actualProductDTO);
         verify(productService, times(1)).create(any(CreateProductDTO.class));
     }
 
     @Test
-    void testEditProductById() throws Exception{
+    void testEditProductById() throws Exception {
         RequestBuilder request = MockMvcRequestBuilders
                 .put("/auth/editProduct/{id}", uuid)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -140,35 +140,36 @@ class ProductControllerTest {
         when(requestService.findAllChangedProducts()).thenReturn(productDTOList);
 
         var mvcResult = mockMvc.perform(request).andExpect(status().isOk()).andReturn();
-        TypeReference<List<ProductDTO>> reference = new TypeReference<>() {};
+        TypeReference<List<ProductDTO>> reference = new TypeReference<>() {
+        };
         List<ProductDTO> actualProductDTOList = objectMapper
                 .readValue(mvcResult.getResponse().getContentAsString(), reference);
         compareDTOList(productDTOList, actualProductDTOList);
         verify(requestService, times(1)).findAllChangedProducts();
     }
 
-    private void compareDTO (ProductDTO expectedDTO, ProductDTO actualDTO){
+    private void compareDTO(ProductDTO expectedDTO, ProductDTO actualDTO) {
         assertAll(
-                ()->assertEquals(expectedDTO.getId(), actualDTO.getId()),
-                ()->assertEquals(expectedDTO.getName(), actualDTO.getName()),
-                ()->assertEquals(expectedDTO.getStatus(), actualDTO.getStatus()),
-                ()->assertEquals(expectedDTO.getCurrencyCode(), actualDTO.getCurrencyCode()),
-                ()->assertEquals(expectedDTO.getInterestRate(), actualDTO.getInterestRate()),
-                ()->assertEquals(expectedDTO.getProductLimit(), actualDTO.getProductLimit()),
-                ()->assertEquals(expectedDTO.getManagerId(), actualDTO.getManagerId())
+                () -> assertEquals(expectedDTO.getId(), actualDTO.getId()),
+                () -> assertEquals(expectedDTO.getName(), actualDTO.getName()),
+                () -> assertEquals(expectedDTO.getStatus(), actualDTO.getStatus()),
+                () -> assertEquals(expectedDTO.getCurrencyCode(), actualDTO.getCurrencyCode()),
+                () -> assertEquals(expectedDTO.getInterestRate(), actualDTO.getInterestRate()),
+                () -> assertEquals(expectedDTO.getProductLimit(), actualDTO.getProductLimit()),
+                () -> assertEquals(expectedDTO.getManagerId(), actualDTO.getManagerId())
         );
     }
 
-    private void compareListDTO(ProductListDTO expectedListDTO, ProductListDTO actualListDTO){
+    private void compareListDTO(ProductListDTO expectedListDTO, ProductListDTO actualListDTO) {
         assertEquals(expectedListDTO.getProductDTOList().size(), actualListDTO.getProductDTOList().size());
-        for(int i = 0; i < expectedListDTO.getProductDTOList().size(); i++){
+        for (int i = 0; i < expectedListDTO.getProductDTOList().size(); i++) {
             compareDTO(expectedListDTO.getProductDTOList().get(i), actualListDTO.getProductDTOList().get(i));
         }
     }
 
-    private void compareDTOList(List<ProductDTO> expectedDTOList, List<ProductDTO> actualDTOList){
+    private void compareDTOList(List<ProductDTO> expectedDTOList, List<ProductDTO> actualDTOList) {
         assertEquals(expectedDTOList.size(), actualDTOList.size());
-        for (int i = 0; i < expectedDTOList.size(); i++){
+        for (int i = 0; i < expectedDTOList.size(); i++) {
             compareDTO(expectedDTOList.get(i), actualDTOList.get(i));
         }
     }

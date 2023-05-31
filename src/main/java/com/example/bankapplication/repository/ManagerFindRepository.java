@@ -16,26 +16,24 @@ import java.util.Map;
  * sorted by product quantity. It uses a SQL query to fetch the data from the database.
  *
  * @Repository: This annotation is used to indicate that this class is a repository component in the Spring framework.
- *
  * @RequiredArgsConstructor: This annotation is from the Lombok library and generates a constructor with required arguments
  * for the final fields. It allows us to initialize the jdbcTemplate field through constructor injection.
- *
  * @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE): This annotation is from the Lombok library
  * and sets the access level of fields to private and makes them final.
  * It eliminates the need to write boilerplate code for field declarations and constructors.
- *
+ * <p>
  * private static final String SQL_REQUEST: This constant variable holds the SQL query used to fetch manager information.
  * The query retrieves the manager ID, first name, last name, status, product ID, product name, and product limit
  * from the managers and products tables, respectively, and orders the results by product limit.
- *
+ * <p>
  * NamedParameterJdbcTemplate jdbcTemplate: This field is used to execute SQL queries with named parameters.
  * It is initialized through constructor injection and made final.
- *
+ * <p>
  * findAllManagersSortedByProductQuantity():
  * This method queries the database to retrieve manager information sorted by product quantity.
  * It uses a SQL query to fetch the data and maps it to ManagerInfoDTO objects.
  * The results are returned as a list.
- *
+ * <p>
  * The ManagerFindRepository class provides a method to fetch manager information from the database
  * sorted by product quantity. It uses the NamedParameterJdbcTemplate to execute the SQL query.
  */
@@ -46,12 +44,12 @@ public class ManagerFindRepository {
     private static final String SQL_REQUEST =
             "SELECT BIN_TO_UUID(m.id) as manager_id, m.first_name, m.last_name, m.status, " +
                     "BIN_TO_UUID(p.id) as product_id, p.name, p.product_limit FROM managers m " +
-            "LEFT JOIN products p on p.manager_id = m.id " +
-            "ORDER BY product_limit";
+                    "LEFT JOIN products p on p.manager_id = m.id " +
+                    "ORDER BY product_limit";
 
     NamedParameterJdbcTemplate jdbcTemplate;
 
-    public List<ManagerInfoDTO> findAllManagersSortedByProductQuantity(){
+    public List<ManagerInfoDTO> findAllManagersSortedByProductQuantity() {
         Map<String, Object> params = new HashMap<>();
 
         return jdbcTemplate.queryForStream(SQL_REQUEST, params, (rs, rowNum) -> new ManagerInfoDTO(

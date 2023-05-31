@@ -17,12 +17,9 @@ import java.util.UUID;
  * It provides methods for performing various operations related to requests.
  *
  * @Service: This annotation is used to indicate that this class is a service component in the Spring framework.
- *
  * @RequiredArgsConstructor: This annotation is from the Lombok library and generates a constructor with required arguments
  * for the final fields. It allows us to inject dependencies using constructor injection.
- *
  * @Slf4j: This annotation is from the Lombok library and generates a logger field for logging.
- *
  * @Transactional: This annotation is used in Spring to define transactional boundaries for methods or classes.
  * When applied to a method or class, it indicates that a transaction should be created for the annotated method
  * or all methods within the annotated class.
@@ -34,39 +31,39 @@ import java.util.UUID;
  * or rolling back transactions based on the annotated method's execution.
  * It is important to note that the `@Transactional` annotation should be applied to methods that modify data
  * or perform multiple database operations to ensure data integrity and consistency.
- *
+ * <p>
  * AccountFindIdsRepository findIdsRepository: This field is used to find account IDs by product ID and status.
- *
+ * <p>
  * AgreementFindIdsRepository agFindIdsRepository: This field is used to find agreement IDs by manager ID or client ID.
- *
+ * <p>
  * ClientFindRepository clientFindRepository: This field is used to find client information based on certain conditions.
- *
+ * <p>
  * ManagerFindRepository managerFindRepository: This field is used to find manager information based on certain conditions.
- *
+ * <p>
  * ProductInfoRepository productInfoRepository: This field is used to find product information based on certain conditions.
- *
+ * <p>
  * findAccountsByProductIdAndStatus(UUID productId, ProductStatus status): This method finds account IDs based on the specified
  * product ID and product status. It returns a collection of `AccountIdDTO` objects.
- *
+ * <p>
  * findAgreementsByManagerId(UUID managerId): This method finds agreement IDs based on the specified manager ID.
  * It returns a collection of `AgreementIdDTO` objects.
- *
+ * <p>
  * findAgreementByClientId(UUID clientId): This method finds agreement IDs based on the specified client ID.
  * It returns a collection of `AgreementIdDTO` objects.
- *
+ * <p>
  * findClientsWhereBalanceMoreThan(Double balance): This method finds client information where the balance is more than the specified amount.
  * It returns a collection of `ClientInfoDTO` objects.
- *
+ * <p>
  * findAllManagersSortedByProductQuantity(): This method finds all managers and sorts them based on the quantity of products they manage.
  * It returns a collection of `ManagerInfoDTO` objects.
- *
+ * <p>
  * findAllChangedProducts(): This method finds all products that have been changed.
  * It returns a collection of `ProductDTO` objects.
- *
+ * <p>
  * The `RequestServiceImpl` class implements the `RequestService` interface,
  * which defines the contract for performing operations on requests.
  * By implementing this interface, the class provides the necessary business logic for request-related operations.
- *
+ * <p>
  * With the `RequestServiceImpl` class, we can find accounts by product ID and status, find agreements by manager ID or client ID,
  * find clients with a balance more than a specified amount, find managers sorted by product quantity, and find changed products.
  * It uses various repositories to access the required data.

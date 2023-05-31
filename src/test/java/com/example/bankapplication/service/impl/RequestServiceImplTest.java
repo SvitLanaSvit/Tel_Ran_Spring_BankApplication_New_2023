@@ -54,7 +54,7 @@ class RequestServiceImplTest {
     private List<ProductDTO> productDTOList;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         requestService = new RequestServiceImpl(
                 accountFindIdsRepository,
                 agreementFindIdsRepository,
@@ -88,7 +88,7 @@ class RequestServiceImplTest {
         List<AccountIdDTO> actualAccountIdDTOList = requestService
                 .findAccountsByProductIdAndStatus(uuid, status).stream().toList();
         assertEquals(accountIdDTOList.size(), actualAccountIdDTOList.size());
-        for (int i = 0; i < accountIdDTOList.size(); i++){
+        for (int i = 0; i < accountIdDTOList.size(); i++) {
             assertEquals(accountIdDTOList.get(i).getId(), actualAccountIdDTOList.get(i).getId());
         }
         verify(accountFindIdsRepository, times(1))
@@ -124,7 +124,7 @@ class RequestServiceImplTest {
         List<ClientInfoDTO> actualClientInfoDTOList = requestService
                 .findClientsWhereBalanceMoreThan(any(Double.class)).stream().toList();
         assertEquals(clientInfoDTOList.size(), actualClientInfoDTOList.size());
-        for(int i = 0; i < clientInfoDTOList.size(); i++){
+        for (int i = 0; i < clientInfoDTOList.size(); i++) {
             assertEquals(clientInfoDTOList.get(i), actualClientInfoDTOList.get(i));
         }
         verify(clientFindRepository, times(1)).findClientWhereBalanceMoreThan(any(Double.class));
@@ -137,7 +137,7 @@ class RequestServiceImplTest {
         List<ManagerInfoDTO> actualManagerInfoDTOList = requestService
                 .findAllManagersSortedByProductQuantity().stream().toList();
         assertEquals(managerInfoDTOList.size(), actualManagerInfoDTOList.size());
-        for(int i = 0; i < managerInfoDTOList.size(); i++){
+        for (int i = 0; i < managerInfoDTOList.size(); i++) {
             assertEquals(managerInfoDTOList.get(i), actualManagerInfoDTOList.get(i));
         }
         verify(managerFindRepository, times(1)).findAllManagersSortedByProductQuantity();
@@ -150,16 +150,15 @@ class RequestServiceImplTest {
         List<ProductDTO> actualProductDTOList = requestService
                 .findAllChangedProducts().stream().toList();
         assertEquals(productDTOList.size(), actualProductDTOList.size());
-        for(int i = 0; i < productDTOList.size(); i++)
-        {
+        for (int i = 0; i < productDTOList.size(); i++) {
             assertEquals(productDTOList.get(i), actualProductDTOList.get(i));
         }
         verify(productInfoRepository, times(1)).findAllChangedProducts();
     }
 
-    private void compareAgreementIdDTOList(List<AgreementIdDTO> expextedList, List<AgreementIdDTO> actualList){
+    private void compareAgreementIdDTOList(List<AgreementIdDTO> expextedList, List<AgreementIdDTO> actualList) {
         assertEquals(expextedList.size(), actualList.size());
-        for(int i = 0; i < expextedList.size(); i++){
+        for (int i = 0; i < expextedList.size(); i++) {
             assertEquals(expextedList.get(i).getId(), actualList.get(i).getId());
         }
     }

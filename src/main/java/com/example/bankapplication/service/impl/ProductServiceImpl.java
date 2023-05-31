@@ -28,12 +28,9 @@ import java.util.UUID;
  * It provides methods for performing various operations related to products.
  *
  * @Service: This annotation is used to indicate that this class is a service component in the Spring framework.
- *
  * @RequiredArgsConstructor: This annotation is from the Lombok library and generates a constructor with required arguments
  * for the final fields. It allows us to inject dependencies using constructor injection.
- *
  * @Slf4j: This annotation is from the Lombok library and generates a logger field for logging.
- *
  * @Transactional: This annotation is used in Spring to define transactional boundaries for methods or classes.
  * When applied to a method or class, it indicates that a transaction should be created for the annotated method
  * or all methods within the annotated class.
@@ -45,34 +42,34 @@ import java.util.UUID;
  * or rolling back transactions based on the annotated method's execution.
  * It is important to note that the `@Transactional` annotation should be applied to methods that modify data
  * or perform multiple database operations to ensure data integrity and consistency.
- *
+ * <p>
  * ProductMapper productMapper: This field is used to map product entities to DTOs and vice versa.
- *
+ * <p>
  * ProductRepository productRepository: This field is used to access the product data in the database.
- *
+ * <p>
  * ManagerRepository managerRepository: This field is used to access the manager data in the database.
- *
+ * <p>
  * getAll(): This method retrieves all products.
- *
+ * <p>
  * getProductById(UUID id): This method retrieves a product by its unique identifier (`id`).
  * It throws a `ProductNotFoundException` if no product with the specified `id` is found.
- *
+ * <p>
  * create(CreateProductDTO dto): This method creates a new product based on the provided DTO.
  * It also associates the product with a manager specified by the `managerId` in the DTO.
  * It throws a `ManagerNotFoundException` if no manager with the specified `managerId` is found.
- *
+ * <p>
  * editProductById(UUID id, CreateProductDTO dto): This method updates a product with the specified `id`
  * using the information provided in the DTO. It throws a `ProductNotFoundException` if no product with the specified `id` is found.
  * It also updates the associated manager based on the `managerId` in the DTO.
  * It throws a `ManagerNotFoundException` if no manager with the specified `managerId` is found.
- *
+ * <p>
  * deleteProductById(UUID id): This method deletes a product by its unique identifier (`id`).
  * It throws a `ProductNotFoundException` if no product with the specified `id` is found.
- *
+ * <p>
  * The `ProductServiceImpl` class implements the `ProductService` interface,
  * which defines the contract for performing operations on products.
  * By implementing this interface, the class provides the necessary business logic for product-related operations.
- *
+ * <p>
  * With the `ProductServiceImpl` class, we can retrieve, create, update, and delete products,
  * as well as get all products. It uses the `ProductRepository` interface for data access,
  * the `ProductMapper` interface for entity-DTO mapping, and the `ManagerRepository` interface to access manager data.
@@ -147,9 +144,9 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProductById(UUID id) {
         log.info("Deleting product {}", id);
         var product = productRepository.findProductById(id);
-        if(product.isPresent())
+        if (product.isPresent())
             productRepository.deleteById(id);
-        else{
+        else {
             throw new ProductNotFoundException(ErrorMessage.PRODUCT_NOT_FOUND);
         }
     }

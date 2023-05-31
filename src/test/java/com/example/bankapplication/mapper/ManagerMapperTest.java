@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 @DisplayName("Test class for ManagerMapper")
 class ManagerMapperTest {
 
@@ -30,7 +31,7 @@ class ManagerMapperTest {
     private CreateManagerDTO createManagerDTO;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         uuid = UUID.randomUUID();
         manager = EntityCreator.getManager(uuid);
         managerDTO = DTOCreator.getManagerDTO(uuid);
@@ -100,7 +101,7 @@ class ManagerMapperTest {
     }
 
     @Test
-    void testToInfoDTO(){
+    void testToInfoDTO() {
         manager.setProducts(List.of(EntityCreator.getProduct(uuid)));
         ManagerInfoDTO managerInfoDTO = managerMapper.toInfoDTO(manager);
         assertEquals(manager.getId().toString(), managerInfoDTO.getId());
@@ -117,7 +118,7 @@ class ManagerMapperTest {
         assertNull(managerInfoDTO);
     }
 
-    private void compareEntityWithDto(Manager manager, ManagerDTO managerDTO){
+    private void compareEntityWithDto(Manager manager, ManagerDTO managerDTO) {
         assertAll(
                 () -> assertEquals(manager.getId().toString(), managerDTO.getId()),
                 () -> assertEquals(manager.getFirstName(), managerDTO.getFirstName()),

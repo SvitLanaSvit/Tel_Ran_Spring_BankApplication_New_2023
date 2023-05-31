@@ -15,7 +15,7 @@ class UuidMapperTest {
     private UUID uuid;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         uuid = UUID.randomUUID();
     }
 
@@ -39,14 +39,14 @@ class UuidMapperTest {
 
     @Test
     @DisplayName("Negative test. When incorrect String uuid return IllegalArgumentException")
-    void testGetIllegalArgumentExceptionForInvalidUuidString(){
+    void testGetIllegalArgumentExceptionForInvalidUuidString() {
         String uuid = "invalid-uuid";
         assertThrows(IllegalArgumentException.class, () -> uuidMapper.toUuid(uuid));
     }
 
     @Test
     @DisplayName("Negative test. When String uuid is null return NullPointerException")
-    void testGetNullFromNullUuid(){
+    void testGetNullFromNullUuid() {
         assertThrows(NullPointerException.class, () -> uuidMapper.toUuid(null));
     }
 }

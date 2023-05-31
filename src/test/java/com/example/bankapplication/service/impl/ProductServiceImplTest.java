@@ -54,7 +54,7 @@ class ProductServiceImplTest {
     private ProductListDTO productListDTO;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         productMapper = new ProductMapperImpl();
         productService = new ProductServiceImpl(productMapper, productRepository, managerRepository);
         managerId = UUID.fromString("08608780-7143-4306-a92f-1937bbcbdebd");
@@ -135,21 +135,21 @@ class ProductServiceImplTest {
     }
 
     @Test
-    void testGetProductByNonExistingId(){
+    void testGetProductByNonExistingId() {
         when(productRepository.findProductById(any(UUID.class))).thenReturn(Optional.empty());
         assertThrows(ProductNotFoundException.class, () -> productService.getProductById(productId));
         verify(productRepository, times(1)).findProductById(any(UUID.class));
     }
 
     @Test
-    public void testCreateProductWithNonExistingManagerId(){
+    public void testCreateProductWithNonExistingManagerId() {
         when(managerRepository.findManagerById(any(UUID.class))).thenReturn(Optional.empty());
         assertThrows(ManagerNotFoundException.class, () -> productService.create(createProductDTO));
         verify(managerRepository, times(1)).findManagerById(any(UUID.class));
     }
 
     @Test
-    public void testEditProductWithNonExistingManagerId(){
+    public void testEditProductWithNonExistingManagerId() {
         when(productRepository.findProductById(any(UUID.class))).thenReturn(Optional.of(product));
         when(managerRepository.findManagerById(any(UUID.class))).thenReturn(Optional.empty());
         assertThrows(ManagerNotFoundException.class, () -> productService.editProductById(productId, createProductDTO));
@@ -157,7 +157,7 @@ class ProductServiceImplTest {
     }
 
     @Test
-    public void testDeleteNonExistingProductById(){
+    public void testDeleteNonExistingProductById() {
         when(productRepository.findProductById(any(UUID.class))).thenReturn(Optional.empty());
         assertThrows(ProductNotFoundException.class, () -> productService.deleteProductById(productId));
         verify(productRepository, times(1)).findProductById(any(UUID.class));
@@ -170,20 +170,19 @@ class ProductServiceImplTest {
         ProductListDTO actualProductDTOList = productService
                 .findAllChangedProducts();
         assertEquals(productDTOList.size(), actualProductDTOList.getProductDTOList().size());
-        for(int i = 0; i < productDTOList.size(); i++)
-        {
+        for (int i = 0; i < productDTOList.size(); i++) {
             compareEntityWithDto(productDTOList.get(i), actualProductDTOList.getProductDTOList().get(i));
         }
         verify(productRepository, times(1)).findAllChangedProducts();
     }
 
-    private void compareListDto(ProductListDTO expectedProductListDTO, ProductListDTO actualProductListDTO){
-        for(int i = 0; i < expectedProductListDTO.getProductDTOList().size(); i++){
+    private void compareListDto(ProductListDTO expectedProductListDTO, ProductListDTO actualProductListDTO) {
+        for (int i = 0; i < expectedProductListDTO.getProductDTOList().size(); i++) {
             compareEntityWithDto(expectedProductListDTO.getProductDTOList().get(i), actualProductListDTO.getProductDTOList().get(i));
         }
     }
 
-    private void compareEntityWithDto(ProductDTO expectedProductDTO, ProductDTO actualProductDTO){
+    private void compareEntityWithDto(ProductDTO expectedProductDTO, ProductDTO actualProductDTO) {
         assertAll(
                 () -> assertEquals(expectedProductDTO.getId(), actualProductDTO.getId()),
                 () -> assertEquals(expectedProductDTO.getName(), actualProductDTO.getName()),

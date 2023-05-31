@@ -55,7 +55,7 @@ class AgreementControllerTest {
     private List<AgreementIdDTO> agreementIdDTOList;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         agreementDTO = DTOCreator.getAgreementDTO();
         agreementDTOList = new ArrayList<>(List.of(agreementDTO));
         agreementListDTO = new AgreementListDTO(agreementDTOList);
@@ -96,7 +96,7 @@ class AgreementControllerTest {
     }
 
     @Test
-    void testCreateAgreement() throws  Exception{
+    void testCreateAgreement() throws Exception {
         RequestBuilder request = MockMvcRequestBuilders
                 .post("/auth/createAgreement")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -145,7 +145,8 @@ class AgreementControllerTest {
         when(requestService.findAgreementsByManagerId(any(UUID.class))).thenReturn(agreementIdDTOList);
 
         var mvcResult = mockMvc.perform(request).andExpect(status().isOk()).andReturn();
-        TypeReference<List<AgreementIdDTO>> reference = new TypeReference<>() {};
+        TypeReference<List<AgreementIdDTO>> reference = new TypeReference<>() {
+        };
         List<AgreementIdDTO> actualAgreementIdDTOList = objectMapper
                 .readValue(mvcResult.getResponse().getContentAsString(), reference);
         compareListIdDTO(agreementIdDTOList, actualAgreementIdDTOList);
@@ -161,7 +162,8 @@ class AgreementControllerTest {
         when(agreementService.findAgreementsByManagerId(any(UUID.class))).thenReturn(agreementIdDTOList);
 
         var mvcResult = mockMvc.perform(request).andExpect(status().isOk()).andReturn();
-        TypeReference<List<AgreementIdDTO>> reference = new TypeReference<>() {};
+        TypeReference<List<AgreementIdDTO>> reference = new TypeReference<>() {
+        };
         List<AgreementIdDTO> actualAgreementIdDTOList = objectMapper
                 .readValue(mvcResult.getResponse().getContentAsString(), reference);
         compareListIdDTO(agreementIdDTOList, actualAgreementIdDTOList);
@@ -175,7 +177,8 @@ class AgreementControllerTest {
                 .contentType(MediaType.APPLICATION_JSON);
 
         when(requestService.findAgreementByClientId(any(UUID.class))).thenReturn(agreementIdDTOList);
-        TypeReference<List<AgreementIdDTO>> reference = new TypeReference<>() {};
+        TypeReference<List<AgreementIdDTO>> reference = new TypeReference<>() {
+        };
         var mvcResult = mockMvc.perform(request).andExpect(status().isOk()).andReturn();
         List<AgreementIdDTO> actualAgreementIdDTOList = objectMapper
                 .readValue(mvcResult.getResponse().getContentAsString(), reference);
@@ -190,7 +193,8 @@ class AgreementControllerTest {
                 .contentType(MediaType.APPLICATION_JSON);
 
         when(agreementService.findAgreementByClientId(any(UUID.class))).thenReturn(agreementIdDTOList);
-        TypeReference<List<AgreementIdDTO>> reference = new TypeReference<>() {};
+        TypeReference<List<AgreementIdDTO>> reference = new TypeReference<>() {
+        };
         var mvcResult = mockMvc.perform(request).andExpect(status().isOk()).andReturn();
         List<AgreementIdDTO> actualAgreementIdDTOList = objectMapper
                 .readValue(mvcResult.getResponse().getContentAsString(), reference);
@@ -198,27 +202,27 @@ class AgreementControllerTest {
         verify(agreementService, times(1)).findAgreementByClientId(any(UUID.class));
     }
 
-    private void compareDTO (AgreementDTO expectedDTO, AgreementDTO actualDTO){
+    private void compareDTO(AgreementDTO expectedDTO, AgreementDTO actualDTO) {
         assertAll(
-                ()->assertEquals(expectedDTO.getId(), actualDTO.getId()),
-                ()->assertEquals(expectedDTO.getInterestRate(), actualDTO.getInterestRate()),
-                ()->assertEquals(expectedDTO.getStatus(), actualDTO.getStatus()),
-                ()->assertEquals(expectedDTO.getSum(), actualDTO.getSum()),
-                ()->assertEquals(expectedDTO.getProductId(), actualDTO.getProductId()),
-                ()->assertEquals(expectedDTO.getAccountId(), actualDTO.getAccountId())
+                () -> assertEquals(expectedDTO.getId(), actualDTO.getId()),
+                () -> assertEquals(expectedDTO.getInterestRate(), actualDTO.getInterestRate()),
+                () -> assertEquals(expectedDTO.getStatus(), actualDTO.getStatus()),
+                () -> assertEquals(expectedDTO.getSum(), actualDTO.getSum()),
+                () -> assertEquals(expectedDTO.getProductId(), actualDTO.getProductId()),
+                () -> assertEquals(expectedDTO.getAccountId(), actualDTO.getAccountId())
         );
     }
 
-    private void compareListDTO(AgreementListDTO expectedListDTO, AgreementListDTO actualListDTO){
+    private void compareListDTO(AgreementListDTO expectedListDTO, AgreementListDTO actualListDTO) {
         assertEquals(expectedListDTO.getAgreementDTOList().size(), actualListDTO.getAgreementDTOList().size());
-        for(int i = 0; i < expectedListDTO.getAgreementDTOList().size(); i++){
+        for (int i = 0; i < expectedListDTO.getAgreementDTOList().size(); i++) {
             compareDTO(expectedListDTO.getAgreementDTOList().get(i), actualListDTO.getAgreementDTOList().get(i));
         }
     }
 
-    private void compareListIdDTO(List<AgreementIdDTO> expectedListIdDTO, List<AgreementIdDTO> actualListIdDTO){
+    private void compareListIdDTO(List<AgreementIdDTO> expectedListIdDTO, List<AgreementIdDTO> actualListIdDTO) {
         assertEquals(expectedListIdDTO.size(), actualListIdDTO.size());
-        for(int i = 0; i < expectedListIdDTO.size(); i++){
+        for (int i = 0; i < expectedListIdDTO.size(); i++) {
             assertEquals(expectedListIdDTO.get(i).getId(), actualListIdDTO.get(i).getId());
         }
     }

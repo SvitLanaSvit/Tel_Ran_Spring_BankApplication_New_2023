@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 @DisplayName("Test class for ClientMapper")
 class ClientMapperTest {
     private final ClientMapper clientMapper = new ClientMapperImpl();
@@ -29,7 +30,7 @@ class ClientMapperTest {
     private CreateClientDTO createClientDTO;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         managerId = UUID.randomUUID();
         client = EntityCreator.getClient(managerId);
         clientDTO = DTOCreator.getClientDTO();
@@ -99,7 +100,7 @@ class ClientMapperTest {
     }
 
     @Test
-    void testToClientDTO(){
+    void testToClientDTO() {
         client.setAccounts(List.of(EntityCreator.getAccount(managerId)));
         ClientInfoDTO clientInfoDTO = clientMapper.toClientDTO(client);
         assertEquals(client.getId().toString(), clientInfoDTO.getId());
@@ -115,12 +116,12 @@ class ClientMapperTest {
     }
 
     @Test
-    void testToClientDTONull(){
+    void testToClientDTONull() {
         ClientInfoDTO clientInfoDTO = clientMapper.toClientDTO(null);
         assertNull(clientInfoDTO);
     }
 
-    private void compareEntityWithDto(Client client, ClientDTO clientDTO){
+    private void compareEntityWithDto(Client client, ClientDTO clientDTO) {
         assertAll(
                 () -> assertEquals(client.getId().toString(), clientDTO.getId()),
                 () -> assertEquals(client.getStatus().toString(), clientDTO.getStatus()),
@@ -135,9 +136,9 @@ class ClientMapperTest {
         );
     }
 
-    private void compareManagerListWithListDto(List<Client> clientList, List<ClientDTO> clientDTOList){
+    private void compareManagerListWithListDto(List<Client> clientList, List<ClientDTO> clientDTOList) {
         assertEquals(clientList.size(), clientDTOList.size());
-        for(int i = 0; i < clientList.size(); i++){
+        for (int i = 0; i < clientList.size(); i++) {
             compareEntityWithDto(clientList.get(i), clientDTOList.get(i));
         }
     }

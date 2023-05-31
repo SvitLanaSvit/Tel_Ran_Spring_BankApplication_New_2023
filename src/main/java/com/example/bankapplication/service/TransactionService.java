@@ -8,7 +8,10 @@ import java.util.UUID;
 
 public interface TransactionService {
     TransactionListDTO getAll();
+
     TransactionDTO getTransactionById(UUID id);
+
     TransactionDTO createTransaction(CreateTransactionDTO dto);
+
     void deleteTransactionById(UUID id);
 }

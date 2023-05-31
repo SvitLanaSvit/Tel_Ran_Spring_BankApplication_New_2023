@@ -30,7 +30,7 @@ class ClientRepositoryTest {
     private List<Client> clientList;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         client = EntityCreator.getClient(UUID.randomUUID());
         clientList = new ArrayList<>(List.of(client));
     }

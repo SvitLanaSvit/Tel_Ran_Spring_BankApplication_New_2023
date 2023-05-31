@@ -11,10 +11,15 @@ import java.util.UUID;
 
 public interface AccountService {
     AccountDTO getAccountById(UUID id);
+
     AccountListDTO getAllAccountsStatus();
+
     AccountDTO createAccount(CreateAccountDTO dto);
+
     void deleteAccountById(UUID id);
+
     AccountDTO editAccountById(UUID id, CreateAccountDTO dto);
+
     AccountListDTO getAll();
 
     List<AccountIdDTO> findAccountsByProductIdAndStatus(UUID id, ProductStatus status);

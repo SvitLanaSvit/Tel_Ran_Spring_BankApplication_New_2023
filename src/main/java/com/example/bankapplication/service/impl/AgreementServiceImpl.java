@@ -25,12 +25,9 @@ import java.util.UUID;
  * It provides methods for performing various operations related to agreements.
  *
  * @Service: This annotation is used to indicate that this class is a service component in the Spring framework.
- *
  * @RequiredArgsConstructor: This annotation is from the Lombok library and generates a constructor with required arguments
  * for the final fields. It allows us to inject dependencies using constructor injection.
- *
  * @Slf4j: This annotation is from the Lombok library and generates a logger field for logging.
- *
  * @Transactional: This annotation is used in Spring to define transactional boundaries for methods or classes.
  * When applied to a method or class, it indicates that a transaction should be created for the annotated method
  * or all methods within the annotated class.
@@ -42,36 +39,36 @@ import java.util.UUID;
  * or rolling back transactions based on the annotated method's execution.
  * It is important to note that the `@Transactional` annotation should be applied to methods that modify data
  * or perform multiple database operations to ensure data integrity and consistency.
- *
+ * <p>
  * AgreementMapper agreementMapper: This field is used to map agreement entities to DTOs and vice versa.
- *
+ * <p>
  * AgreementRepository agreementRepository: This field is used to access the agreement data in the database.
- *
+ * <p>
  * ProductRepository productRepository: This field is used to access product data in the database.
- *
+ * <p>
  * AccountRepository accountRepository: This field is used to access account data in the database.
- *
+ * <p>
  * getAll(): This method retrieves all agreements.
- *
+ * <p>
  * getAgreementById(UUID id): This method retrieves an agreement by its unique identifier (`id`).
  * It throws an `AgreementNotFoundException` if no agreement with the specified `id` is found.
- *
+ * <p>
  * createAgreement(CreateAgreementDTO dto): This method creates a new agreement based on the provided DTO.
  * It throws a `ProductNotFoundException` if the product specified in the DTO is not found,
  * and an `AccountNotFoundException` if the account specified in the DTO is not found.
- *
+ * <p>
  * editAgreementById(UUID id, CreateAgreementDTO dto): This method updates an agreement with the specified `id`
  * using the information provided in the DTO. It throws an `AgreementNotFoundException` if no agreement with the specified `id` is found,
  * and a `ProductNotFoundException` if the product specified in the DTO is not found,
  * and an `AccountNotFoundException` if the account specified in the DTO is not found.
- *
+ * <p>
  * deleteAgreementById(UUID id): This method deletes an agreement by its unique identifier (`id`).
  * It throws an `AgreementNotFoundException` if no agreement with the specified `id` is found.
- *
+ * <p>
  * The `AgreementServiceImpl` class implements the `AgreementService` interface,
  * which defines the contract for performing operations on agreements.
  * By implementing this interface, the class provides the necessary business logic for agreement-related operations.
- *
+ * <p>
  * With the `AgreementServiceImpl` class, we can retrieve, create, update, and delete agreements,
  * as well as get all agreements. It uses the `AgreementRepository`, `ProductRepository`, and `AccountRepository` interfaces for data access,
  * and the `AgreementMapper` interface for entity-DTO mapping.
@@ -162,7 +159,7 @@ public class AgreementServiceImpl implements AgreementService {
     public void deleteAgreementById(UUID id) {
         log.info("Deleting agreement {}", id);
         var agreement = agreementRepository.findAgreementById(id);
-        if(agreement.isPresent())
+        if (agreement.isPresent())
             agreementRepository.deleteById(id);
         else throw new AgreementNotFoundException(ErrorMessage.AGREEMENT_NOT_FOUND);
     }
@@ -170,8 +167,8 @@ public class AgreementServiceImpl implements AgreementService {
     @Override
     public List<AgreementIdDTO> findAgreementsByManagerId(UUID managerId) {
         log.info("Find agreement`s ids by manager id {}", managerId);
-        List<AgreementIdDTO> agreementIdDTOList =  agreementRepository.findAgreementsByManagerId(managerId);
-        if(agreementIdDTOList.isEmpty())
+        List<AgreementIdDTO> agreementIdDTOList = agreementRepository.findAgreementsByManagerId(managerId);
+        if (agreementIdDTOList.isEmpty())
             throw new NullPointerException("The list of Id from agreement find by manager id is EMPTY!");
         return agreementIdDTOList;
     }
@@ -180,7 +177,7 @@ public class AgreementServiceImpl implements AgreementService {
     public List<AgreementIdDTO> findAgreementByClientId(UUID clientId) {
         log.info("Find agreement`s ids by client id {}", clientId);
         List<AgreementIdDTO> agreementIdDTOList = agreementRepository.findAgreementsByClientId(clientId);
-        if(agreementIdDTOList.isEmpty())
+        if (agreementIdDTOList.isEmpty())
             throw new NullPointerException("The list of Id from agreement find by client id is EMPTY!");
         return agreementIdDTOList;
     }

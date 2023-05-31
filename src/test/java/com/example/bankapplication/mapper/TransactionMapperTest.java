@@ -14,7 +14,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
+
 @DisplayName("Test class for TransactionMapper")
 class TransactionMapperTest {
     private final TransactionMapper transactionMapper = new TransactionMapperImpl();
@@ -26,7 +28,7 @@ class TransactionMapperTest {
     private CreateTransactionDTO createTransactionDTO;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         transaction = EntityCreator.getTransaction();
         transactionDTO = DTOCreator.getTransactionDTO();
         transactionList = new ArrayList<>(List.of(transaction));
@@ -40,6 +42,7 @@ class TransactionMapperTest {
         TransactionDTO transactionDTO = transactionMapper.toDTO(transaction);
         compareEntityWithDto(transaction, transactionDTO);
     }
+
     @Test
     void testToDTONull() {
         TransactionDTO transactionDTO = transactionMapper.toDTO(null);
@@ -93,7 +96,7 @@ class TransactionMapperTest {
         assertNull(transaction);
     }
 
-    private void compareEntityWithDto(Transaction transaction, TransactionDTO transactionDTO){
+    private void compareEntityWithDto(Transaction transaction, TransactionDTO transactionDTO) {
         assertAll(
                 () -> assertEquals(transaction.getId().toString(), transactionDTO.getId()),
                 () -> assertEquals(transaction.getType().toString(), transactionDTO.getType()),
@@ -103,9 +106,9 @@ class TransactionMapperTest {
         );
     }
 
-    private void compareManagerListWithListDto(List<Transaction> transactionList, List<TransactionDTO> transactionDTOList){
+    private void compareManagerListWithListDto(List<Transaction> transactionList, List<TransactionDTO> transactionDTOList) {
         assertEquals(transactionList.size(), transactionDTOList.size());
-        for(int i = 0; i < transactionList.size(); i++){
+        for (int i = 0; i < transactionList.size(); i++) {
             compareEntityWithDto(transactionList.get(i), transactionDTOList.get(i));
         }
     }

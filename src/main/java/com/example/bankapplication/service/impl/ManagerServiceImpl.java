@@ -26,12 +26,9 @@ import java.util.UUID;
  * It provides methods for performing various operations related to managers.
  *
  * @Service: This annotation is used to indicate that this class is a service component in the Spring framework.
- *
  * @RequiredArgsConstructor: This annotation is from the Lombok library and generates a constructor with required arguments
  * for the final fields. It allows us to inject dependencies using constructor injection.
- *
  * @Slf4j: This annotation is from the Lombok library and generates a logger field for logging.
- *
  * @Transactional: This annotation is used in Spring to define transactional boundaries for methods or classes.
  * When applied to a method or class, it indicates that a transaction should be created for the annotated method
  * or all methods within the annotated class.
@@ -43,32 +40,32 @@ import java.util.UUID;
  * or rolling back transactions based on the annotated method's execution.
  * It is important to note that the `@Transactional` annotation should be applied to methods that modify data
  * or perform multiple database operations to ensure data integrity and consistency.
- *
+ * <p>
  * ManagerRepository managerRepository: This field is used to access the manager data in the database.
- *
+ * <p>
  * ManagerMapper managerMapper: This field is used to map manager entities to DTOs and vice versa.
- *
+ * <p>
  * getManagerById(UUID id): This method retrieves a manager by their unique identifier (`id`).
  * It throws a `ManagerNotFoundException` if no manager with the specified `id` is found.
- *
+ * <p>
  * getManagersStatus(): This method retrieves all managers with the status "ACTIVE".
- *
+ * <p>
  * create(CreateManagerDTO dto): This method creates a new manager based on the provided DTO.
- *
+ * <p>
  * deleteById(UUID id): This method deletes a manager by their unique identifier (`id`).
  * It throws a `ManagerNotFoundException` if no manager with the specified `id` is found.
- *
+ * <p>
  * editManagerById(UUID id, CreateManagerDTO dto): This method updates a manager with the specified `id`
  * using the information provided in the DTO. It throws a `ManagerNotFoundException` if no manager with the specified `id` is found.
- *
+ * <p>
  * getAllManagersByStatus(ManagerStatus status): This method retrieves all managers with the specified status.
- *
+ * <p>
  * getAll(): This method retrieves all managers.
- *
+ * <p>
  * The `ManagerServiceImpl` class implements the `ManagerService` interface,
  * which defines the contract for performing operations on managers.
  * By implementing this interface, the class provides the necessary business logic for manager-related operations.
- *
+ * <p>
  * With the `ManagerServiceImpl` class, we can retrieve, create, update, and delete managers,
  * as well as get managers by status and get all managers.
  * It uses the `ManagerRepository` interface for data access and the `ManagerMapper` interface for entity-DTO mapping.
@@ -110,7 +107,7 @@ public class ManagerServiceImpl implements ManagerService {
     public void deleteById(UUID id) {
         log.info("Deleting manager {}", id);
         var manager = managerRepository.findManagerById(id);
-        if(manager.isPresent())
+        if (manager.isPresent())
             managerRepository.deleteById(id);
         else throw new ManagerNotFoundException(ErrorMessage.Manager_NOT_FOUND);
     }
@@ -153,7 +150,7 @@ public class ManagerServiceImpl implements ManagerService {
         log.info("Sorted managers by product`s quantity");
         List<Manager> managerList = managerRepository.findAllManagersSortedByProductQuantity();
         List<ManagerInfoDTO> managerInfoDTOList = new ArrayList<>();
-        if(managerList.isEmpty())
+        if (managerList.isEmpty())
             throw new NullPointerException("The list of managers is empty.");
 
         for (var manager : managerList) {

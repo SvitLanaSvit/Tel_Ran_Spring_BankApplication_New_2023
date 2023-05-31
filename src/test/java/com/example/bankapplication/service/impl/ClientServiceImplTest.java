@@ -54,7 +54,7 @@ class ClientServiceImplTest {
     private ClientInfoDTO clientInfoDTO;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         clientMapper = new ClientMapperImpl();
         clientService = new ClientServiceImpl(clientRepository, clientMapper, managerRepository);
         uuid = UUID.randomUUID();
@@ -159,7 +159,7 @@ class ClientServiceImplTest {
     }
 
     @Test
-    void testGetClientByNonExistingId(){
+    void testGetClientByNonExistingId() {
         when(clientRepository.findClientById(any(UUID.class))).thenReturn(Optional.empty());
 
         assertThrows(ClientNotFoundException.class, () -> clientService.getClientById(uuid));
@@ -167,7 +167,7 @@ class ClientServiceImplTest {
     }
 
     @Test
-    void testCreateClientWithNoExistingManagerId(){
+    void testCreateClientWithNoExistingManagerId() {
         when(managerRepository.findManagerById(any(UUID.class))).thenReturn(Optional.empty());
 
         assertThrows(ManagerNotFoundException.class, () -> clientService.createClient(createClientDTO));
@@ -175,7 +175,7 @@ class ClientServiceImplTest {
     }
 
     @Test
-    void testDeleteNonExistingClientById(){
+    void testDeleteNonExistingClientById() {
         when(clientRepository.findClientById(any(UUID.class))).thenReturn(Optional.empty());
 
         assertThrows(ClientNotFoundException.class, () -> clientService.deleteClientById(clientId));
@@ -183,7 +183,7 @@ class ClientServiceImplTest {
     }
 
     @Test
-    void testEditClientWithNonExistingManagerId(){
+    void testEditClientWithNonExistingManagerId() {
         when(clientRepository.findClientById(any())).thenReturn(Optional.ofNullable(client));
         when(managerRepository.findManagerById(any(UUID.class))).thenReturn(Optional.empty());
 
@@ -191,7 +191,7 @@ class ClientServiceImplTest {
         verify(managerRepository, times(1)).findManagerById(any(UUID.class));
     }
 
-    private void compareEntityWithDto(ClientDTO expectedClientDTO, ClientDTO actualClientDTO){
+    private void compareEntityWithDto(ClientDTO expectedClientDTO, ClientDTO actualClientDTO) {
         assertAll(
                 () -> assertEquals(expectedClientDTO.getId(), actualClientDTO.getId()),
                 () -> assertEquals(expectedClientDTO.getStatus(), actualClientDTO.getStatus()),

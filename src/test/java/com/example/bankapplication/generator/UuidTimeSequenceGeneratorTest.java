@@ -26,13 +26,14 @@ public class UuidTimeSequenceGeneratorTest {
 
     @InjectMocks
     private UuidTimeSequenceGenerator generator;
+
     @Test
     @DisplayName("Must generate valid UUID value")
-    void generateOneUuidValue(){
+    void generateOneUuidValue() {
         when(jdbcTemplate.queryForObject(anyString(), (RowMapper<Object>) any()))
-                .thenReturn((long)(Math.random() * 1_000_000));
+                .thenReturn((long) (Math.random() * 1_000_000));
 
-        UUID actualUuid =(UUID) generator.generate(null, null);
+        UUID actualUuid = (UUID) generator.generate(null, null);
         Assert.assertTrue(actualUuid.toString().matches(UUID_PATTERN));
     }
 }
