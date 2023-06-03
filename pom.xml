@@ -167,6 +167,7 @@
                                 <exclude>com/example/bankapplication/repository/**</exclude>
                                 <exclude>com/example/bankapplication/dto/**</exclude>
                                 <exclude>com/example/bankapplication/entity/**</exclude>
+                                <exclude>com/example/bankapplication/aspect/LoggerAspect.java/getName(..)</exclude>
                             </excludes>
                         </configuration>
                     </execution>
