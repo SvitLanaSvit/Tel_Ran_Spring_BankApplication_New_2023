@@ -7,10 +7,7 @@ import com.example.bankapplication.repository.AccountRepository;
 import com.example.bankapplication.repository.AgreementRepository;
 import com.example.bankapplication.repository.ProductRepository;
 import com.example.bankapplication.service.AgreementService;
-import com.example.bankapplication.service.exception.AccountNotFoundException;
-import com.example.bankapplication.service.exception.AgreementNotFoundException;
-import com.example.bankapplication.service.exception.ErrorMessage;
-import com.example.bankapplication.service.exception.ProductNotFoundException;
+import com.example.bankapplication.service.exception.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -102,6 +99,13 @@ public class AgreementServiceImpl implements AgreementService {
     @Transactional
     public AgreementDTO createAgreement(CreateAgreementDTO dto) {
         log.info("Create new agreement");
+        if(Double.parseDouble(dto.getSum()) < 0){
+            throw new NegativeDataException(ErrorMessage.NEGATIVE_DATA);
+        }
+
+        if(Double.parseDouble(dto.getInterestRate()) < 0){
+            throw new NegativeDataException(ErrorMessage.NEGATIVE_DATA);
+        }
 
         var productId = dto.getProductId();
         log.info("Product id : " + dto.getProductId());
@@ -128,6 +132,14 @@ public class AgreementServiceImpl implements AgreementService {
     @Transactional
     public AgreementDTO editAgreementById(UUID id, CreateAgreementDTO dto) {
         log.info("Edit agreement by id {}", id);
+
+        if(Double.parseDouble(dto.getSum()) < 0){
+            throw new NegativeDataException(ErrorMessage.NEGATIVE_DATA);
+        }
+
+        if(Double.parseDouble(dto.getInterestRate()) < 0){
+            throw new NegativeDataException(ErrorMessage.NEGATIVE_DATA);
+        }
 
         var agreement = agreementRepository.findAgreementById(id).orElseThrow(
                 () -> new AgreementNotFoundException(ErrorMessage.AGREEMENT_NOT_FOUND)

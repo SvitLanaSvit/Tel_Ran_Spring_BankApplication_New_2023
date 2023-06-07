@@ -7,7 +7,6 @@ import com.example.bankapplication.dto.CreateAgreementDTO;
 import com.example.bankapplication.entity.Account;
 import com.example.bankapplication.entity.Agreement;
 import com.example.bankapplication.entity.Product;
-import com.example.bankapplication.entity.enums.ProductStatus;
 import com.example.bankapplication.mapper.AgreementMapper;
 import com.example.bankapplication.mapper.AgreementMapperImpl;
 import com.example.bankapplication.repository.AccountRepository;
@@ -16,6 +15,7 @@ import com.example.bankapplication.repository.ProductRepository;
 import com.example.bankapplication.service.AgreementService;
 import com.example.bankapplication.service.exception.AccountNotFoundException;
 import com.example.bankapplication.service.exception.AgreementNotFoundException;
+import com.example.bankapplication.service.exception.NegativeDataException;
 import com.example.bankapplication.service.exception.ProductNotFoundException;
 import com.example.bankapplication.util.DTOCreator;
 import com.example.bankapplication.util.EntityCreator;
@@ -260,6 +260,46 @@ class AgreementServiceImplTest {
         assertThrows(NullPointerException.class,
                 () -> agreementService.findAgreementByClientId(uuid));
         verify(agreementRepository).findAgreementsByClientId(any(UUID.class));
+    }
+
+    @Test
+    @DisplayName("Negative test")
+    void testCreateAgreementWithNegativeInterestRateThrowNegativeDataException() {
+        CreateAgreementDTO createAgreementDTONegativeInterestRate = DTOCreator.getAgreementToCreate();
+        createAgreementDTONegativeInterestRate.setInterestRate("-1");
+
+        assertThrows(NegativeDataException.class,
+                () -> agreementService.createAgreement(createAgreementDTONegativeInterestRate));
+    }
+
+    @Test
+    @DisplayName("Negative test")
+    void testCreateAgreementWithNegativeSumThrowNegativeDataException() {
+        CreateAgreementDTO createAgreementDTONegativeInterestRate = DTOCreator.getAgreementToCreate();
+        createAgreementDTONegativeInterestRate.setSum("-1");
+
+        assertThrows(NegativeDataException.class,
+                () -> agreementService.createAgreement(createAgreementDTONegativeInterestRate));
+    }
+
+    @Test
+    @DisplayName("Negative test")
+    void testEditAgreementWithNegativeInterestRateThrowNegativeDataException() {
+        CreateAgreementDTO createAgreementDTONegativeInterestRate = DTOCreator.getAgreementToCreate();
+        createAgreementDTONegativeInterestRate.setInterestRate("-1");
+
+        assertThrows(NegativeDataException.class,
+                () -> agreementService.editAgreementById(uuid, createAgreementDTONegativeInterestRate));
+    }
+
+    @Test
+    @DisplayName("Negative test")
+    void testEditAgreementWithNegativeSumThrowNegativeDataException() {
+        CreateAgreementDTO createAgreementDTONegativeInterestRate = DTOCreator.getAgreementToCreate();
+        createAgreementDTONegativeInterestRate.setSum("-1");
+
+        assertThrows(NegativeDataException.class,
+                () -> agreementService.editAgreementById(uuid, createAgreementDTONegativeInterestRate));
     }
 
     private void compareAgreementIdDTOList(List<AgreementIdDTO> expextedList, List<AgreementIdDTO> actualList) {

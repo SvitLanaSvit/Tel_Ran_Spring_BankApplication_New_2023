@@ -15,6 +15,7 @@ import com.example.bankapplication.repository.ClientRepository;
 import com.example.bankapplication.service.AccountService;
 import com.example.bankapplication.service.exception.AccountNotFoundException;
 import com.example.bankapplication.service.exception.ClientNotFoundException;
+import com.example.bankapplication.service.exception.NegativeDataException;
 import com.example.bankapplication.util.DTOCreator;
 import com.example.bankapplication.util.EntityCreator;
 import org.junit.jupiter.api.BeforeEach;
@@ -149,16 +150,6 @@ class AccountServiceImplTest {
         assertThrows(AccountNotFoundException.class, () -> accountService.editAccountById(uuid, createAccountDTO));
     }
 
-//    @Test
-//    @DisplayName("Negative test: Edit account with non-existing clientId")
-//    void testEditAccountWithNonExistingClientId(){
-//        when(accountRepository.findAccountById(any(UUID.class))).thenReturn(Optional.ofNullable(account));
-//        when(clientRepository.findClientById(any(UUID.class))).thenReturn(Optional.empty());
-//
-//        assertThrows(ClientNotFoundException.class, () -> accountService.editAccountById(uuid, createAccountDTO));
-//        verify(accountRepository, times(1)).findAccountById(any(UUID.class));
-//    }
-
     @Test
     @DisplayName("Negative test: Get account by non-existing Id")
     void testGetAccountByNonExistingId() {
@@ -197,6 +188,15 @@ class AccountServiceImplTest {
         assertThrows(AccountNotFoundException.class, () -> accountService.deleteAccountById(uuid));
         verify(accountRepository, times(1)).findAccountById(any(UUID.class));
         verify(accountRepository, never()).deleteById(any(UUID.class));
+    }
+
+    @Test
+    @DisplayName("Negative test: Put negative balance.")
+    void testPutNegativeBalance(){
+        CreateAccountDTO createAccountDTONegativeBalance = DTOCreator.getAccountToCreate();
+        createAccountDTONegativeBalance.setBalance("-1");
+
+        assertThrows(NegativeDataException.class, () -> accountService.createAccount(createAccountDTONegativeBalance));
     }
 
     @Test

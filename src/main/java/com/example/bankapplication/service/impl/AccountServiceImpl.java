@@ -15,6 +15,7 @@ import com.example.bankapplication.service.AccountService;
 import com.example.bankapplication.service.exception.AccountNotFoundException;
 import com.example.bankapplication.service.exception.ClientNotFoundException;
 import com.example.bankapplication.service.exception.ErrorMessage;
+import com.example.bankapplication.service.exception.NegativeDataException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -114,6 +115,11 @@ public class AccountServiceImpl implements AccountService {
         if (dto.getClientId() == null) {
             throw new NullPointerException("clientId cannot be null");
         }
+
+        if (Double.parseDouble(dto.getBalance()) < 0.0) {
+            throw new NegativeDataException(ErrorMessage.NEGATIVE_DATA);
+        }
+
         var uuidClient = dto.getClientId();
         var client = clientRepository.findClientById(uuidClient).orElseThrow(
                 () -> new ClientNotFoundException(ErrorMessage.CLIENT_NOT_FOUND)
