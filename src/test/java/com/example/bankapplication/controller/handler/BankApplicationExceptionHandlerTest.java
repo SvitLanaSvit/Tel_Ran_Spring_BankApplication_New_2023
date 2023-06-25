@@ -53,6 +53,9 @@ class BankApplicationExceptionHandlerTest {
     @Mock
     private IllegalArgumentException illegalArgumentException;
 
+    @Mock
+    private NegativeDataException negativeDataException;
+
     @InjectMocks
     private BankApplicationExceptionHandler bankApplicationExceptionHandler;
 
@@ -164,5 +167,15 @@ class BankApplicationExceptionHandlerTest {
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
         assertEquals("Illegal Argument Exception occurred", Objects.requireNonNull(responseEntity.getBody()).getMessage());
+    }
+
+    @Test
+    void testHandleNegativeDataException(){
+        when(negativeDataException.getMessage()).thenReturn(ErrorMessage.NEGATIVE_DATA);
+        ResponseEntity<ErrorDTO> responseEntity = bankApplicationExceptionHandler
+                .handleNegativeDataException(negativeDataException);
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
+        assertEquals(ErrorMessage.NEGATIVE_DATA, Objects.requireNonNull(responseEntity.getBody()).getMessage());
     }
 }

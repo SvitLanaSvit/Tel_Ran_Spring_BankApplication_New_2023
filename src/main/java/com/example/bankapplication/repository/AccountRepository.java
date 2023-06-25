@@ -51,7 +51,7 @@ public interface AccountRepository extends JpaRepository<Account, UUID> {
 
     List<Account> findAll();
 
-    @Query("SELECT new com.example.bankapplication.dto.AccountIdDTO(a.id) FROM Account a " +
+    @Query("SELECT distinct new com.example.bankapplication.dto.AccountIdDTO(a.id) FROM Account a " +
             "LEFT JOIN Client c " +
             "LEFT JOIN Manager m " +
             "LEFT JOIN Product p " +

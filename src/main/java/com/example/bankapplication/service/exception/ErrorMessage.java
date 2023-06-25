@@ -12,4 +12,7 @@ public class ErrorMessage {
     public static final String AGREEMENT_NOT_FOUND = "The agreement was not found by this id!";
     public static final String TRANSACTION_NOT_FOUND = "The transaction was not found by this id!";
     public static final String NEGATIVE_DATA = "The data can not been negative!";
+    public static final String NEGATIVE_BALANCE = "The balance on the account is not enough!";
+    public static final String CONVERSION_NOT_AVAILABLE
+            = "The currency code on the balance is not equals sending account. Conversion is not available at this time.";
 }

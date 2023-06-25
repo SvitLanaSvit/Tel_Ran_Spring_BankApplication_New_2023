@@ -11,6 +11,7 @@ import com.example.bankapplication.repository.ManagerRepository;
 import com.example.bankapplication.repository.ProductRepository;
 import com.example.bankapplication.service.ProductService;
 import com.example.bankapplication.service.exception.ManagerNotFoundException;
+import com.example.bankapplication.service.exception.NegativeDataException;
 import com.example.bankapplication.service.exception.ProductNotFoundException;
 import com.example.bankapplication.util.DTOCreator;
 import com.example.bankapplication.util.EntityCreator;
@@ -52,6 +53,8 @@ class ProductServiceImplTest {
     private CreateProductDTO createProductDTO;
     private Manager manager;
     private ProductListDTO productListDTO;
+    private CreateProductDTO createProductDTONegativeInterestRate;
+    private CreateProductDTO createProductDTONegativeProductLimit;
 
     @BeforeEach
     void setUp() {
@@ -66,6 +69,10 @@ class ProductServiceImplTest {
         createProductDTO = DTOCreator.getProductToCreate();
         manager = EntityCreator.getManager(managerId);
         productListDTO = new ProductListDTO(productDTOList);
+        createProductDTONegativeInterestRate = DTOCreator.getProductToCreate();
+        createProductDTONegativeInterestRate.setInterestRate("-0.1");
+        createProductDTONegativeProductLimit = DTOCreator.getProductToCreate();
+        createProductDTONegativeProductLimit.setProductLimit("-1");
     }
 
     @Test
@@ -161,6 +168,28 @@ class ProductServiceImplTest {
         when(productRepository.findProductById(any(UUID.class))).thenReturn(Optional.empty());
         assertThrows(ProductNotFoundException.class, () -> productService.deleteProductById(productId));
         verify(productRepository, times(1)).findProductById(any(UUID.class));
+    }
+
+    @Test
+    public void testCreateProductWithNegativeInterestRateNegativeDataException(){
+        assertThrows(NegativeDataException.class, () -> productService.create(createProductDTONegativeInterestRate));
+    }
+
+    @Test
+    public void testCreateProductWithNegativeProductLimitNegativeDataException(){
+        assertThrows(NegativeDataException.class, () -> productService.create(createProductDTONegativeProductLimit));
+    }
+
+    @Test
+    public void testEditeProductWithNegativeInterestRateNegativeDataException(){
+        assertThrows(NegativeDataException.class, () -> productService
+                .editProductById(managerId, createProductDTONegativeInterestRate));
+    }
+
+    @Test
+    public void testEditeProductWithNegativeProductLimitNegativeDataException(){
+        assertThrows(NegativeDataException.class, () -> productService
+                .editProductById(managerId, createProductDTONegativeProductLimit));
     }
 
     @Test

@@ -12,6 +12,7 @@ import com.example.bankapplication.repository.ProductRepository;
 import com.example.bankapplication.service.ProductService;
 import com.example.bankapplication.service.exception.ErrorMessage;
 import com.example.bankapplication.service.exception.ManagerNotFoundException;
+import com.example.bankapplication.service.exception.NegativeDataException;
 import com.example.bankapplication.service.exception.ProductNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -102,6 +103,15 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public ProductDTO create(CreateProductDTO dto) {
         log.info("Creating manager");
+
+        if(Double.parseDouble(dto.getInterestRate()) < 0.0){
+            throw new NegativeDataException(ErrorMessage.NEGATIVE_DATA);
+        }
+
+        if(Integer.parseInt(dto.getProductLimit()) < 0){
+            throw new NegativeDataException(ErrorMessage.NEGATIVE_DATA);
+        }
+
         var managerId = dto.getManagerId();
         log.info(dto.getManagerId().toString());
         var manager = managerRepository.findManagerById(managerId).orElseThrow(
@@ -118,6 +128,14 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public ProductDTO editProductById(UUID id, CreateProductDTO dto) {
         log.info("Edit product {}", id);
+
+        if(Double.parseDouble(dto.getInterestRate()) < 0.0){
+            throw new NegativeDataException(ErrorMessage.NEGATIVE_DATA);
+        }
+
+        if(Integer.parseInt(dto.getProductLimit()) < 0){
+            throw new NegativeDataException(ErrorMessage.NEGATIVE_DATA);
+        }
 
         var product = productRepository.findProductById(id).orElseThrow(
                 () -> new ProductNotFoundException(ErrorMessage.PRODUCT_NOT_FOUND)

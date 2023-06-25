@@ -3,6 +3,7 @@ package com.example.bankapplication.controller.handler;
 import com.example.bankapplication.dto.ErrorDTO;
 import com.example.bankapplication.service.exception.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -103,6 +104,13 @@ public class BankApplicationExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<ErrorDTO> handleIllegalArgumentException(IllegalArgumentException ex) {
         log.error("IllegalArgumentException", ex);
+        var error = new ErrorDTO(HttpURLConnection.HTTP_INTERNAL_ERROR, ex.getMessage());
+        return ResponseEntity.status(HttpURLConnection.HTTP_INTERNAL_ERROR).body(error);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorDTO> handleNegativeDataException(NegativeDataException ex){
+        log.error("NegativeDataException", ex);
         var error = new ErrorDTO(HttpURLConnection.HTTP_INTERNAL_ERROR, ex.getMessage());
         return ResponseEntity.status(HttpURLConnection.HTTP_INTERNAL_ERROR).body(error);
     }

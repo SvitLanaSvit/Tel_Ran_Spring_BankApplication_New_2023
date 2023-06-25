@@ -8,14 +8,14 @@ import com.example.bankapplication.mapper.TransactionMapper;
 import com.example.bankapplication.repository.AccountRepository;
 import com.example.bankapplication.repository.TransactionRepository;
 import com.example.bankapplication.service.TransactionService;
-import com.example.bankapplication.service.exception.AccountNotFoundException;
-import com.example.bankapplication.service.exception.ErrorMessage;
-import com.example.bankapplication.service.exception.TransactionNotFoundException;
+import com.example.bankapplication.service.exception.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -98,16 +98,39 @@ public class TransactionServiceImpl implements TransactionService {
     public TransactionDTO createTransaction(CreateTransactionDTO dto) {
         log.info("Creating transaction");
 
-        var debitAccount = getAccount(dto.getDebitAccountId());
+        if (Double.parseDouble(dto.getAmount()) < 0.0) {
+            throw new NegativeDataException(ErrorMessage.NEGATIVE_DATA);
+        }
 
-        var creditAccount = getAccount(dto.getDebitAccountId());
+        var debitAccount = getAccount(dto.getDebitAccountId());
+        var creditAccount = getAccount(dto.getCreditAccountId());
+
+        List<Account> accounts = transferAmountFromAccountToAccount(dto, debitAccount, creditAccount);
 
         var transaction = transactionMapper.createToEntity(dto);
-        transaction.setCreditAccount(creditAccount);
-        transaction.setDebitAccount(debitAccount);
+        transaction.setDebitAccount(accounts.get(0));
+        transaction.setCreditAccount(accounts.get(1));
 
         var result = transactionRepository.save(transaction);
         return transactionMapper.toDTO(result);
+    }
+
+    private List<Account> transferAmountFromAccountToAccount(CreateTransactionDTO dto, Account debitAccount, Account creditAccount) {
+        //transaction of amount
+        double amountToTransaction = Double.parseDouble(dto.getAmount());
+        String debitCurrencyCode = debitAccount.getCurrencyCode().toString();
+        String creditCurrencyCode = creditAccount.getCurrencyCode().toString();
+
+        if (debitCurrencyCode.equals(creditCurrencyCode) && debitAccount.getBalance() >= amountToTransaction) {
+            debitAccount.setBalance(debitAccount.getBalance() - amountToTransaction);
+            creditAccount.setBalance(creditAccount.getBalance() + amountToTransaction);
+        } else if (debitCurrencyCode.equals(creditCurrencyCode) && debitAccount.getBalance() < amountToTransaction) {
+            throw new NegativeBalanceThrowException(ErrorMessage.NEGATIVE_BALANCE);
+        } else if (!debitCurrencyCode.equals(creditCurrencyCode)) {
+            throw new ConversionException(ErrorMessage.CONVERSION_NOT_AVAILABLE);
+        }
+
+        return new ArrayList<>(List.of(debitAccount, creditAccount));
     }
 
     private Account getAccount(UUID id) {

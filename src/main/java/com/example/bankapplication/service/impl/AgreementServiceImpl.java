@@ -99,11 +99,11 @@ public class AgreementServiceImpl implements AgreementService {
     @Transactional
     public AgreementDTO createAgreement(CreateAgreementDTO dto) {
         log.info("Create new agreement");
-        if(Double.parseDouble(dto.getSum()) < 0){
+        if(Double.parseDouble(dto.getSum()) < 0.0){
             throw new NegativeDataException(ErrorMessage.NEGATIVE_DATA);
         }
 
-        if(Double.parseDouble(dto.getInterestRate()) < 0){
+        if(Double.parseDouble(dto.getInterestRate()) < 0.0){
             throw new NegativeDataException(ErrorMessage.NEGATIVE_DATA);
         }
 
@@ -133,11 +133,11 @@ public class AgreementServiceImpl implements AgreementService {
     public AgreementDTO editAgreementById(UUID id, CreateAgreementDTO dto) {
         log.info("Edit agreement by id {}", id);
 
-        if(Double.parseDouble(dto.getSum()) < 0){
+        if(Double.parseDouble(dto.getSum()) < 0.0){
             throw new NegativeDataException(ErrorMessage.NEGATIVE_DATA);
         }
 
-        if(Double.parseDouble(dto.getInterestRate()) < 0){
+        if(Double.parseDouble(dto.getInterestRate()) < 0.0){
             throw new NegativeDataException(ErrorMessage.NEGATIVE_DATA);
         }
 

@@ -50,6 +50,7 @@ class AccountServiceImplTest {
     private UUID uuid;
     private Client client;
     private List<AccountIdDTO> accountIdDTOList;
+    private CreateAccountDTO createAccountDTONegativeBalance;
 
     @BeforeEach
     void setUp() {
@@ -64,6 +65,8 @@ class AccountServiceImplTest {
         uuid = UUID.randomUUID();
         client = EntityCreator.getClient(uuid);
         accountIdDTOList = new ArrayList<>(List.of(DTOCreator.getAccountIdDTO()));
+        createAccountDTONegativeBalance = DTOCreator.getAccountToCreate();
+        createAccountDTONegativeBalance.setBalance("-1.0");
     }
 
     @Test
@@ -192,11 +195,14 @@ class AccountServiceImplTest {
 
     @Test
     @DisplayName("Negative test: Put negative balance.")
-    void testPutNegativeBalance(){
-        CreateAccountDTO createAccountDTONegativeBalance = DTOCreator.getAccountToCreate();
-        createAccountDTONegativeBalance.setBalance("-1");
-
+    void testCreateAccountWithNegativeBalanceNegativeDataException(){
         assertThrows(NegativeDataException.class, () -> accountService.createAccount(createAccountDTONegativeBalance));
+    }
+
+    @Test
+    @DisplayName("Negative test: Put negative balance.")
+    void testEditAccountWithNegativeBalanceNegativeDataException(){
+        assertThrows(NegativeDataException.class, () -> accountService.editAccountById(uuid, createAccountDTONegativeBalance));
     }
 
     @Test

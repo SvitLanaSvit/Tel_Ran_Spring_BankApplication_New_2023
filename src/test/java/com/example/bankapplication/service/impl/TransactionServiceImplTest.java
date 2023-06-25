@@ -8,6 +8,7 @@ import com.example.bankapplication.mapper.TransactionMapperImpl;
 import com.example.bankapplication.repository.AccountRepository;
 import com.example.bankapplication.repository.TransactionRepository;
 import com.example.bankapplication.service.exception.AccountNotFoundException;
+import com.example.bankapplication.service.exception.NegativeDataException;
 import com.example.bankapplication.service.exception.ProductNotFoundException;
 import com.example.bankapplication.service.exception.TransactionNotFoundException;
 import com.example.bankapplication.util.DTOCreator;
@@ -125,6 +126,15 @@ class TransactionServiceImplTest {
         when(transactionRepository.findTransactionById(any(UUID.class))).thenReturn(Optional.empty());
         assertThrows(TransactionNotFoundException.class, () -> transactionService.deleteTransactionById(transactionId));
         verify(transactionRepository, times(1)).findTransactionById(any(UUID.class));
+    }
+
+    @Test
+    void testCreateTransactionWithNegativeAmountNegativeDataException(){
+        CreateTransactionDTO createTransactionDTOWithNegativeAmount = DTOCreator.getTransactionToCreate();
+        createTransactionDTOWithNegativeAmount.setAmount("-1.0");
+
+        assertThrows(NegativeDataException.class, () -> transactionService
+                .createTransaction(createTransactionDTOWithNegativeAmount));
     }
 
     void compareListDto(TransactionListDTO expectedTransactionListDTO, TransactionListDTO actualTransactionListDTO) {

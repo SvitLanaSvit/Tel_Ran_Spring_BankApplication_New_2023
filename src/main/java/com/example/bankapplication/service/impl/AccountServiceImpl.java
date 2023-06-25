@@ -143,6 +143,10 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @Transactional
     public AccountDTO editAccountById(UUID id, CreateAccountDTO dto) {
+        if (Double.parseDouble(dto.getBalance()) < 0.0) {
+            throw new NegativeDataException(ErrorMessage.NEGATIVE_DATA);
+        }
+
         var account = accountRepository.findAccountById(id).orElseThrow(
                 () -> new AccountNotFoundException(ErrorMessage.ACCOUNT_NOT_FOUND)
         );
